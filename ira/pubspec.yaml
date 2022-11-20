@@ -34,11 +34,6 @@ dependencies:
   firebase_auth: ^4.1.1
   flutter:
     sdk: flutter
-  google_maps_flutter: ^2.2.1
-  #git:
-    #  url: git://github.com/flutter/plugins
-    #  path: package/google_maps_flutter
-    #  ref: 'ce3a913c3834'
   google_nav_bar: ^5.0.6
   google_sign_in: ^5.4.2
   http: ^0.13.5
