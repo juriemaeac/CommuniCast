@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ira/auth/auth.dart';
 import 'package:ira/auth/home.dart';
 import 'package:ira/auth/startup.dart';
+import 'package:ira/navBar.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -31,9 +32,9 @@ class MyApp extends StatelessWidget {
         title: 'IRA',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.orange,
+          primarySwatch: Colors.blueGrey,
         ),
-        home: const AuthWrapper(),
+        home: AuthWrapper(),
       ),
     );
   }
@@ -47,7 +48,7 @@ class AuthWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
-      return HomePage();
+      return NavBar();
     }
     return const StartupPage();
   }

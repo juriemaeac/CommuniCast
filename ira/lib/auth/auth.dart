@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:ira/auth/home.dart';
 import 'package:ira/auth/login.dart';
 import 'package:ira/auth/snackbar.dart';
+import 'package:ira/database/database.dart';
+import 'package:ira/navBar.dart';
 import 'package:page_transition/page_transition.dart';
 
 class FirebaseAuthMethods {
@@ -24,7 +26,9 @@ class FirebaseAuthMethods {
 
   //EMAIL SIGN UP
   Future<void> signUpWithEmail({
-    required String displayName,
+    required String username,
+    required String firstName,
+    required String lastName,
     required String email,
     required String password,
     required BuildContext context,
@@ -41,8 +45,18 @@ class FirebaseAuthMethods {
         email: email,
         password: password,
       );
+      await _auth.currentUser!.updateDisplayName(username);
       await sendEmailVerification(context);
-      await _auth.currentUser!.updateDisplayName(displayName);
+      Map<String, dynamic> userInfoMap = {
+        "userID": _auth.currentUser!.uid,
+        "username": username,
+        "email": email,
+        "firstName": firstName,
+        "lastName": lastName,
+      };
+      if (UserCredential != null) {
+        DatabaseMethods().addUserInfoToDB(_auth.currentUser!.uid, userInfoMap);
+      }
     } on FirebaseAuthException catch (e) {
       // if (e.code == 'weak-password') {
 
@@ -83,7 +97,7 @@ class FirebaseAuthMethods {
             PageTransition(
                 type: PageTransitionType.fade,
                 duration: const Duration(milliseconds: 800),
-                child: const HomePage()));
+                child: NavBar()));
       }
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!);

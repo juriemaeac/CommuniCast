@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:ira/auth/auth.dart';
 import 'package:ira/auth/startup.dart';
 import 'package:ira/constants.dart';
+import 'package:ira/profile/editProfile.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ProfilePageState extends State<ProfilePage> {
   String username = '';
   String email = '';
   String firstName = '';
@@ -48,16 +49,38 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Center(
           child: Container(
+            padding: EdgeInsets.all(30),
             color: Colors.white,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Welcome to IRA', style: AppTextStyles.title),
-                Text('This is the home page'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Profile Page', style: AppTextStyles.title),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditProfilePage()));
+                        },
+                        child: Icon(Icons.settings)),
+                  ],
+                ),
                 SizedBox(height: 50),
                 Text(username),
                 Text(email),
                 Text('${firstName} ${lastName}'),
+                ElevatedButton(
+                  onPressed: () {
+                    context.read<FirebaseAuthMethods>().signOut(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const StartupPage();
+                    }));
+                  },
+                  child: Text('Sign out'),
+                ),
               ],
             ),
           ),
