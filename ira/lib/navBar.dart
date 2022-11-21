@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:ira/auth/home.dart';
 import 'package:ira/constants.dart';
+import 'package:ira/maps/addReport.dart';
+import 'package:ira/maps/maps.dart';
 import 'package:ira/profile/profile.dart';
 
 class NavBar extends StatefulWidget {
@@ -13,10 +15,11 @@ class _NavBarState extends State<NavBar> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     HomePage(),
+    MapScreen(),
     Text(
-      'maps',
+      'Notification Page',
       style: optionStyle,
     ),
     ProfilePage(),
@@ -33,10 +36,10 @@ class _NavBarState extends State<NavBar> {
         //margin: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 15),
         decoration: const BoxDecoration(
           color: Colors.blueGrey,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
+          // borderRadius: BorderRadius.only(
+          //   topLeft: Radius.circular(20),
+          //   topRight: Radius.circular(20),
+          // ),
         ),
         child: SafeArea(
           child: Padding(
@@ -62,7 +65,11 @@ class _NavBarState extends State<NavBar> {
                 ),
                 GButton(
                   icon: Icons.location_pin,
-                  text: 'Maps',
+                  text: 'iMap',
+                ),
+                GButton(
+                  icon: Icons.notifications,
+                  text: 'Notifications',
                 ),
                 GButton(
                   icon: Icons.person_rounded,
