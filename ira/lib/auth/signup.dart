@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ira/auth/auth.dart';
 import 'package:ira/auth/login.dart';
 import 'package:ira/constants.dart';
+import 'package:ira/model/user.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -30,12 +31,13 @@ class _SignupPageState extends State<SignupPage> {
 
   void signUp() async {
     context.read<FirebaseAuthMethods>().signUpWithEmail(
-        username: usernameController.text,
-        email: emailController.text,
-        firstName: firstnameController.text,
-        lastName: lastnameController.text,
-        password: passwordController.text,
-        context: context);
+          username: usernameController.text,
+          email: emailController.text,
+          firstName: firstnameController.text,
+          lastName: lastnameController.text,
+          password: passwordController.text,
+          context: context,
+        );
   }
 
   String? username;

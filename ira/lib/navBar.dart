@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:ira/auth/home.dart';
+import 'package:ira/home.dart';
 import 'package:ira/constants.dart';
 import 'package:ira/maps/addReport.dart';
 import 'package:ira/maps/maps.dart';

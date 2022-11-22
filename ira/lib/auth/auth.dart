@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ira/auth/home.dart';
+import 'package:ira/home.dart';
 import 'package:ira/auth/login.dart';
 import 'package:ira/auth/snackbar.dart';
 import 'package:ira/database/database.dart';
@@ -9,6 +9,7 @@ import 'package:ira/navBar.dart';
 import 'package:page_transition/page_transition.dart';
 
 class FirebaseAuthMethods {
+  final DateTime timestamp = DateTime.now();
   final FirebaseAuth _auth;
   FirebaseAuthMethods(this._auth);
 
@@ -35,12 +36,13 @@ class FirebaseAuthMethods {
   }) async {
     try {
       Navigator.push(
-          context,
-          PageTransition(
-              type: PageTransitionType.fade,
-              duration: const Duration(milliseconds: 800),
-              child: const LoginPage()));
-
+        context,
+        PageTransition(
+          type: PageTransitionType.fade,
+          duration: const Duration(milliseconds: 800),
+          child: const LoginPage(),
+        ),
+      );
       await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -53,17 +55,24 @@ class FirebaseAuthMethods {
         "email": email,
         "firstName": firstName,
         "lastName": lastName,
+        "timestamp": timestamp,
       };
+
       if (UserCredential != null) {
         DatabaseMethods().addUserInfoToDB(_auth.currentUser!.uid, userInfoMap);
       }
     } on FirebaseAuthException catch (e) {
-      // if (e.code == 'weak-password') {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+        Navigator.pop(context, false);
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+        Navigator.pop(context, false);
+      } else if (e.code == 'invalid-email') {
+        print('The email is invalid.');
+        Navigator.pop(context, false);
+      } else {}
 
-      //   print('The password provided is too weak.');
-      // } else if (e.code == 'email-already-in-use') {
-      //   print('The account already exists for that email.');
-      // }
       showSnackBar(context, e.message!);
       print(e);
     }

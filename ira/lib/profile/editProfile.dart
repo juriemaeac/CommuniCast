@@ -19,12 +19,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController lastnameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  final TextEditingController bioController = TextEditingController();
   String? username;
   String? email;
   String? firstName;
   String? lastName;
   String? password;
   String? address;
+  String? bio;
 
   Future<void> updateProfile() async {
     final user = context.read<User?>();
@@ -33,6 +35,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       'firstName': firstnameController.text,
       'lastName': lastnameController.text,
       'address': addressController.text,
+      'bio': bioController.text,
     });
   }
 
@@ -47,11 +50,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
       email = userData['email'];
       firstName = userData['firstName'];
       lastName = userData['lastName'];
+      address = userData['address'];
+      bio = userData['bio'];
 
       usernameController.text = username!;
       emailController.text = email!;
       firstnameController.text = firstName!;
       lastnameController.text = lastName!;
+      addressController.text = address!;
+      bioController.text = bio!;
     });
   }
 

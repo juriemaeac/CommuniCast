@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ira/auth/auth.dart';
-import 'package:ira/auth/home.dart';
+import 'package:ira/home.dart';
 import 'package:ira/auth/startup.dart';
 import 'package:ira/navBar.dart';
 import 'package:provider/provider.dart';

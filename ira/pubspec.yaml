@@ -32,14 +32,21 @@ dependencies:
   cloud_firestore: ^4.1.0
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.1.1
+  firebase_storage: ^11.0.6
   flutter:
     sdk: flutter
   flutter_map: ^3.0.0
+  geocoding: ^2.0.5
+  geolocator: ^9.0.2
   google_nav_bar: ^5.0.6
   google_sign_in: ^5.4.2
   http: ^0.13.5
+  image: ^3.2.2
+  image_picker: ^0.8.6
   page_transition: ^2.0.9
+  path_provider: ^2.0.11
   provider: ^6.0.4
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_lints: ^2.0.0
