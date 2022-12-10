@@ -43,12 +43,14 @@ class FirebaseAuthMethods {
           child: const LoginPage(),
         ),
       );
+      //await sendEmailVerification(context);
       await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
       await _auth.currentUser!.updateDisplayName(username);
-      await sendEmailVerification(context);
+
       Map<String, dynamic> userInfoMap = {
         "userID": _auth.currentUser!.uid,
         "username": username,
@@ -89,25 +91,31 @@ class FirebaseAuthMethods {
         email: email,
         password: password,
       );
-      if (!_auth.currentUser!.emailVerified) {
-        _auth.currentUser!.sendEmailVerification();
-        showSnackBar(
-            context, 'Account is not verified. Email Verification Sent');
-        Navigator.pushReplacement(
-            context,
-            PageTransition(
-                type: PageTransitionType.fade,
-                duration: const Duration(milliseconds: 800),
-                child: const LoginPage()));
-      } else {
-        showSnackBar(context, 'Account is verified. Login Successful');
-        Navigator.pushReplacement(
-            context,
-            PageTransition(
-                type: PageTransitionType.fade,
-                duration: const Duration(milliseconds: 800),
-                child: NavBar()));
-      }
+      Navigator.pushReplacement(
+          context,
+          PageTransition(
+              type: PageTransitionType.fade,
+              duration: const Duration(milliseconds: 800),
+              child: NavBar()));
+      // if (!_auth.currentUser!.emailVerified) {
+      //   _auth.currentUser!.sendEmailVerification();
+      //   showSnackBar(
+      //       context, 'Account is not verified. Email Verification Sent');
+      //   Navigator.pushReplacement(
+      //       context,
+      //       PageTransition(
+      //           type: PageTransitionType.fade,
+      //           duration: const Duration(milliseconds: 800),
+      //           child: const LoginPage()));
+      // } else {
+      //   showSnackBar(context, 'Account is verified. Login Successful');
+      //   Navigator.pushReplacement(
+      //       context,
+      //       PageTransition(
+      //           type: PageTransitionType.fade,
+      //           duration: const Duration(milliseconds: 800),
+      //           child: NavBar()));
+      // }
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!);
       print(e);

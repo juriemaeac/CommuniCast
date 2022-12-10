@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "714160831228",
-    "project_id": "incident-reporting-app-b2717",
-    "storage_bucket": "incident-reporting-app-b2717.appspot.com"
+    "project_number": "480452178298",
+    "project_id": "wesafe-app",
+    "storage_bucket": "wesafe-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:714160831228:android:a94cc351cb37e64e99b579",
+        "mobilesdk_app_id": "1:480452178298:android:32bd96f51065290167e6c3",
         "android_client_info": {
           "package_name": "com.example.ira"
         }
       },
       "oauth_client": [
         {
-          "client_id": "714160831228-savb04jnqqknccusfv78rabqujpe4s1b.apps.googleusercontent.com",
+          "client_id": "480452178298-ahed2iflep1q0pk7t4l52kq587la05is.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC88AbunbzQnhbFZUhdfjO4MkFyZ7X7v8A"
+          "current_key": "AIzaSyAi4JO0jSobsygMpGDX47wjV7YjeF1IO4M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "714160831228-savb04jnqqknccusfv78rabqujpe4s1b.apps.googleusercontent.com",
+              "client_id": "480452178298-ahed2iflep1q0pk7t4l52kq587la05is.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

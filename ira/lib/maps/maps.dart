@@ -396,118 +396,118 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   //show container for whole screen
-  void _showModal() {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-            height: MediaQuery.of(context).size.height,
-            color: Colors.black.withOpacity(0.3),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    width: 50,
-                    height: 5,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Add Report',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Please select the type of report',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                'Add',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                'Add',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  // void _showModal() {
+  //   showModalBottomSheet(
+  //       context: context,
+  //       builder: (context) {
+  //         return Container(
+  //           height: MediaQuery.of(context).size.height,
+  //           color: Colors.black.withOpacity(0.3),
+  //           child: Container(
+  //             decoration: BoxDecoration(
+  //               color: Colors.white,
+  //               borderRadius: BorderRadius.only(
+  //                 topLeft: Radius.circular(20),
+  //                 topRight: Radius.circular(20),
+  //               ),
+  //             ),
+  //             child: Column(
+  //               children: [
+  //                 Container(
+  //                   margin: EdgeInsets.only(top: 20),
+  //                   width: 50,
+  //                   height: 5,
+  //                   decoration: BoxDecoration(
+  //                     color: Colors.grey,
+  //                     borderRadius: BorderRadius.circular(10),
+  //                   ),
+  //                 ),
+  //                 Container(
+  //                   margin: EdgeInsets.only(top: 20),
+  //                   child: Text(
+  //                     'Add Report',
+  //                     style: TextStyle(
+  //                       fontSize: 20,
+  //                       fontWeight: FontWeight.bold,
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 Container(
+  //                   margin: EdgeInsets.only(top: 20),
+  //                   child: Text(
+  //                     'Please select the type of report',
+  //                     style: TextStyle(
+  //                       fontSize: 15,
+  //                       fontWeight: FontWeight.bold,
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 Container(
+  //                   margin: EdgeInsets.only(top: 20),
+  //                   child: Row(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //                     children: [
+  //                       Container(
+  //                         width: 100,
+  //                         height: 100,
+  //                         decoration: BoxDecoration(
+  //                           color: Colors.red,
+  //                           borderRadius: BorderRadius.circular(10),
+  //                         ),
+  //                         child: Column(
+  //                           mainAxisAlignment: MainAxisAlignment.center,
+  //                           children: [
+  //                             Icon(
+  //                               Icons.add,
+  //                               color: Colors.white,
+  //                             ),
+  //                             Text(
+  //                               'Add',
+  //                               style: TextStyle(
+  //                                 color: Colors.white,
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       ),
+  //                       Container(
+  //                         width: 100,
+  //                         height: 100,
+  //                         decoration: BoxDecoration(
+  //                           color: Colors.grey,
+  //                           borderRadius: BorderRadius.circular(10),
+  //                         ),
+  //                         child: Column(
+  //                           mainAxisAlignment: MainAxisAlignment.center,
+  //                           children: [
+  //                             Icon(
+  //                               Icons.add,
+  //                               color: Colors.white,
+  //                             ),
+  //                             Text(
+  //                               'Add',
+  //                               style: TextStyle(
+  //                                 color: Colors.white,
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       ),
+  //                       Container(
+  //                         width: 100,
+  //                         height: 100,
+  //                         decoration: BoxDecoration(
+  //                           color: Colors.grey,
+  //                           borderRadius: BorderRadius.circular(10),
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 }

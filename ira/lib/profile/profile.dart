@@ -15,15 +15,18 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final user = FirebaseAuth.instance.currentUser;
   String username = '';
   String email = '';
   String firstName = '';
   String lastName = '';
+  String firstLetter = '';
+
+  String caption = '';
 
   bool isLoading = false;
 
   Future<void> getUserData() async {
-    final user = context.read<User?>();
     final userData = await FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
@@ -33,6 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
       email = userData['email'];
       firstName = userData['firstName'];
       lastName = userData['lastName'];
+      firstLetter = username.substring(0, 1).toUpperCase();
     });
   }
 

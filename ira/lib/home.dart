@@ -48,6 +48,8 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Center(
           child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             color: Colors.white,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
