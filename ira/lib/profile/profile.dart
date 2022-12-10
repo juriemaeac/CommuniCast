@@ -75,6 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Text(username),
                 Text(email),
                 Text('${firstName} ${lastName}'),
+                Text(firstLetter),
                 ElevatedButton(
                   onPressed: () {
                     context.read<FirebaseAuthMethods>().signOut(context);
