@@ -29,9 +29,18 @@ class _AddPostScreenState extends State<AddPostScreen> {
   bool isLoading = false;
   final TextEditingController _descriptionController = TextEditingController();
   TextEditingController locationController = TextEditingController();
+  TextEditingController indicatorController = TextEditingController();
+  String? locationAddress;
+  String countrySet = 'PH';
+  String? indicator = 'CODE BLUE';
+  String? title;
+  double lat = 14;
+  double long = 130;
 
   final String apiKey = "nNpeA6MVcnH0q5w6LfXTP2uNR58WIcKI";
   DateTime timestamp = DateTime.now();
+
+  final List<Marker> markers = List.empty(growable: true);
 
   _selectImage(BuildContext parentContext) async {
     return showDialog(
@@ -86,6 +95,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
         uid,
         username,
         profImage,
+        locationController.text,
+        lat,
+        long,
+        indicatorController.text,
       );
       if (res == "success") {
         setState(() {
@@ -117,15 +130,53 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   _getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark placemark = placemarks[0];
-    String completeAddress =
-        '${placemark.locality}, ${placemark.country}, ${placemark.postalCode}';
+    String
+        completeAddress = //ctrl + click mo dun sa word na placemark lalabas ung mga areas na pwede mo iaccess, ung <placemark>
+        '${placemark.street}, ${placemark.subLocality}, ${placemark.locality}, ${placemark.country}, ${placemark.postalCode}';
+    print('LATITUDE: ${position.latitude}, LONGITUDE: ${position.longitude}');
     print('completeAddress: $completeAddress');
     locationController.text = completeAddress;
+    setState(() {
+      locationAddress = completeAddress;
+      lat = position.latitude;
+      long = position.longitude;
+      print('LOCATIONADDRESS: $locationAddress || LAT: $lat || LONG: $long');
+    });
   }
 
   @override
@@ -137,7 +188,97 @@ class _AddPostScreenState extends State<AddPostScreen> {
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
-    final locationPoint = LatLng(52.376372, 4.908066);
+    final locationPoint = LatLng(14.5995, 120.9842);
+
+    // setMarker(value, lat, long, countrySet, title, indicator) async {
+    //   final Map<String, String> queryParameters = {'key': '$apiKey'};
+    //   queryParameters['lat'] = lat;
+    //   queryParameters['lon'] = long;
+    //   queryParameters['countrySet'] = countrySet;
+    //   var response = await http.get(Uri.https(
+    //       'api.tomtom.com', '/search/2/search/$value.json', queryParameters));
+
+    //   var icon = 61242; //IconData(61242, fontFamily: 'MaterialIcons')
+    //   Color color = Colors.white;
+
+    //   print('============');
+    //   print('$value, $lat, $long, $countrySet, $title, $indicator');
+    //   if (indicator == 'CODE RED') {
+    //     icon = 57912;
+    //     color = Colors.red;
+    //   } else if (indicator == 'CODE AMBER') {
+    //     icon = 983712;
+    //     color = Colors.amber;
+    //   } else if (indicator == 'CODE BLUE') {
+    //     icon = 983744;
+    //     color = Colors.red;
+    //   } else if (indicator == 'CODE GREEN') {
+    //     icon = 983699;
+    //     color = Colors.green;
+    //   } else if (indicator == 'CODE BLACK') {
+    //     icon = 62784;
+    //     color = Colors.black;
+    //   }
+
+    //   var jsonData = convert.jsonDecode(response.body);
+    //   print('$jsonData');
+    //   var results = jsonData['results'];
+    //   for (var element in results) {
+    //     var position = element['position'];
+    //     var distance = element['dist'];
+    //     var intDistance = (distance.round() / 1000).toInt();
+    //     print('$distance');
+    //     var marker = new Marker(
+    //       width: 230,
+    //       height: 80,
+    //       point: new LatLng(position['lat'], position['lon']),
+    //       builder: (BuildContext context) => Container(
+    //         padding: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+    //         width: 230,
+    //         height: 80,
+    //         decoration: BoxDecoration(
+    //             color: color,
+    //             borderRadius: BorderRadius.all(Radius.circular(20.0)),
+    //             boxShadow: [
+    //               BoxShadow(
+    //                 color: Colors.black26,
+    //                 blurRadius: 20.0,
+    //                 spreadRadius: 10.0,
+    //               ),
+    //             ]),
+    //         child: Row(
+    //           crossAxisAlignment: CrossAxisAlignment.center,
+    //           children: [
+    //             Icon(IconData(icon, fontFamily: 'MaterialIcons'),
+    //                 size: 35.0, color: Colors.white),
+    //             SizedBox(width: 10),
+    //             Column(
+    //               mainAxisAlignment: MainAxisAlignment.center,
+    //               children: [
+    //                 Text('$title',
+    //                     style: TextStyle(
+    //                         color: Colors.white,
+    //                         fontSize: 18,
+    //                         fontWeight: FontWeight.bold)),
+    //                 Text('Type: $indicator',
+    //                     style: TextStyle(
+    //                       color: Colors.white,
+    //                       fontSize: 15,
+    //                     )),
+    //                 Text('Distance: $intDistance km',
+    //                     style: TextStyle(
+    //                       color: Colors.white,
+    //                       fontSize: 15,
+    //                     )),
+    //               ],
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //     );
+    //     markers.add(marker);
+    //   }
+    // }
 
     return _file == null
         ? Scaffold(
@@ -151,10 +292,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     FlutterMap(
                         options:
                             new MapOptions(center: locationPoint, zoom: 13.0),
-                        // options: MapOptions(
-                        //   center: LatLng(51.5, -0.09),
-                        //   zoom: 13.0,
-                        // ),
                         children: [
                           TileLayer(
                             urlTemplate:
@@ -162,12 +299,14 @@ class _AddPostScreenState extends State<AddPostScreen> {
                                 "{z}/{x}/{y}.png?key={apiKey}",
                             additionalOptions: {"apiKey": apiKey},
                           ),
-                          MarkerLayer(markers: [
-                            Marker(
-                                point: locationPoint, //LatLng(51.5, -0.09),
-                                builder: (context) => Icon(Icons.location_on,
-                                    color: Colors.red, size: 40.0))
-                          ])
+                          MarkerLayer(markers: markers
+                              // [
+                              //   Marker(
+                              //       point: locationPoint, //LatLng(51.5, -0.09),
+                              //       builder: (context) => Icon(Icons.location_on,
+                              //           color: Colors.red, size: 40.0))
+                              // ]
+                              )
                         ]),
                     Align(
                       alignment: Alignment.topCenter,
@@ -222,14 +361,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
               ),
             ),
           )
-        // Center(
-        //     child: IconButton(
-        //       icon: const Icon(
-        //         Icons.upload,
-        //       ),
-        //       onPressed: () => _selectImage(context),
-        //     ),
-        //   )
         //after taking a pic
         : Scaffold(
             appBar: AppBar(
@@ -244,11 +375,15 @@ class _AddPostScreenState extends State<AddPostScreen> {
               centerTitle: false,
               actions: <Widget>[
                 TextButton(
-                  onPressed: () => postImage(
-                    userProvider.getUser.uid,
-                    userProvider.getUser.username,
-                    userProvider.getUser.photoUrl,
-                  ),
+                  onPressed: () {
+                    postImage(
+                      userProvider.getUser.uid,
+                      userProvider.getUser.username,
+                      userProvider.getUser.photoUrl,
+                    );
+                    // setMarker(locationAddress, lat, long, countrySet, title,
+                    //     indicator);
+                  },
                   child: const Text(
                     "Post",
                     style: TextStyle(

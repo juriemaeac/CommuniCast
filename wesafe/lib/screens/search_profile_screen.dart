@@ -8,16 +8,15 @@ import 'package:wesafe/utils/colors.dart';
 import 'package:wesafe/utils/utils.dart';
 import 'package:wesafe/widgets/follow_button.dart';
 
-class ProfileScreen extends StatefulWidget {
+class SearchProfileScreen extends StatefulWidget {
   final String uid;
-  const ProfileScreen({Key? key, required this.uid}) : super(key: key);
+  const SearchProfileScreen({Key? key, required this.uid}) : super(key: key);
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _SearchProfileScreenState createState() => _SearchProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  final user = FirebaseAuth.instance.currentUser;
+class _SearchProfileScreenState extends State<SearchProfileScreen> {
   var userData = {};
   int postLen = 0;
   int followers = 0;
@@ -38,20 +37,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
     try {
       var userSnap = await FirebaseFirestore.instance
           .collection('users')
-          .doc(user!.uid)
+          .doc(widget.uid)
           .get();
 
       // get post lENGTH
       var postSnap = await FirebaseFirestore.instance
           .collection('posts')
-          .where('uid', isEqualTo: user!.uid)
+          .where('uid', isEqualTo: widget.uid)
           .get();
 
       postLen = postSnap.docs.length;
       userData = userSnap.data()!;
       followers = userSnap.data()!['followers'].length;
       following = userSnap.data()!['following'].length;
-      isFollowing = userSnap.data()!['followers'].contains(user!.uid);
+      isFollowing = userSnap.data()!['followers'].contains(widget.uid);
       setState(() {});
     } catch (e) {
       showSnackBar(
@@ -112,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     FirebaseAuth.instance.currentUser!.uid ==
-                                            user!.uid
+                                            widget.uid
                                         ? FollowButton(
                                             text: 'Sign Out',
                                             backgroundColor:
@@ -204,7 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 FutureBuilder(
                   future: FirebaseFirestore.instance
                       .collection('posts')
-                      .where('uid', isEqualTo: user!.uid)
+                      .where('uid', isEqualTo: widget.uid)
                       .get(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:wesafe/screens/profile_screen.dart';
+import 'package:wesafe/screens/search_profile_screen.dart';
 import 'package:wesafe/utils/colors.dart';
 import 'package:wesafe/utils/global_variable.dart';
 
@@ -56,7 +56,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     return InkWell(
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => ProfileScreen(
+                          builder: (context) => SearchProfileScreen(
                             uid: (snapshot.data! as dynamic).docs[index]['uid'],
                           ),
                         ),

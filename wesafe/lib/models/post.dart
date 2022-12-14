@@ -9,6 +9,10 @@ class Post {
   final DateTime datePublished;
   final String postUrl;
   final String profImage;
+  final String location;
+  final double latitude;
+  final double longitude;
+  final String indicator;
 
   const Post(
       {required this.description,
@@ -19,24 +23,30 @@ class Post {
       required this.datePublished,
       required this.postUrl,
       required this.profImage,
-      });
+      required this.location,
+      required this.latitude,
+      required this.longitude,
+      required this.indicator});
 
   static Post fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return Post(
-      description: snapshot["description"],
-      uid: snapshot["uid"],
-      likes: snapshot["likes"],
-      postId: snapshot["postId"],
-      datePublished: snapshot["datePublished"],
-      username: snapshot["username"],
-      postUrl: snapshot['postUrl'],
-      profImage: snapshot['profImage']
-    );
+        description: snapshot["description"],
+        uid: snapshot["uid"],
+        likes: snapshot["likes"],
+        postId: snapshot["postId"],
+        datePublished: snapshot["datePublished"],
+        username: snapshot["username"],
+        postUrl: snapshot['postUrl'],
+        profImage: snapshot['profImage'],
+        location: snapshot['location'],
+        latitude: snapshot['latitude'],
+        longitude: snapshot['longitude'],
+        indicator: snapshot['indicator']);
   }
 
-   Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "description": description,
         "uid": uid,
         "likes": likes,
@@ -44,6 +54,10 @@ class Post {
         "postId": postId,
         "datePublished": datePublished,
         'postUrl': postUrl,
-        'profImage': profImage
+        'profImage': profImage,
+        'location': location,
+        'latitude': latitude,
+        'longitude': longitude,
+        'indicator': indicator
       };
 }
