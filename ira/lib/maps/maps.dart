@@ -315,6 +315,7 @@ class _MapScreenState extends State<MapScreen> {
     Placemark placemark = placemarks[0];
     String completeAddress =
         '${placemark.locality}, ${placemark.country}, ${placemark.postalCode}';
+    print('LATITUDE: ${position.latitude}, LONGITUDE: ${position.longitude}');
     print('completeAddress: $completeAddress');
     locationController.text = completeAddress;
   }

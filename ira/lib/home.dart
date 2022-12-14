@@ -7,8 +7,6 @@ import 'package:ira/auth/startup.dart';
 import 'package:ira/constants.dart';
 import 'package:provider/provider.dart';
 
-final postRef = FirebaseFirestore.instance.collection('posts');
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -24,8 +22,6 @@ class _HomePageState extends State<HomePage> {
 
   bool isLoading = false;
 
-  List postsList = [];
-
   Future<void> getUserData() async {
     final user = context.read<User?>();
     final userData = await FirebaseFirestore.instance
@@ -40,29 +36,11 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  getPostData() {
-    postRef.get().then((QuerySnapshot posts) {
-      posts.docs.forEach((postsCol) {
-        FirebaseFirestore.instance
-            .collection("posts")
-            .doc(postsCol.id)
-            .collection("userPosts")
-            .get()
-            .then((QuerySnapshot userPosts) {
-          userPosts.docs.forEach((userPostsCol) {
-            postsList.add(userPostsCol.data);
-          });
-        });
-      });
-    });
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getUserData();
-    getPostData();
   }
 
   @override
@@ -83,7 +61,6 @@ class _HomePageState extends State<HomePage> {
                 Text(username),
                 Text(email),
                 Text('${firstName} ${lastName}'),
-                Text(postsList.isEmpty.toString()),
               ],
             ),
           ),
