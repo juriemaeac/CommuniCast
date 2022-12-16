@@ -155,6 +155,21 @@ class _PostCardState extends State<PostCard> {
               ],
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 10,
+                  left: 16,
+                  right: 16,
+                ),
+                child: Text('${widget.snap['location']}',
+                    style: const TextStyle(
+                        fontSize: 12, color: Colors.blueAccent)),
+              ),
+            ],
+          ),
           // IMAGE SECTION OF THE POST
           GestureDetector(
             onDoubleTap: () {
