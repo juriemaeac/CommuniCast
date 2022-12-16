@@ -70,12 +70,27 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
             child: CircularProgressIndicator(),
           )
         : Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
-              backgroundColor: mobileBackgroundColor,
+              backgroundColor: Colors.white,
+              elevation: 0,
               title: Text(
                 userData['username'],
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               centerTitle: false,
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
             ),
             body: ListView(
               children: [

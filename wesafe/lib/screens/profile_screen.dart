@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wesafe/constants.dart';
 import 'package:wesafe/resources/auth_methods.dart';
 import 'package:wesafe/resources/firestore_methods.dart';
 import 'package:wesafe/screens/login_screen.dart';
@@ -72,12 +73,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: mobileBackgroundColor,
+              backgroundColor: Colors.white,
               title: Text(
                 userData['username'],
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               centerTitle: false,
+              elevation: 0,
             ),
+            backgroundColor: Colors.white,
             body: ListView(
               children: [
                 Padding(
@@ -116,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ? FollowButton(
                                             text: 'Sign Out',
                                             backgroundColor:
-                                                mobileBackgroundColor,
+                                                AppColors.blueAccent,
                                             textColor: primaryColor,
                                             borderColor: Colors.grey,
                                             function: () async {

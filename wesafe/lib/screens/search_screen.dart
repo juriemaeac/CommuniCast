@@ -19,8 +19,10 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: mobileBackgroundColor,
+        backgroundColor: Colors.white,
+        elevation: 0,
         title: Form(
           child: TextFormField(
             controller: searchController,
@@ -80,7 +82,7 @@ class _SearchScreenState extends State<SearchScreen> {
           : FutureBuilder(
               future: FirebaseFirestore.instance
                   .collection('posts')
-                  .orderBy('datePublished')
+                  .orderBy('datePublished', descending: true)
                   .get(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {

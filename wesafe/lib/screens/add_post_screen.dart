@@ -1,10 +1,13 @@
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wesafe/constants.dart';
 import 'package:wesafe/providers/user_provider.dart';
 import 'package:wesafe/resources/firestore_methods.dart';
 import 'package:wesafe/utils/colors.dart';
@@ -16,6 +19,7 @@ import "package:http/http.dart" as http;
 import "dart:convert" as convert;
 import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as Img;
+import 'package:wesafe/models/post.dart' as model;
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({Key? key}) : super(key: key);
@@ -31,16 +35,16 @@ class _AddPostScreenState extends State<AddPostScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _indicatorController = TextEditingController();
-  String? title = 'test title';
-  String? description;
+  // String? title = 'test title';
+  // String? description;
   String? locationAddress;
-  String? indicator = 'CODE BLUE';
-  late String _selectedIndicator;
+  //String? indicator = 'CODE BLUE';
+  String? _selectedIndicator;
   String countrySet = 'PH';
-  late double lat;
-  late double long;
+  late double lat = 0;
+  late double long = 0;
   late LatLng currentCenter = LatLng(lat, long);
-
+  MapController mapController = MapController();
   final String apiKey = "nNpeA6MVcnH0q5w6LfXTP2uNR58WIcKI";
   DateTime timestamp = DateTime.now();
 
@@ -54,7 +58,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
   ];
 
   double currentZoom = 16.0;
-  MapController mapController = MapController();
 
   void _zoom() {
     currentZoom = currentZoom + 1.0;
@@ -125,7 +128,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         _locationController.text,
         lat,
         long,
-        _indicatorController.text,
+        _selectedIndicator!,
       );
       if (res == "success") {
         setState(() {
@@ -192,9 +195,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark placemark = placemarks[0];
-    String
-        completeAddress = //ctrl + click mo dun sa word na placemark lalabas ung mga areas na pwede mo iaccess, ung <placemark>
-        '${placemark.street}, ${placemark.subLocality}, ${placemark.locality}, ${placemark.country}, ${placemark.postalCode}';
+    String completeAddress =
+        '${placemark.street}, ${placemark.locality}, ${placemark.country}, ${placemark.postalCode}';
     print('LATITUDE: ${position.latitude}, LONGITUDE: ${position.longitude}');
     print('completeAddress: $completeAddress');
     _locationController.text = completeAddress;
@@ -207,36 +209,143 @@ class _AddPostScreenState extends State<AddPostScreen> {
     });
   }
 
+  getMarkers() async {
+    print("\n\n==============\n");
+    print("FETCHING DATA!!!!!!!!!!");
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        Map data = (result.data() as Map);
+        print("\n\n==============\n");
+        var docLat = data['latitude'];
+        var docLon = data['longitude'];
+        var docTitle = data['title'];
+        var docIndicator = data['indicator'];
+        print("\n==============\n");
+        print("Fetched Data: ");
+        print(docTitle);
+        print(docIndicator);
+        print(docLat);
+        print(docLon);
+        print("\n==============\n");
+        String title = docTitle.toString();
+        String indicator = docIndicator.toString();
+        var icon = 61242;
+        Color color = Colors.white;
+        bool dark = false;
+        if (indicator == 'CODE RED') {
+          icon = 57912;
+          color = Colors.red;
+        } else if (indicator == 'CODE AMBER') {
+          icon = 983712;
+          color = Colors.amber;
+        } else if (indicator == 'CODE BLUE') {
+          icon = 983744;
+          color = Colors.blue;
+        } else if (indicator == 'CODE GREEN') {
+          icon = 983699;
+          color = Colors.green;
+        } else if (indicator == 'CODE BLACK') {
+          icon = 62784;
+          color = Colors.black;
+          dark = true;
+        }
+
+        var marker = Marker(
+          width: 160.0,
+          height: 55.0,
+          point: LatLng(docLat, docLon),
+          builder: (BuildContext context) => Container(
+            padding: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+            width: 230,
+            height: 50,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(IconData(icon, fontFamily: 'MaterialIcons'),
+                    size: 25.0, color: dark ? Colors.black : Colors.white),
+                SizedBox(width: 10),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('$title',
+                        style: TextStyle(
+                            color: dark ? Colors.black : Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold)),
+                    Text('Type: $indicator',
+                        style: TextStyle(
+                          color: dark ? Colors.black : Colors.white,
+                          fontSize: 10,
+                        )),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+          // Container(
+          //   width: 100,
+          //   child: Column(
+          //     children: [
+          //       Icon(Icons.location_on, size: 40.0, color: Colors.red),
+          //       Text(title,
+          //           style: TextStyle(
+          //               color: color,
+          //               fontSize: 10,
+          //               fontWeight: FontWeight.bold)),
+          //     ],
+          //   ),
+          // ),
+        );
+        markers.add(marker);
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
+    getMarkers();
+    //getAddresses();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _descriptionController.dispose();
-    _titleController.dispose();
-    _locationController.dispose();
-    _indicatorController.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   _descriptionController.dispose();
+  //   _titleController.dispose();
+  //   _locationController.dispose();
+  //   _indicatorController.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+    //get posts from firestore
+    FirebaseFirestore.instance.collection('posts').snapshots();
 
+    //set initial marker latitude and longitude
     //working
     final initialMarker = Marker(
       width: 100.0,
       height: 55.0,
-      point: new LatLng(lat, long),
+      point: LatLng(lat, long),
       builder: (BuildContext context) => Container(
         width: 100,
         child: Column(
-          children: [
-            const Icon(Icons.location_on, size: 40.0, color: Colors.red),
-            const Text('Current Location',
+          children: const [
+            Icon(Icons.location_on, size: 40.0, color: Colors.red),
+            Text('Current Location',
                 style: TextStyle(
                     color: Colors.red,
                     fontSize: 10,
@@ -247,140 +356,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     );
     markers.add(initialMarker);
 
-    //for searching address
-    getAddresses(value, lat, lon, countrySet) async {
-      final Map<String, String> queryParameters = {'key': '$apiKey'};
-      queryParameters['lat'] = lat;
-      queryParameters['lon'] = lon;
-      queryParameters['countrySet'] = countrySet;
-      var response = await http.get(Uri.https(
-          'api.tomtom.com', '/search/2/search/$value.json', queryParameters));
-
-      var jsonData = convert.jsonDecode(response.body);
-      print('$jsonData');
-      var results = jsonData['results'];
-      for (var element in results) {
-        var position = element['position'];
-        var distance = element['dist'];
-        var intDistance = (distance.round() / 1000).toInt();
-        print('$distance');
-        var marker = Marker(
-          width: 100,
-          height: 55,
-          point: new LatLng(position['lat'], position['lon']),
-          builder: (BuildContext context) => Container(
-            width: 100,
-            child: Column(
-              children: [
-                const Icon(Icons.emoji_flags_rounded,
-                    size: 35.0, color: Colors.red),
-                Text('Distance: $intDistance km',
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-        );
-        markers.add(marker);
-      }
-    }
-
-    setMarker(value, lat, lon, countrySet, title, classification) async {
-      final Map<String, String> queryParameters = {'key': apiKey};
-      queryParameters['lat'] = lat;
-      queryParameters['lon'] = lon;
-      queryParameters['countrySet'] = countrySet;
-      var response = await http.get(Uri.https(
-          'api.tomtom.com', '/search/2/search/$value.json', queryParameters));
-
-      var icon = 61242; //IconData(61242, fontFamily: 'MaterialIcons')
-      Color color = Colors.white;
-
-      print('\n============\n');
-      print(
-          'SET MARKER: $value, $lat, $lon, $countrySet, $title, $classification');
-      print('\n============\n');
-      if (classification == 'CODE RED') {
-        icon = 57912;
-        color = Colors.red;
-      } else if (classification == 'CODE AMBER') {
-        icon = 983712;
-        color = Colors.amber;
-      } else if (classification == 'CODE BLUE') {
-        icon = 983744;
-        color = Colors.red;
-      } else if (classification == 'CODE GREEN') {
-        icon = 983699;
-        color = Colors.green;
-      } else if (classification == 'CODE BLACK') {
-        icon = 62784;
-        color = Colors.black;
-      }
-
-      var jsonData = convert.jsonDecode(response.body);
-      print('$jsonData');
-      var results = jsonData['results'];
-      for (var element in results) {
-        var position = element['position'];
-        var distance = element['dist'];
-        var intDistance = (distance.round() / 1000).toInt();
-        print('$distance');
-        var marker = Marker(
-          width: 230,
-          height: 80,
-          point: new LatLng(position.lat, position.long),
-          builder: (BuildContext context) => Container(
-            padding:
-                const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
-            width: 230,
-            height: 80,
-            decoration: BoxDecoration(
-                color: color,
-                borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-                boxShadow: [
-                  const BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 20.0,
-                    spreadRadius: 10.0,
-                  ),
-                ]),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(IconData(icon, fontFamily: 'MaterialIcons'),
-                    size: 35.0, color: Colors.white),
-                const SizedBox(width: 10),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('$title',
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold)),
-                    Text('Type: $classification',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                        )),
-                    Text('Distance: $intDistance km',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                        )),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-        markers.add(marker);
-      }
-    }
-
-    return currentCenter == null || lat == null || long == null
+    return lat == 0 || long == 0
         ? const Center(
             child: CircularProgressIndicator(),
           )
@@ -394,6 +370,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     child: Stack(
                       children: [
                         FlutterMap(
+                            mapController: mapController,
                             options: MapOptions(
                                 center: currentCenter, zoom: currentZoom),
                             children: [
@@ -403,14 +380,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                                     "{z}/{x}/{y}.png?key={apiKey}",
                                 additionalOptions: {"apiKey": apiKey},
                               ),
-                              MarkerLayer(markers: markers
-                                  // [
-                                  //   Marker(
-                                  //       point: locationPoint, //LatLng(51.5, -0.09),
-                                  //       builder: (context) => Icon(Icons.location_on,
-                                  //           color: Colors.red, size: 40.0))
-                                  // ]
-                                  )
+                              MarkerLayer(markers: markers)
                             ]),
                         Align(
                           alignment: Alignment.topCenter,
@@ -424,30 +394,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Row(
-                              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 IconButton(
                                   onPressed: () {},
                                   icon: const Icon(Icons.menu),
                                   color: Colors.white,
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                  width:
-                                      MediaQuery.of(context).size.width - 150,
-                                  child: TextField(
-                                    onSubmitted: (value) {
-                                      print(
-                                          '\n\nGET ADDRESS VALUE: $value \n\n');
-                                      getAddresses(
-                                          value,
-                                          currentCenter.latitude.toString(),
-                                          currentCenter.longitude.toString(),
-                                          'PH');
-                                      print(
-                                          '\n\n${currentCenter.latitude.toString()},  ${currentCenter.longitude.toString()}\n\n');
-                                    },
-                                  ),
                                 ),
                                 IconButton(
                                   onPressed: () {},
@@ -485,14 +437,22 @@ class _AddPostScreenState extends State<AddPostScreen> {
               )
             //after taking a pic
             : Scaffold(
+                backgroundColor: Colors.white,
                 appBar: AppBar(
-                  backgroundColor: mobileBackgroundColor,
+                  elevation: 0,
+                  backgroundColor: Colors.white,
                   leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    ),
                     onPressed: clearImage,
                   ),
                   title: const Text(
                     'Post to',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
                   centerTitle: false,
                   actions: <Widget>[
@@ -503,13 +463,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
                           userProvider.getUser.username,
                           userProvider.getUser.photoUrl,
                         );
-                        setMarker(
-                            locationAddress,
-                            currentCenter.latitude.toString(),
-                            currentCenter.longitude.toString(),
-                            'PH',
-                            title,
-                            indicator);
                       },
                       child: const Text(
                         "Post",
@@ -522,106 +475,127 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   ],
                 ),
                 // POST FORM
-                body: Column(
-                  children: <Widget>[
-                    isLoading
-                        ? const LinearProgressIndicator()
-                        : const Padding(padding: EdgeInsets.only(top: 0.0)),
-                    const Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        CircleAvatar(
+                body: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      isLoading
+                          ? const LinearProgressIndicator()
+                          : const Padding(padding: EdgeInsets.only(top: 0.0)),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        width: double.infinity,
+                        child: AspectRatio(
+                          aspectRatio: 487 / 451,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                              fit: BoxFit.cover,
+                              alignment: FractionalOffset.topCenter,
+                              image: MemoryImage(_file!),
+                            )),
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: CircleAvatar(
                           backgroundImage: NetworkImage(
                             userProvider.getUser.photoUrl,
                           ),
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.3,
+                        title: Container(
+                          width: MediaQuery.of(context).size.width - 100,
                           child: TextField(
-                            controller: _descriptionController,
+                            controller: _titleController,
+                            style: AppTextStyles.body,
                             decoration: const InputDecoration(
-                                hintText: "Write a caption...",
+                                hintText: "Report Title",
+                                hintStyle: AppTextStyles.body,
                                 border: InputBorder.none),
-                            maxLines: 8,
+                            //maxLines: 2,
                           ),
                         ),
-                        SizedBox(
-                          height: 45.0,
-                          width: 45.0,
-                          child: AspectRatio(
-                            aspectRatio: 487 / 451,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                fit: BoxFit.fill,
-                                alignment: FractionalOffset.topCenter,
-                                image: MemoryImage(_file!),
-                              )),
+                      ),
+                      const Divider(),
+                      ListTile(
+                        leading: Icon(
+                          Icons.description,
+                          color: Colors.grey,
+                          size: 20,
+                        ),
+                        title: Container(
+                          width: MediaQuery.of(context).size.width - 100,
+                          child: TextField(
+                            keyboardType: TextInputType.multiline,
+                            controller: _descriptionController,
+                            style: AppTextStyles.body,
+                            decoration: const InputDecoration(
+                                hintText: "Write a caption...",
+                                hintStyle: AppTextStyles.body,
+                                border: InputBorder.none),
+                            //maxLines: 8,
+                          ),
+                        ),
+                      ),
+                      const Divider(),
+                      ListTile(
+                        leading: Icon(
+                          Icons.drag_indicator,
+                          color: Colors.grey,
+                          size: 20,
+                        ),
+                        title: Container(
+                          width: MediaQuery.of(context).size.width - 100,
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              hint: Text(
+                                'Select Report Indicator',
+                                style: AppTextStyles.body,
+                              ),
+                              items: _indicators
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(item,
+                                            style: AppTextStyles.body),
+                                      ))
+                                  .toList(),
+                              value: _selectedIndicator,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedIndicator = value as String;
+                                });
+                              },
+                              buttonHeight: 40,
+                              buttonWidth: 340,
+                              itemHeight: 40,
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                    const Divider(),
-                    ListTile(
-                      leading: const CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            "https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"),
-                        //CachedNetworkImageProvider(widget.currentUser.photoUrl),
                       ),
-                      title: Container(
-                        width: 250,
-                        child: TextField(
-                          controller: _locationController,
-                          decoration: const InputDecoration(
-                            hintText: "Where was the photo taken?...",
-                            border: InputBorder.none,
+                      const Divider(),
+                      ListTile(
+                        leading: Icon(
+                          Icons.location_on,
+                          size: 20,
+                          color: Colors.grey,
+                        ),
+                        title: Container(
+                          width: MediaQuery.of(context).size.width - 100,
+                          child: TextField(
+                            enabled: false,
+                            controller: _locationController,
+                            style: AppTextStyles.body,
+                            decoration: const InputDecoration(
+                              hintText: "Where was the photo taken?...",
+                              hintStyle: AppTextStyles.body,
+                              border: InputBorder.none,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      width: 250,
-                      //padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
-                      child: TextField(
-                          controller: _locationController,
-                          style: const TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.indigo, width: 3.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.indigo, width: 1.0),
-                                  borderRadius: BorderRadius.circular(25)),
-                              prefixIcon:
-                                  const Icon(Icons.search, color: Colors.white),
-                              hintText: 'Search',
-                              hintStyle: const TextStyle(color: Colors.white)),
-                          onSubmitted: (value) {
-                            print(value);
-                            getAddresses(
-                                value,
-                                currentCenter.latitude.toString(),
-                                currentCenter.longitude.toString(),
-                                'PH');
-                          }),
-                    ),
-                    Container(
-                      width: 200.0,
-                      height: 100.0,
-                      alignment: Alignment.center,
-                      child: ElevatedButton(
-                        child: const Text('Use current location'),
-                        onPressed: () {
-                          _getCurrentLocation();
-                        },
-                      ),
-                    ),
-                  ],
+                      const Divider(),
+                    ],
+                  ),
                 ),
               );
   }

@@ -82,6 +82,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
@@ -96,7 +97,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               SvgPicture.asset(
                 'assets/ic_instagram.svg',
-                color: primaryColor,
+                color: Colors.white,
                 height: 64,
               ),
               const SizedBox(

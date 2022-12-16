@@ -18,14 +18,15 @@ class _FeedScreenState extends State<FeedScreen> {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor:
-          width > webScreenSize ? webBackgroundColor : mobileBackgroundColor,
+      //backgroundColor: Colors.white,
+      backgroundColor: width > webScreenSize ? Colors.white : Colors.white,
       appBar: width > webScreenSize
           ? null
           : AppBar(
-              backgroundColor: mobileBackgroundColor,
+              backgroundColor: Colors.white,
+              elevation: 0,
               centerTitle: false,
-              title: Text('Timeline'),
+              title: Text('Timeline', style: TextStyle(color: Colors.black)),
               // SvgPicture.asset(
               //   'assets/ic_instagram.svg',
               //   color: primaryColor,
@@ -42,7 +43,10 @@ class _FeedScreenState extends State<FeedScreen> {
               ],
             ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection("posts")
+            .orderBy("datePublished", descending: true)
+            .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

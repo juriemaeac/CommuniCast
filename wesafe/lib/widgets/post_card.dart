@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:wesafe/constants.dart';
 import 'package:wesafe/models/user.dart' as model;
 import 'package:wesafe/providers/user_provider.dart';
 import 'package:wesafe/resources/firestore_methods.dart';
@@ -68,10 +69,14 @@ class _PostCardState extends State<PostCard> {
     return Container(
       // boundary needed for web
       decoration: BoxDecoration(
-        border: Border.all(
-          color: width > webScreenSize ? secondaryColor : mobileBackgroundColor,
+        border: Border.symmetric(
+          horizontal: BorderSide(
+            color: width > webScreenSize
+                ? AppColors.greyAccentLine
+                : AppColors.greyAccentLine,
+          ),
         ),
-        color: mobileBackgroundColor,
+        color: Colors.white,
       ),
       padding: const EdgeInsets.symmetric(
         vertical: 10,
@@ -292,10 +297,14 @@ class _PostCardState extends State<PostCard> {
                           text: widget.snap['username'].toString(),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
+                            color: AppColors.black,
                           ),
                         ),
                         TextSpan(
                           text: ' ${widget.snap['description']}',
+                          style: const TextStyle(
+                            color: AppColors.black,
+                          ),
                         ),
                       ],
                     ),
@@ -321,14 +330,29 @@ class _PostCardState extends State<PostCard> {
                   ),
                 ),
                 Container(
-                  child: Text(
-                    DateFormat.yMMMd()
-                        .format(widget.snap['datePublished'].toDate()),
-                    style: const TextStyle(
-                      color: secondaryColor,
+                  child: RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                        color: secondaryColor,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: DateFormat.jm()
+                              .format(widget.snap['datePublished'].toDate()),
+                          style: const TextStyle(
+                            color: secondaryColor,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' • ',
+                        ),
+                        TextSpan(
+                          text: DateFormat.yMMMd()
+                              .format(widget.snap['datePublished'].toDate()),
+                        ),
+                      ],
                     ),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 4),
                 ),
               ],
             ),
