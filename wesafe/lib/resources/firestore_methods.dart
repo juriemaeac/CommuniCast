@@ -9,6 +9,7 @@ class FireStoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<String> uploadPost(
+    String title,
     String description,
     Uint8List file,
     String uid,
@@ -26,6 +27,7 @@ class FireStoreMethods {
           await StorageMethods().uploadImageToStorage('posts', file, true);
       String postId = const Uuid().v1(); // creates unique id based on time
       Post post = Post(
+        title: title,
         description: description,
         uid: uid,
         username: username,
