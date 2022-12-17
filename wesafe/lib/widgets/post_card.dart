@@ -66,6 +66,27 @@ class _PostCardState extends State<PostCard> {
     final model.User user = Provider.of<UserProvider>(context).getUser;
     final width = MediaQuery.of(context).size.width;
 
+    String indicator = widget.snap['indicator'];
+    var icon = 61242;
+    Color color = Colors.white;
+
+    if (indicator == 'CODE RED') {
+      icon = 57912;
+      color = Colors.red;
+    } else if (indicator == 'CODE AMBER') {
+      icon = 983712;
+      color = Colors.amber;
+    } else if (indicator == 'CODE BLUE') {
+      icon = 983744;
+      color = Colors.blue;
+    } else if (indicator == 'CODE GREEN') {
+      icon = 983699;
+      color = Colors.green;
+    } else if (indicator == 'CODE BLACK') {
+      icon = 62784;
+      color = Colors.black;
+    }
+
     return Container(
       // boundary needed for web
       decoration: BoxDecoration(
@@ -255,16 +276,14 @@ class _PostCardState extends State<PostCard> {
                   ),
                 ),
               ),
-              IconButton(
-                  icon: const Icon(
-                    Icons.send,
-                  ),
-                  onPressed: () {}),
               Expanded(
                   child: Align(
                 alignment: Alignment.bottomRight,
-                child: IconButton(
-                    icon: const Icon(Icons.bookmark_border), onPressed: () {}),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Icon(IconData(icon, fontFamily: 'MaterialIcons'),
+                      size: 20.0, color: color),
+                ),
               ))
             ],
           ),
