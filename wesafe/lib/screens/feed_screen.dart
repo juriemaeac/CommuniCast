@@ -29,9 +29,8 @@ class _FeedScreenState extends State<FeedScreen> {
     Notifications.init();
 
     postsStream.listen((event) {
-      if (event.docs.isEmpty) {
-        return;
-      } else if (event.docs.first.get('uid' == user!.uid)) {
+      var postUid = event.docs.first.get('uid');
+      if (event.docs.isEmpty || postUid == user!.uid) {
         return;
       }
       Notifications.showNotifications(event.docs.first);
