@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:wesafe/models/user.dart' as model;
+import 'package:wesafe/resources/snackbar.dart';
 import 'package:wesafe/resources/storage_methods.dart';
 
 class AuthMethods {
@@ -26,6 +28,7 @@ class AuthMethods {
     required String username,
     required String bio,
     required Uint8List file,
+    required BuildContext context,
   }) async {
     String res = "Some error Occurred";
     try {
@@ -39,6 +42,7 @@ class AuthMethods {
           email: email,
           password: password,
         );
+        await sendEmailVerification(context);
 
         String photoUrl = await StorageMethods()
             .uploadImageToStorage('profilePics', file, false);
@@ -60,11 +64,26 @@ class AuthMethods {
             .set(_user.toJson());
 
         res = "success";
+        showSnackBar(
+            context, 'Email Verification Sent. Please verify your email');
       } else {
         res = "Please enter all the fields";
+        return "Please enter all the fields";
       }
-    } catch (err) {
-      return err.toString();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        Navigator.pop(context, false);
+        return 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        Navigator.pop(context, false);
+        return 'The account already exists for that email.';
+      } else if (e.code == 'invalid-email') {
+        Navigator.pop(context, false);
+        return 'The email is invalid.';
+      } else {}
+
+      print(e);
+      return e.toString();
     }
     return res;
   }
@@ -73,23 +92,53 @@ class AuthMethods {
   Future<String> loginUser({
     required String email,
     required String password,
+    required BuildContext context,
   }) async {
     String res = "Some error Occurred";
     try {
-      if (email.isNotEmpty || password.isNotEmpty) {
-        // logging in user with email and password
-        await _auth.signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-        res = "success";
+      // logging in user with email and password
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      res = "checking verification status...";
+      if (!_auth.currentUser!.emailVerified) {
+        sendEmailVerification(context);
+        res = "Account is not verified.";
+        print("Account is not verified. Please verify your email");
+        await _auth.signOut();
+        return "Account is not verified. Please verify your email";
       } else {
-        res = "Please enter all the fields";
+        print("success");
+        res = "success";
       }
-    } catch (err) {
-      return err.toString();
+    } on FirebaseAuthException catch (e) {
+      //showSnackBar(context, e.message!);
+      if (e.code == 'invalid-email') {
+        Navigator.pop(context, false);
+        return 'The email is invalid.';
+      } else if (e.code == 'user-not-found') {
+        Navigator.pop(context, false);
+        return 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        Navigator.pop(context, false);
+        return 'Wrong password provided for that user.';
+      } else {}
+
+      print(e);
+      return e.toString();
     }
     return res;
+  }
+
+  //EMAIL VERIFICATION
+  Future<void> sendEmailVerification(BuildContext context) async {
+    try {
+      _auth.currentUser!.sendEmailVerification();
+    } on FirebaseAuthException catch (e) {
+      showSnackBar(context, e.message!);
+      print(e);
+    }
   }
 
   Future<void> signOut() async {

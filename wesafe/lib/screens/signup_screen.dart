@@ -43,24 +43,21 @@ class _SignupScreenState extends State<SignupScreen> {
 
     // signup user using our authmethodds
     String res = await AuthMethods().signUpUser(
-        email: _emailController.text,
-        password: _passwordController.text,
-        username: _usernameController.text,
-        bio: _bioController.text,
-        file: _image!);
+      email: _emailController.text,
+      password: _passwordController.text,
+      username: _usernameController.text,
+      bio: _bioController.text,
+      file: _image!,
+      context: context,
+    );
     // if string returned is sucess, user has been created
     if (res == "success") {
       setState(() {
         _isLoading = false;
       });
-      // navigate to the home screen
+      // navigate to the login screen
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const ResponsiveLayout(
-            mobileScreenLayout: MobileScreenLayout(),
-            webScreenLayout: WebScreenLayout(),
-          ),
-        ),
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
     } else {
       setState(() {
