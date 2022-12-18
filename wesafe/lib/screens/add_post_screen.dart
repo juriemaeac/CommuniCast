@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -140,8 +141,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
           'Posted!',
         );
         clearImage();
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (BuildContext context) => super.widget));
       } else {
         showSnackBar(context, res);
       }
@@ -304,7 +303,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(IconData(icon, fontFamily: 'MaterialIcons'),
-                        size: 30.0, color: dark ? Colors.black : Colors.white),
+                        size: 30.0, color: Colors.white),
                     SizedBox(width: 20),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -312,12 +311,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       children: [
                         Text('$title',
                             style: TextStyle(
-                                color: dark ? Colors.black : Colors.white,
+                                color: Colors.white,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold)),
                         Text('Type: $indicator',
                             style: TextStyle(
-                              color: dark ? Colors.black : Colors.white,
+                              color: Colors.white,
                               fontSize: 12,
                             )),
                       ],
@@ -357,60 +356,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
               )
             ],
           ),
-          //  markers na values agad
-          //   var marker = Marker(
-          //   width: 160.0,
-          //   height: 55.0,
-          //   point: LatLng(docLat, docLon),
-          //   builder: (BuildContext context) => Container(
-          //     padding: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
-          //     width: 230,
-          //     height: 50,
-          //     decoration: BoxDecoration(
-          //       color: color,
-          //       borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          //     ),
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       crossAxisAlignment: CrossAxisAlignment.center,
-          //       children: [
-          //         Icon(IconData(icon, fontFamily: 'MaterialIcons'),
-          //             size: 25.0, color: dark ? Colors.black : Colors.white),
-          //         SizedBox(width: 10),
-          //         Column(
-          //           mainAxisAlignment: MainAxisAlignment.center,
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //             Text('$title',
-          //                 style: TextStyle(
-          //                     color: dark ? Colors.black : Colors.white,
-          //                     fontSize: 12,
-          //                     fontWeight: FontWeight.bold)),
-          //             Text('Type: $indicator',
-          //                 style: TextStyle(
-          //                   color: dark ? Colors.black : Colors.white,
-          //                   fontSize: 10,
-          //                 )),
-          //           ],
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-
-          //   // Container(
-          //   //   width: 100,
-          //   //   child: Column(
-          //   //     children: [
-          //   //       Icon(Icons.location_on, size: 40.0, color: Colors.red),
-          //   //       Text(title,
-          //   //           style: TextStyle(
-          //   //               color: color,
-          //   //               fontSize: 10,
-          //   //               fontWeight: FontWeight.bold)),
-          //   //     ],
-          //   //   ),
-          //   // ),
-          // );
         );
         markers.add(marker);
       });
@@ -611,6 +556,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         title: Container(
                           width: MediaQuery.of(context).size.width - 100,
                           child: TextField(
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(15)
+                            ],
                             controller: _titleController,
                             style: AppTextStyles.body,
                             decoration: const InputDecoration(

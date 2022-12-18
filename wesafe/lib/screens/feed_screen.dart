@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wesafe/utils/colors.dart';
 import 'package:wesafe/utils/global_variable.dart';
 import 'package:wesafe/widgets/post_card.dart';
+import 'package:wesafe/providers/notifications.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -13,6 +15,29 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+  final user = FirebaseAuth.instance.currentUser;
+  Stream<QuerySnapshot<Map<String, dynamic>>> postsStream = FirebaseFirestore
+      .instance
+      .collection("posts")
+      .orderBy("datePublished", descending: true)
+      .snapshots();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    Notifications.init();
+
+    postsStream.listen((event) {
+      if (event.docs.isEmpty) {
+        return;
+      } else if (event.docs.first.get('uid' == user!.uid)) {
+        return;
+      }
+      Notifications.showNotifications(event.docs.first);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -43,10 +68,7 @@ class _FeedScreenState extends State<FeedScreen> {
               ],
             ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("posts")
-            .orderBy("datePublished", descending: true)
-            .snapshots(),
+        stream: postsStream,
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
