@@ -59,17 +59,17 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
             ),
             onPressed: () => navigationTapped(0),
           ),
-          IconButton(
-            icon: Icon(
-              Icons.search,
-              color: _page == 1 ? primaryColor : secondaryColor,
-            ),
-            onPressed: () => navigationTapped(1),
-          ),
+          // IconButton(
+          //   icon: Icon(
+          //     Icons.search,
+          //     color: _page == 1 ? primaryColor : secondaryColor,
+          //   ),
+          //   onPressed: () => navigationTapped(1),
+          // ),
           IconButton(
             icon: Icon(
               Icons.add_a_photo,
-              color: _page == 2 ? primaryColor : secondaryColor,
+              color: _page == 1 ? primaryColor : secondaryColor,
             ),
             onPressed: () => navigationTapped(2),
           ),
@@ -83,7 +83,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
           IconButton(
             icon: Icon(
               Icons.person,
-              color: _page == 3 ? primaryColor : secondaryColor,
+              color: _page == 2 ? primaryColor : secondaryColor,
             ),
             onPressed: () => navigationTapped(4),
           ),

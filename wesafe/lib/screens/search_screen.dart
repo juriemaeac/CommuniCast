@@ -25,9 +25,9 @@ class _SearchScreenState extends State<SearchScreen> {
         elevation: 0,
         title: Form(
           child: TextFormField(
+            autofocus: true,
             controller: searchController,
-            decoration:
-                const InputDecoration(labelText: 'Search for a user...'),
+            decoration: const InputDecoration(hintText: 'Search for a user...'),
             onFieldSubmitted: (String _) {
               setState(() {
                 isShowUsers = true;
@@ -35,6 +35,15 @@ class _SearchScreenState extends State<SearchScreen> {
               print(_);
             },
           ),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: isShowUsers
@@ -80,34 +89,37 @@ class _SearchScreenState extends State<SearchScreen> {
               },
             )
           : FutureBuilder(
-              future: FirebaseFirestore.instance
-                  .collection('posts')
-                  .orderBy('datePublished', descending: true)
-                  .get(),
+              future: FirebaseFirestore.instance.collection('users').get(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
-
-                return StaggeredGridView.countBuilder(
-                  crossAxisCount: 3,
+                return ListView.builder(
                   itemCount: (snapshot.data! as dynamic).docs.length,
-                  itemBuilder: (context, index) => Image.network(
-                    (snapshot.data! as dynamic).docs[index]['postUrl'],
-                    fit: BoxFit.cover,
-                  ),
-                  staggeredTileBuilder: (index) => MediaQuery.of(context)
-                              .size
-                              .width >
-                          webScreenSize
-                      ? StaggeredTile.count(
-                          (index % 7 == 0) ? 1 : 1, (index % 7 == 0) ? 1 : 1)
-                      : StaggeredTile.count(
-                          (index % 7 == 0) ? 2 : 1, (index % 7 == 0) ? 2 : 1),
-                  mainAxisSpacing: 8.0,
-                  crossAxisSpacing: 8.0,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SearchProfileScreen(
+                            uid: (snapshot.data! as dynamic).docs[index]['uid'],
+                          ),
+                        ),
+                      ),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            (snapshot.data! as dynamic).docs[index]['photoUrl'],
+                          ),
+                          radius: 16,
+                        ),
+                        title: Text(
+                          (snapshot.data! as dynamic).docs[index]['username'],
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
             ),

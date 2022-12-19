@@ -5,6 +5,7 @@ import 'package:wesafe/models/user.dart' as model;
 import 'package:wesafe/providers/user_provider.dart';
 import 'package:wesafe/resources/firestore_methods.dart';
 import 'package:wesafe/screens/comments_screen.dart';
+import 'package:wesafe/screens/search_profile_screen.dart';
 import 'package:wesafe/utils/colors.dart';
 import 'package:wesafe/utils/global_variable.dart';
 import 'package:wesafe/utils/utils.dart';
@@ -127,12 +128,24 @@ class _PostCardState extends State<PostCard> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          widget.snap['username'].toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+                        GestureDetector(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => SearchProfileScreen(
+                                uid: widget.snap['uid'],
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            widget.snap['username'].toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
+                        Text('${widget.snap['location']}',
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.blueAccent)),
                       ],
                     ),
                   ),
@@ -181,21 +194,7 @@ class _PostCardState extends State<PostCard> {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 10,
-                  left: 16,
-                  right: 16,
-                ),
-                child: Text('${widget.snap['location']}',
-                    style: const TextStyle(
-                        fontSize: 12, color: Colors.blueAccent)),
-              ),
-            ],
-          ),
+
           // IMAGE SECTION OF THE POST
           GestureDetector(
             onDoubleTap: () {

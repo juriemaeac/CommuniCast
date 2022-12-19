@@ -25,6 +25,9 @@ class AppTextStyles {
   static const body1 = TextStyle(
     fontSize: 10,
   );
+  static const body2 = TextStyle(
+    fontSize: 12,
+  );
   static const button = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,

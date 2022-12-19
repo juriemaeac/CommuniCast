@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:wesafe/constants.dart';
 import 'package:wesafe/resources/auth_methods.dart';
 import 'package:wesafe/resources/firestore_methods.dart';
 import 'package:wesafe/screens/login_screen.dart';
 import 'package:wesafe/utils/colors.dart';
+import 'package:wesafe/utils/global_variable.dart';
 import 'package:wesafe/utils/utils.dart';
 import 'package:wesafe/widgets/follow_button.dart';
+import 'package:wesafe/widgets/like_animation.dart';
 
 class SearchProfileScreen extends StatefulWidget {
   final String uid;
@@ -63,8 +67,20 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
     });
   }
 
+  deletePost(String postId) async {
+    try {
+      await FireStoreMethods().deletePost(postId);
+    } catch (err) {
+      showSnackBar(
+        context,
+        err.toString(),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return isLoading
         ? const Center(
             child: CircularProgressIndicator(),
@@ -215,42 +231,258 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                   ),
                 ),
                 const Divider(),
-                FutureBuilder(
-                  future: FirebaseFirestore.instance
-                      .collection('posts')
-                      .where('uid', isEqualTo: widget.uid)
-                      .get(),
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection("posts")
+                      .orderBy("datePublished", descending: true)
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
                     }
+                    return FutureBuilder(
+                      future: FirebaseFirestore.instance
+                          .collection('posts')
+                          .where('uid', isEqualTo: widget.uid)
+                          .get(),
+                      builder: (context, snapshot) {
+                        // if (snapshot.connectionState ==
+                        //     ConnectionState.waiting) {
+                        //   return const Center(
+                        //     child: CircularProgressIndicator(),
+                        //   );
+                        // }
 
-                    return GridView.builder(
-                      shrinkWrap: true,
-                      itemCount: (snapshot.data! as dynamic).docs.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 1.5,
-                        childAspectRatio: 1,
-                      ),
-                      itemBuilder: (context, index) {
-                        DocumentSnapshot snap =
-                            (snapshot.data! as dynamic).docs[index];
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount:
+                                  (snapshot.data! as dynamic).docs.length,
+                              itemBuilder: (context, index) {
+                                DocumentSnapshot snap =
+                                    (snapshot.data! as dynamic).docs[index];
 
-                        return Container(
-                          child: Image(
-                            image: NetworkImage(snap['postUrl']),
-                            fit: BoxFit.cover,
+                                String indicator = snap['indicator'];
+                                var icon = 61242;
+                                Color color = Colors.white;
+
+                                if (indicator == 'CODE RED') {
+                                  icon = 57912;
+                                  color = Colors.red;
+                                } else if (indicator == 'CODE AMBER') {
+                                  icon = 983712;
+                                  color = Colors.amber;
+                                } else if (indicator == 'CODE BLUE') {
+                                  icon = 983744;
+                                  color = Colors.blue;
+                                } else if (indicator == 'CODE GREEN') {
+                                  icon = 983699;
+                                  color = Colors.green;
+                                } else if (indicator == 'CODE BLACK') {
+                                  icon = 62784;
+                                  color = Colors.black;
+                                }
+
+                                return Container(
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                    border: Border.symmetric(
+                                      horizontal: BorderSide(
+                                        color: width > webScreenSize
+                                            ? AppColors.greyAccentLine
+                                            : AppColors.greyAccentLine,
+                                      ),
+                                    ),
+                                    color: Colors.white,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: color,
+                                            ),
+                                            child: Icon(
+                                              IconData(
+                                                icon,
+                                                fontFamily: 'MaterialIcons',
+                                              ),
+                                              color: Colors.white,
+                                              size: 30,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          SizedBox(
+                                            width: width - 70,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(snap['title'],
+                                                        style: AppTextStyles
+                                                            .body
+                                                            .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        )),
+                                                    snap['uid'].toString() ==
+                                                            widget.uid
+                                                        ? GestureDetector(
+                                                            onTap: () {
+                                                              showDialog(
+                                                                  useRootNavigator:
+                                                                      false,
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return Dialog(
+                                                                      child: ListView(
+                                                                          padding: const EdgeInsets.symmetric(vertical: 16),
+                                                                          shrinkWrap: true,
+                                                                          children: [
+                                                                            'Delete',
+                                                                          ]
+                                                                              .map(
+                                                                                (e) => InkWell(
+                                                                                    child: Container(
+                                                                                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                                                                                      child: Text(e),
+                                                                                    ),
+                                                                                    onTap: () {
+                                                                                      deletePost(
+                                                                                        snap['postId'].toString(),
+                                                                                      );
+                                                                                      // remove the dialog box
+                                                                                      Navigator.of(context).pop();
+                                                                                    }),
+                                                                              )
+                                                                              .toList()),
+                                                                    );
+                                                                  });
+                                                            },
+                                                            child: Icon(
+                                                              Icons.more_vert,
+                                                              color:
+                                                                  Colors.grey,
+                                                              size: 15,
+                                                            ),
+                                                          )
+                                                        : Container(),
+                                                  ],
+                                                ),
+                                                Text(snap['location'],
+                                                    style: AppTextStyles.body2
+                                                        .copyWith(
+                                                      color: Colors.blueAccent,
+                                                    )),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(snap['description']),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          LikeAnimation(
+                                            isAnimating: snap['likes']
+                                                .contains(widget.uid),
+                                            smallLike: true,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                FireStoreMethods().likePost(
+                                                  snap['postId'].toString(),
+                                                  widget.uid,
+                                                  snap['likes'],
+                                                );
+                                              },
+                                              child: Icon(
+                                                Icons.favorite,
+                                                color: snap['likes']
+                                                        .contains(widget.uid)
+                                                    ? Colors.red
+                                                    : Colors.grey,
+                                                size: 15,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            '${snap['likes'].length} likes',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2,
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          style: const TextStyle(
+                                            color: secondaryColor,
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: DateFormat.jm().format(
+                                                  snap['datePublished']
+                                                      .toDate()),
+                                              style: const TextStyle(
+                                                color: secondaryColor,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: ' • ',
+                                            ),
+                                            TextSpan(
+                                              text: DateFormat.yMMMd().format(
+                                                  snap['datePublished']
+                                                      .toDate()),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         );
                       },
                     );
                   },
-                )
+                ),
               ],
             ),
           );
