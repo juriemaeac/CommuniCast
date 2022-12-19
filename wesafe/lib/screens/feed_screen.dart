@@ -21,20 +21,35 @@ class _FeedScreenState extends State<FeedScreen> {
       .collection("posts")
       .orderBy("datePublished", descending: true)
       .snapshots();
+
+  notifChecker() {
+    postsStream.listen((event) {
+      var postUid = event.docs.first.get('uid');
+      if (event.docs.isEmpty || postUid == user!.uid) {
+        return;
+      } else {
+        if (event.docs.first.get('notificationSent') == true) {
+          return;
+        } else {
+          Notifications.showNotifications(event.docs.first);
+          FirebaseFirestore.instance
+              .collection('posts')
+              .doc(event.docs.first.id)
+              .update({
+            'notificationSent': true,
+          });
+        }
+      }
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     Notifications.init();
-
-    postsStream.listen((event) {
-      var postUid = event.docs.first.get('uid');
-      if (event.docs.isEmpty || postUid == user!.uid) {
-        return;
-      }
-      Notifications.showNotifications(event.docs.first);
-    });
+    notifChecker();
   }
 
   @override

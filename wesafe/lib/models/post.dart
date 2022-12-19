@@ -14,21 +14,24 @@ class Post {
   final double latitude;
   final double longitude;
   final String indicator;
+  final bool notificationSent;
 
-  const Post(
-      {required this.title,
-      required this.description,
-      required this.uid,
-      required this.username,
-      required this.likes,
-      required this.postId,
-      required this.datePublished,
-      required this.postUrl,
-      required this.profImage,
-      required this.location,
-      required this.latitude,
-      required this.longitude,
-      required this.indicator});
+  const Post({
+    required this.title,
+    required this.description,
+    required this.uid,
+    required this.username,
+    required this.likes,
+    required this.postId,
+    required this.datePublished,
+    required this.postUrl,
+    required this.profImage,
+    required this.location,
+    required this.latitude,
+    required this.longitude,
+    required this.indicator,
+    required this.notificationSent,
+  });
 
   static Post fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
@@ -46,7 +49,8 @@ class Post {
         location: snapshot['location'],
         latitude: snapshot['latitude'],
         longitude: snapshot['longitude'],
-        indicator: snapshot['indicator']);
+        indicator: snapshot['indicator'],
+        notificationSent: snapshot['notificationSent']);
   }
 
   Map<String, dynamic> toJson() => {
@@ -62,6 +66,7 @@ class Post {
         'location': location,
         'latitude': latitude,
         'longitude': longitude,
-        'indicator': indicator
+        'indicator': indicator,
+        'notificationSent': notificationSent,
       };
 }

@@ -33,6 +33,7 @@ class AddPostScreen extends StatefulWidget {
 class _AddPostScreenState extends State<AddPostScreen> {
   Uint8List? _file;
   bool isLoading = false;
+  bool notificationSent = false;
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
@@ -131,6 +132,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         lat,
         long,
         _selectedIndicator!,
+        notificationSent,
       );
       if (res == "success") {
         setState(() {

@@ -19,6 +19,7 @@ class FireStoreMethods {
     double latitude,
     double longitude,
     String indicator,
+    bool notificationSent,
   ) async {
     // asking uid here because we dont want to make extra calls to firebase auth when we can just get from our state management
     String res = "Some error occurred";
@@ -40,6 +41,7 @@ class FireStoreMethods {
         latitude: latitude,
         longitude: longitude,
         indicator: indicator,
+        notificationSent: notificationSent,
       );
       _firestore.collection('posts').doc(postId).set(post.toJson());
       res = "success";
