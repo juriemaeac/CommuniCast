@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //ErrorWidget.builder = (FlutterErrorDetails details) => Container();
 
   // initialise app based on platform- web or mobile
   if (kIsWeb) {
