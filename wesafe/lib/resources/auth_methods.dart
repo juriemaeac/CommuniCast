@@ -24,6 +24,9 @@ class AuthMethods {
 
   Future<String> signUpUser({
     required String email,
+    required String firstName,
+    required String lastName,
+    required String birthDate,
     required String password,
     required String username,
     required String bio,
@@ -49,6 +52,9 @@ class AuthMethods {
 
         model.User _user = model.User(
           username: username,
+          firstName: firstName,
+          lastName: lastName,
+          birthDate: birthDate,
           uid: cred.user!.uid,
           photoUrl: photoUrl,
           email: email,
@@ -72,13 +78,10 @@ class AuthMethods {
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        Navigator.pop(context, false);
         return 'The password provided is too weak.';
       } else if (e.code == 'email-already-in-use') {
-        Navigator.pop(context, false);
         return 'The account already exists for that email.';
       } else if (e.code == 'invalid-email') {
-        Navigator.pop(context, false);
         return 'The email is invalid.';
       } else {}
 
@@ -115,13 +118,10 @@ class AuthMethods {
     } on FirebaseAuthException catch (e) {
       //showSnackBar(context, e.message!);
       if (e.code == 'invalid-email') {
-        Navigator.pop(context, false);
         return 'The email is invalid.';
       } else if (e.code == 'user-not-found') {
-        Navigator.pop(context, false);
         return 'No user found for that email.';
       } else if (e.code == 'wrong-password') {
-        Navigator.pop(context, false);
         return 'Wrong password provided for that user.';
       } else {}
 

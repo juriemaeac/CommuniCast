@@ -82,11 +82,13 @@ class _FeedScreenState extends State<FeedScreen> {
                     ),
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              duration: const Duration(milliseconds: 500),
-                              child: const SearchScreen()));
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          duration: const Duration(milliseconds: 500),
+                          child: const SearchScreen(),
+                        ),
+                      );
                     },
                   ),
                 ],

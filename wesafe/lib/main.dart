@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Instagram Clone',
+        title: 'CommuniCast',
         theme: ThemeData.light().copyWith(
           scaffoldBackgroundColor: mobileBackgroundColor,
         ),
