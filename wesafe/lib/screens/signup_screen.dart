@@ -183,7 +183,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         onPressed: selectImage,
                         icon: const Icon(
                           Icons.add_a_photo,
-                          color: AppColors.grey,
+                          color: Color(0xFF848484),
                         ),
                       ),
                     )
@@ -293,7 +293,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           filled: true,
                           suffixIcon: Icon(
                             Icons.calendar_month_rounded,
-                            color: AppColors.grey,
+                            color: Color(0xFF848484),
                           ),
                         ),
                         validator: (var value) {
