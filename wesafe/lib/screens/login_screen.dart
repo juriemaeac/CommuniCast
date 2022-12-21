@@ -6,6 +6,7 @@ import 'package:wesafe/resources/auth_methods.dart';
 import 'package:wesafe/responsive/mobile_screen_layout.dart';
 import 'package:wesafe/responsive/responsive_layout.dart';
 import 'package:wesafe/responsive/web_screen_layout.dart';
+import 'package:wesafe/screens/forgotPass.dart';
 import 'package:wesafe/screens/signup_screen.dart';
 import 'package:wesafe/utils/colors.dart';
 import 'package:wesafe/utils/global_variable.dart';
@@ -180,7 +181,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return ForgotPassword();
+                          }));
+                        },
                         child: const MouseRegion(
                           cursor: SystemMouseCursors.click,
                           child: Text('Forgot Password?',
