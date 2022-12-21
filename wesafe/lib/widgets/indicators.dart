@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wesafe/constants.dart';
 
 class IndicatorWidget extends StatelessWidget {
   String? colorCode;
@@ -17,55 +18,74 @@ class IndicatorWidget extends StatelessWidget {
           context: context,
           builder: (context) {
             return AlertDialog(
-              backgroundColor: Colors.white,
+              backgroundColor: AppColors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               contentPadding: EdgeInsets.all(30.0),
               //title:
               content: Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: 230,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      colorCode!,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: color),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      text!,
-                      style: TextStyle(fontSize: 15, color: Colors.black),
-                      textAlign: TextAlign.justify,
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    Column(
                       children: [
-                        TextButton(
-                          child: Text(
-                            'Okay',
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blueGrey),
+                        Text(
+                          colorCode!,
+                          style: AppTextStyles.title.copyWith(
+                            color: color,
                           ),
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pop(false); //Will not exit the App
-                          },
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: SizedBox(
+                            child: Text(
+                              text!,
+                              style: AppTextStyles.body,
+                              textAlign: TextAlign.justify,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
                         ),
                       ],
                     ),
+                    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context)
+                              .pop(false); //Will not exit the App
+                        },
+                        child: Text(
+                          'OK',
+                          style: AppTextStyles.body.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ]),
                   ],
                 ),
               ),
-              //actions: <Widget>[],
+              // actions: <Widget>[
+              //   // ignore: deprecated_member_use
+              //   TextButton(
+              //     child: Text(
+              //       'OK',
+              //       style: TextStyle(
+              //           fontSize: 15,
+              //           fontWeight: FontWeight.bold,
+              //           color: Colors.blueGrey),
+              //     ),
+              //     onPressed: () {
+              //       Navigator.of(context).pop(false); //Will not exit the App
+              //     },
+              //   ),
+              // ],
             );
           },
         );
@@ -79,7 +99,7 @@ class IndicatorWidget extends StatelessWidget {
         ),
         child: Icon(
           icon,
-          color: Colors.white,
+          color: AppColors.white,
         ),
       ),
     );

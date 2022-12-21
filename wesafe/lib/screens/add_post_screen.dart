@@ -79,11 +79,16 @@ class _AddPostScreenState extends State<AddPostScreen> {
       context: parentContext,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: const Text('Create a Post'),
+          title: const Center(
+            child: Text(
+              'Report an Incident',
+              style: AppTextStyles.title,
+            ),
+          ),
           children: <Widget>[
             SimpleDialogOption(
                 padding: const EdgeInsets.all(20),
-                child: const Text('Take a photo'),
+                child: const Text('Take a photo', style: AppTextStyles.body),
                 onPressed: () async {
                   Navigator.pop(context);
                   Uint8List file = await pickImage(ImageSource.camera);
@@ -93,7 +98,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 }),
             SimpleDialogOption(
                 padding: const EdgeInsets.all(20),
-                child: const Text('Choose from Gallery'),
+                child: const Text('Choose from Gallery',
+                    style: AppTextStyles.body),
                 onPressed: () async {
                   Navigator.of(context).pop();
                   Uint8List file = await pickImage(ImageSource.gallery);
@@ -101,12 +107,19 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     _file = file;
                   });
                 }),
-            SimpleDialogOption(
-              padding: const EdgeInsets.all(20),
-              child: const Text("Cancel"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SimpleDialogOption(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text("Cancel",
+                      style:
+                          AppTextStyles.body.copyWith(color: AppColors.grey)),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
             )
           ],
         );
@@ -200,7 +213,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark placemark = placemarks[0];
     String completeAddress =
-        '${placemark.street}, ${placemark.locality}, ${placemark.country}, ${placemark.postalCode}';
+        '${placemark.street}, ${placemark.locality}, ${placemark.country}'; //, ${placemark.postalCode}';
     print('LATITUDE: ${position.latitude}, LONGITUDE: ${position.longitude}');
     print('completeAddress: $completeAddress');
     _locationController.text = completeAddress;
@@ -224,18 +237,18 @@ class _AddPostScreenState extends State<AddPostScreen> {
         .then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
         Map data = (result.data() as Map);
-        print("\n\n==============\n");
+        //print("\n\n==============\n");
         var docLat = data['latitude'];
         var docLon = data['longitude'];
         var docTitle = data['title'];
         var docIndicator = data['indicator'];
-        print("\n==============\n");
-        print("Fetched Data: ");
-        print(docTitle);
-        print(docIndicator);
-        print(docLat);
-        print(docLon);
-        print("\n==============\n");
+        // print("\n==============\n");
+        // print("Fetched Data: ");
+        // print(docTitle);
+        // print(docIndicator);
+        // print(docLat);
+        // print(docLon);
+        // print("\n==============\n");
         String title = docTitle.toString();
         String indicator = docIndicator.toString();
         var icon = 61242;
@@ -434,34 +447,34 @@ class _AddPostScreenState extends State<AddPostScreen> {
                               ),
                               MarkerLayer(markers: markers)
                             ]),
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 40),
-                            width: MediaQuery.of(context).size.width,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.menu),
-                                  color: Colors.white,
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.search),
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        // Align(
+                        //   alignment: Alignment.topCenter,
+                        //   child: Container(
+                        //     margin: const EdgeInsets.symmetric(
+                        //         horizontal: 20, vertical: 40),
+                        //     width: MediaQuery.of(context).size.width,
+                        //     height: 50,
+                        //     decoration: BoxDecoration(
+                        //       color: Colors.black.withOpacity(0.3),
+                        //       borderRadius: BorderRadius.circular(10),
+                        //     ),
+                        //     child: Row(
+                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //       children: [
+                        //         IconButton(
+                        //           onPressed: () {},
+                        //           icon: const Icon(Icons.menu),
+                        //           color: Colors.white,
+                        //         ),
+                        //         IconButton(
+                        //           onPressed: () {},
+                        //           icon: const Icon(Icons.search),
+                        //           color: Colors.white,
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: Container(
@@ -582,10 +595,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
                           width: MediaQuery.of(context).size.width - 100,
                           child: TextField(
                             keyboardType: TextInputType.multiline,
+                            maxLines: null,
                             controller: _descriptionController,
                             style: AppTextStyles.body,
                             decoration: const InputDecoration(
-                                hintText: "Write a caption...",
+                                hintText: "Write an incident description...",
                                 hintStyle: AppTextStyles.body,
                                 border: InputBorder.none),
                             //maxLines: 8,
@@ -672,6 +686,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
           ),
         ),
         shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+        backgroundColor: MaterialStateProperty.all<Color>(AppColors.blueAccent),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
