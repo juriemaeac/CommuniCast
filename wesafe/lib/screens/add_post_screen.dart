@@ -505,20 +505,19 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 backgroundColor: Colors.white,
                 appBar: AppBar(
                   elevation: 0,
-                  backgroundColor: Colors.white,
+                  backgroundColor: AppColors.white,
                   leading: IconButton(
                     icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
+                      Icons.arrow_back_ios,
+                      color: AppColors.black,
+                      size: 20,
                     ),
                     onPressed: clearImage,
                   ),
-                  title: const Text(
-                    'Post to',
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
+                  title: Text('Incident Report',
+                      style: AppTextStyles.subtitle.copyWith(
+                        fontWeight: FontWeight.w600,
+                      )),
                   centerTitle: false,
                   actions: <Widget>[
                     TextButton(
@@ -529,11 +528,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
                           userProvider.getUser.photoUrl,
                         );
                       },
-                      child: const Text(
+                      child: Text(
                         "Post",
-                        style: TextStyle(
-                            color: Colors.blueAccent,
-                            fontWeight: FontWeight.bold,
+                        style: AppTextStyles.subtitle.copyWith(
+                            color: AppColors.blueAccent,
+                            fontWeight: FontWeight.w600,
                             fontSize: 16.0),
                       ),
                     )
@@ -543,10 +542,41 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 body: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       isLoading
                           ? const LinearProgressIndicator()
                           : const Padding(padding: EdgeInsets.only(top: 0.0)),
+                      Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                  text: 'Attached Media.',
+                                  style: AppTextStyles.body.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                TextSpan(
+                                    text: ' *',
+                                    style: AppTextStyles.body
+                                        .copyWith(color: Colors.red)),
+                              ]),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(right: 4.0),
+                              child: Icon(
+                                Icons.image_rounded,
+                                color: Colors.grey,
+                                size: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.35,
                         width: double.infinity,
@@ -562,107 +592,236 @@ class _AddPostScreenState extends State<AddPostScreen> {
                           ),
                         ),
                       ),
-                      ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            userProvider.getUser.photoUrl,
-                          ),
-                        ),
-                        title: Container(
-                          width: MediaQuery.of(context).size.width - 100,
-                          child: TextField(
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(15)
-                            ],
-                            controller: _titleController,
-                            style: AppTextStyles.body,
-                            decoration: const InputDecoration(
-                                hintText: "Report Title",
-                                hintStyle: AppTextStyles.body,
-                                border: InputBorder.none),
-                            //maxLines: 2,
-                          ),
-                        ),
-                      ),
-                      const Divider(),
-                      ListTile(
-                        leading: Icon(
-                          Icons.description,
-                          color: Colors.grey,
-                          size: 20,
-                        ),
-                        title: Container(
-                          width: MediaQuery.of(context).size.width - 100,
-                          child: TextField(
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            controller: _descriptionController,
-                            style: AppTextStyles.body,
-                            decoration: const InputDecoration(
-                                hintText: "Write an incident description...",
-                                hintStyle: AppTextStyles.body,
-                                border: InputBorder.none),
-                            //maxLines: 8,
-                          ),
-                        ),
-                      ),
-                      const Divider(),
-                      ListTile(
-                        leading: Icon(
-                          Icons.drag_indicator,
-                          color: Colors.grey,
-                          size: 20,
-                        ),
-                        title: Container(
-                          width: MediaQuery.of(context).size.width - 100,
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton2(
-                              hint: Text(
-                                'Select Report Indicator',
+                      // ListTile(
+                      //   leading: CircleAvatar(
+                      //     backgroundImage: NetworkImage(
+                      //       userProvider.getUser.photoUrl,
+                      //     ),
+                      //   ),
+                      //   title: Container(
+                      //     width: MediaQuery.of(context).size.width - 100,
+                      //     child: TextField(
+                      //       inputFormatters: [
+                      //         LengthLimitingTextInputFormatter(15)
+                      //       ],
+                      //       controller: _titleController,
+                      //       style: AppTextStyles.body,
+                      //       decoration: const InputDecoration(
+                      //           hintText: "Report Title",
+                      //           hintStyle: AppTextStyles.body,
+                      //           border: InputBorder.none),
+                      //       //maxLines: 2,
+                      //     ),
+                      //   ),
+                      // ),
+                      // const Divider(),
+                      Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                      text: 'What happened?',
+                                      style: AppTextStyles.body.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                        text: ' *',
+                                        style: AppTextStyles.body
+                                            .copyWith(color: Colors.red)),
+                                  ]),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 4.0),
+                                  child: Icon(
+                                    Icons.info_rounded,
+                                    color: AppColors.grey,
+                                    size: 15,
+                                  ),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: TextField(
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(15)
+                                ],
+                                controller: _titleController,
                                 style: AppTextStyles.body,
+                                decoration: InputDecoration(
+                                    hintText: "Write the incident...",
+                                    hintStyle: AppTextStyles.body.copyWith(
+                                      color: AppColors.grey,
+                                    ),
+                                    border: InputBorder.none),
+                                //maxLines: 2,
                               ),
-                              items: _indicators
-                                  .map((item) => DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(item,
-                                            style: AppTextStyles.body),
-                                      ))
-                                  .toList(),
-                              value: _selectedIndicator,
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedIndicator = value as String;
-                                });
-                              },
-                              buttonHeight: 40,
-                              buttonWidth: 340,
-                              itemHeight: 40,
                             ),
-                          ),
+                            const Divider(),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                      text: 'Explain what happened.',
+                                      style: AppTextStyles.body.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                        text: ' *',
+                                        style: AppTextStyles.body
+                                            .copyWith(color: Colors.red)),
+                                  ]),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 4.0),
+                                  child: Icon(
+                                    Icons.description_rounded,
+                                    color: AppColors.grey,
+                                    size: 15,
+                                  ),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: TextField(
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                controller: _descriptionController,
+                                style: AppTextStyles.body,
+                                decoration: InputDecoration(
+                                    hintText:
+                                        "Write an incident description...",
+                                    hintStyle: AppTextStyles.body.copyWith(
+                                      color: AppColors.grey,
+                                    ),
+                                    border: InputBorder.none),
+                                //maxLines: 8,
+                              ),
+                            ),
+                            const Divider(),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                      text: 'What type of incident?',
+                                      style: AppTextStyles.body.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                        text: ' *',
+                                        style: AppTextStyles.body
+                                            .copyWith(color: Colors.red)),
+                                  ]),
+                                ),
+                                // Icon(
+                                //   Icons.info_rounded,
+                                //   color: AppColors.grey,
+                                //   size: 20,
+                                // )
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width - 45,
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton2(
+                                    hint: Text(
+                                      'Select Report Indicator',
+                                      style: AppTextStyles.body.copyWith(
+                                        color: AppColors.grey,
+                                      ),
+                                    ),
+                                    items: _indicators
+                                        .map((item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(item,
+                                                  style: AppTextStyles.body),
+                                            ))
+                                        .toList(),
+                                    value: _selectedIndicator,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedIndicator = value as String;
+                                      });
+                                    },
+                                    buttonHeight: 40,
+                                    buttonWidth: 340,
+                                    itemHeight: 40,
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: AppColors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Divider(),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                      text: 'Incident Location.',
+                                      style: AppTextStyles.body.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                        text: ' *',
+                                        style: AppTextStyles.body
+                                            .copyWith(color: Colors.red)),
+                                  ]),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 4.0),
+                                  child: Icon(
+                                    Icons.location_on,
+                                    size: 15,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: TextField(
+                                enabled: false,
+                                controller: _locationController,
+                                style: AppTextStyles.body,
+                                decoration: const InputDecoration(
+                                  hintText: "Where was the photo taken?...",
+                                  hintStyle: AppTextStyles.body,
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const Divider(),
-                      ListTile(
-                        leading: Icon(
-                          Icons.location_on,
-                          size: 20,
-                          color: Colors.grey,
-                        ),
-                        title: Container(
-                          width: MediaQuery.of(context).size.width - 100,
-                          child: TextField(
-                            enabled: false,
-                            controller: _locationController,
-                            style: AppTextStyles.body,
-                            decoration: const InputDecoration(
-                              hintText: "Where was the photo taken?...",
-                              hintStyle: AppTextStyles.body,
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Divider(),
                     ],
                   ),
                 ),

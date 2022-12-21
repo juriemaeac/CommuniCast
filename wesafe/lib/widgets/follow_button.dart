@@ -32,7 +32,7 @@ class FollowButton extends StatelessWidget {
           ),
           alignment: Alignment.center,
           child: Text(text, style: AppTextStyles.subHeadings),
-          width: 250,
+          width: MediaQuery.of(context).size.width * 0.55,
           height: 27,
         ),
       ),

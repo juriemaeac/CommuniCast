@@ -61,7 +61,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (likes.isEmpty) {
         likes.add(0);
       }
-      //list to int
+
+      //likes count getter
       postsLikesCount =
           likes.fold(0, (previousValue, element) => previousValue + element);
       print(likes);
