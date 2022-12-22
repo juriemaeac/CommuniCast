@@ -519,6 +519,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
             : Scaffold(
                 backgroundColor: Colors.white,
                 appBar: AppBar(
+                  centerTitle: true,
                   elevation: 0,
                   backgroundColor: AppColors.white,
                   leading: IconButton(
@@ -533,7 +534,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       style: AppTextStyles.subtitle.copyWith(
                         fontWeight: FontWeight.w600,
                       )),
-                  centerTitle: false,
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {

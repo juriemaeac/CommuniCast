@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wesafe/constants.dart';
 import 'package:wesafe/resources/auth_methods.dart';
 import 'package:wesafe/resources/firestore_methods.dart';
 import 'package:wesafe/screens/login_screen.dart';
+import 'package:wesafe/screens/settings_screen.dart';
 import 'package:wesafe/utils/colors.dart';
 import 'package:wesafe/utils/global_variable.dart';
 import 'package:wesafe/utils/utils.dart';
@@ -106,9 +108,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
         : Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.white,
-              title: Text(
-                userData['username'],
-                style: AppTextStyles.title1,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    userData['username'],
+                    style: AppTextStyles.title1,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.fade,
+                              duration: const Duration(milliseconds: 500),
+                              child: const SettingsScreen()));
+                    },
+                    child: Icon(
+                      Icons.settings_rounded,
+                      color: AppColors.grey,
+                      size: 20,
+                    ),
+                  )
+                ],
               ),
               centerTitle: false,
               elevation: 0,

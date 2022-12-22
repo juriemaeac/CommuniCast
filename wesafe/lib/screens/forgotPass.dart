@@ -56,19 +56,21 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          backgroundColor: AppColors.white,
-          elevation: 0,
-          title: Text('Forgot Password', style: AppTextStyles.title1),
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: AppColors.black,
-              size: 15,
-            ),
-          )),
+        centerTitle: true,
+        backgroundColor: AppColors.white,
+        elevation: 0,
+        title: Text('Change Password', style: AppTextStyles.title1),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: AppColors.black,
+            size: 20,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(30),
         child: Center(

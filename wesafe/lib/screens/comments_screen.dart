@@ -66,7 +66,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
             size: 20,
           ),
         ),
-        centerTitle: false,
+        centerTitle: true,
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance

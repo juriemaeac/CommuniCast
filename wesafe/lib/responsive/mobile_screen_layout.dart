@@ -64,7 +64,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
             child: GNav(
               rippleColor: AppColors.grey[300]!,
               hoverColor: AppColors.grey[100]!,

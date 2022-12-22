@@ -282,9 +282,10 @@ class _PostCardState extends State<PostCard> {
             ),
           ),
           // LIKE, COMMENT SECTION OF THE POST
-          Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
+          Container(
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 LikeAnimation(
                   isAnimating: widget.snap['likes'].contains(user.uid),
@@ -451,14 +452,14 @@ class _PostCardState extends State<PostCard> {
                         );
                       },
                       child: Container(
-                        margin: const EdgeInsets.only(top: 5.0),
-                        width: MediaQuery.of(context).size.width / 3.5,
+                        // margin: const EdgeInsets.only(top: 5.0),
+                        width: MediaQuery.of(context).size.width / 4,
                         decoration: BoxDecoration(
                           color: color,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding: const EdgeInsets.symmetric(
-                          vertical: 4,
+                          vertical: 3,
                           horizontal: 4,
                         ),
                         child: Row(
@@ -470,7 +471,7 @@ class _PostCardState extends State<PostCard> {
                               size: 15,
                             ),
                             const SizedBox(
-                              width: 10,
+                              width: 5,
                             ),
                             Text(
                               indicator,
