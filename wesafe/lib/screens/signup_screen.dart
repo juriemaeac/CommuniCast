@@ -193,9 +193,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: 15,
                 ),
                 TextFieldInput(
-                  hintText: 'Enter Username',
-                  textInputType: TextInputType.text,
-                  textEditingController: _usernameController,
+                  hintText: 'Email',
+                  textInputType: TextInputType.emailAddress,
+                  textEditingController: _emailController,
                   textCapitalization: TextCapitalization.none,
                 ),
                 const SizedBox(
@@ -206,7 +206,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2 - 39,
                       child: TextFieldInput(
-                        hintText: 'Enter Firstname',
+                        hintText: 'Firstname',
                         textInputType: TextInputType.text,
                         textEditingController: _firstnameController,
                         textCapitalization: TextCapitalization.words,
@@ -218,7 +218,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2 - 39,
                       child: TextFieldInput(
-                        hintText: 'Enter Lastname',
+                        hintText: 'Lastname',
                         textInputType: TextInputType.text,
                         textEditingController: _lastnameController,
                         textCapitalization: TextCapitalization.words,
@@ -234,9 +234,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2 - 39,
                       child: TextFieldInput(
-                        hintText: 'Enter Email',
-                        textInputType: TextInputType.emailAddress,
-                        textEditingController: _emailController,
+                        hintText: 'Username',
+                        textInputType: TextInputType.text,
+                        textEditingController: _usernameController,
                         textCapitalization: TextCapitalization.none,
                       ),
                     ),
@@ -398,7 +398,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: 15,
                 ),
                 TextFieldInput(
-                  hintText: 'Enter Bio',
+                  hintText: 'Bio',
                   textInputType: TextInputType.text,
                   textEditingController: _bioController,
                   textCapitalization: TextCapitalization.sentences,
@@ -407,6 +407,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: 5,
                 ),
                 CheckboxListTile(
+                  contentPadding: EdgeInsets.all(0),
                   title: Row(
                     children: [
                       Text("I agree to the ", style: AppTextStyles.subHeadings),
