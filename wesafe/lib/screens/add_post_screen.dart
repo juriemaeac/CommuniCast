@@ -131,42 +131,51 @@ class _AddPostScreenState extends State<AddPostScreen> {
     setState(() {
       isLoading = true;
     });
-    // start the loading
-    try {
-      // upload to storage and db
-      String res = await FireStoreMethods().uploadPost(
-        _titleController.text,
-        _descriptionController.text,
-        _file!,
-        uid,
-        username,
-        profImage,
-        _locationController.text,
-        lat,
-        long,
-        _selectedIndicator!,
-        notificationSent,
-      );
-      if (res == "success") {
+    if (_titleController.text == "" ||
+        _descriptionController.text == "" ||
+        _selectedIndicator == null) {
+      showSnackBar(context, "Please fill all the fields");
+      isLoading = false;
+      return;
+    } else {
+      // start the loading
+      try {
+        // upload to storage and db
+        String res = await FireStoreMethods().uploadPost(
+          _titleController.text,
+          _descriptionController.text,
+          _file!,
+          uid,
+          username,
+          profImage,
+          _locationController.text,
+          lat,
+          long,
+          _selectedIndicator!,
+          notificationSent,
+        );
+        if (res == "success") {
+          setState(() {
+            isLoading = false;
+          });
+          showSnackBar(
+            context,
+            'Posted!',
+          );
+          clearImage();
+          clearText();
+        } else {
+          showSnackBar(context, res);
+        }
+      } catch (err) {
         setState(() {
           isLoading = false;
         });
         showSnackBar(
           context,
-          'Posted!',
+          err.toString(),
         );
-        clearImage();
-      } else {
-        showSnackBar(context, res);
       }
-    } catch (err) {
-      setState(() {
-        isLoading = false;
-      });
-      showSnackBar(
-        context,
-        err.toString(),
-      );
     }
   }
 
@@ -174,6 +183,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
     setState(() {
       _file = null;
     });
+  }
+
+  void clearText() {
+    _titleController.clear();
+    _descriptionController.clear();
+    _selectedIndicator = null;
   }
 
   _getCurrentLocation() async {

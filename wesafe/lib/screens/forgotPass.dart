@@ -30,13 +30,23 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             );
           });
     } on FirebaseAuthException catch (e) {
-      print(e);
       showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-              content: Text(e.toString()),
-            );
+            if (e.code.toString() == 'invalid-email') {
+              return AlertDialog(
+                content: Text("Email address is not valid."),
+              );
+            } else if (e.code.toString() == 'user-not-found') {
+              return AlertDialog(
+                content:
+                    Text("There is no user corresponding to the given email."),
+              );
+            } else {
+              return AlertDialog(
+                content: Text(e.code.toString()),
+              );
+            }
           });
     }
   }
