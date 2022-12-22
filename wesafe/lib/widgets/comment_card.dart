@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:wesafe/constants.dart';
 
 class CommentCard extends StatelessWidget {
   final snap;
@@ -12,11 +13,17 @@ class CommentCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       child: Row(
         children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(
-              snap.data()['profilePic'],
+          Container(
+            height: 40,
+            width: 40,
+            color: AppColors.greyAccent,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                snap.data()['profilePic'],
+                fit: BoxFit.cover,
+              ),
             ),
-            radius: 18,
           ),
           Expanded(
             child: Padding(
@@ -30,41 +37,51 @@ class CommentCard extends StatelessWidget {
                       children: [
                         TextSpan(
                             text: snap.data()['name'],
-                            style: const TextStyle(
+                            style: AppTextStyles.body2.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
                             )),
                         TextSpan(
                             text: ' ${snap.data()['text']}',
-                            style: const TextStyle(
-                              color: Colors.black,
-                            )),
+                            style: AppTextStyles.body2),
                       ],
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
-                    child: Text(
-                      DateFormat.yMMMd().format(
-                        snap.data()['datePublished'].toDate(),
-                      ),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
+                    child: RichText(
+                      text: TextSpan(
+                        style: AppTextStyles.body2.copyWith(
+                          color: AppColors.grey,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: DateFormat.jm()
+                                .format(snap.data()['datePublished'].toDate()),
+                          ),
+                          const TextSpan(
+                            text: ' • ',
+                          ),
+                          TextSpan(
+                            text: DateFormat.yMMMd()
+                                .format(snap.data()['datePublished'].toDate()),
+                          ),
+                        ],
                       ),
                     ),
+                    // Text(
+                    //   DateFormat.yMMMd().format(
+                    //     snap.data()['datePublished'].toDate(),
+                    //   ),
+                    //   style: const TextStyle(
+                    //     fontSize: 12,
+                    //     fontWeight: FontWeight.w400,
+                    //   ),
+                    // ),
                   )
                 ],
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: const Icon(
-              Icons.favorite,
-              size: 16,
-            ),
-          )
         ],
       ),
     );

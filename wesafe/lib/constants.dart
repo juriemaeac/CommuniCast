@@ -54,14 +54,17 @@ class AppTextStyles {
   static const body1 = TextStyle(
     fontSize: 10,
     fontFamily: 'Poppins',
+    color: AppColors.black,
   );
   static const body2 = TextStyle(
     fontSize: 12,
     fontFamily: 'Poppins',
+    color: AppColors.black,
   );
   static const body3 = TextStyle(
     fontSize: 10,
     fontFamily: 'Poppins',
+    color: AppColors.black,
   );
   static const button = TextStyle(
       fontSize: 13,

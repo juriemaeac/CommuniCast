@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:wesafe/constants.dart';
 import 'package:wesafe/screens/search_profile_screen.dart';
 import 'package:wesafe/utils/colors.dart';
 import 'package:wesafe/utils/global_variable.dart';
@@ -27,7 +28,10 @@ class _SearchScreenState extends State<SearchScreen> {
           child: TextFormField(
             autofocus: true,
             controller: searchController,
-            decoration: const InputDecoration(hintText: 'Search for a user...'),
+            decoration: InputDecoration(
+              hintText: 'Search for a user...',
+              hintStyle: AppTextStyles.body.copyWith(color: AppColors.grey),
+            ),
             onFieldSubmitted: (String _) {
               setState(() {
                 isShowUsers = true;
@@ -38,8 +42,9 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         leading: IconButton(
           icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
+            Icons.arrow_back_ios_new_rounded,
+            color: AppColors.black,
+            size: 20,
           ),
           onPressed: () {
             Navigator.pop(context);

@@ -108,10 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               backgroundColor: Colors.white,
               title: Text(
                 userData['username'],
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: AppTextStyles.title1,
               ),
               centerTitle: false,
               elevation: 0,
@@ -178,8 +175,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             ? FollowButton(
                                                 text: 'Unfollow',
                                                 backgroundColor: Colors.white,
-                                                textColor: Colors.black,
-                                                borderColor: Colors.grey,
+                                                textColor: AppColors.black,
+                                                borderColor: AppColors.grey,
                                                 function: () async {
                                                   await FireStoreMethods()
                                                       .followUser(
@@ -196,9 +193,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               )
                                             : FollowButton(
                                                 text: 'Follow',
-                                                backgroundColor: Colors.blue,
-                                                textColor: Colors.white,
-                                                borderColor: Colors.blue,
+                                                backgroundColor:
+                                                    AppColors.blueAccent,
+                                                textColor: AppColors.white,
+                                                borderColor:
+                                                    AppColors.blueAccent,
                                                 function: () async {
                                                   await FireStoreMethods()
                                                       .followUser(
@@ -292,7 +291,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         return SingleChildScrollView(
                           scrollDirection: Axis.vertical,
                           child: SizedBox(
-                            height: MediaQuery.of(context).size.height - 340,
+                            height: MediaQuery.of(context).size.height / 1.6,
                             child: ListView.builder(
                               shrinkWrap: true,
                               itemCount:
@@ -342,7 +341,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            height: 110,
+                                            height: 115,
                                             padding: const EdgeInsets.symmetric(
                                               horizontal: 10,
                                             ),
@@ -366,7 +365,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             width: 10,
                                           ),
                                           SizedBox(
-                                            height: 110,
+                                            height: 115,
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -417,8 +416,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                                     .map(
                                                                                       (e) => InkWell(
                                                                                           child: Container(
-                                                                                            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                                                                                            child: Text(e),
+                                                                                            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+                                                                                            child: Row(
+                                                                                              children: [
+                                                                                                const Icon(
+                                                                                                  Icons.delete_outline_rounded,
+                                                                                                  color: Colors.red,
+                                                                                                ),
+                                                                                                const SizedBox(
+                                                                                                  width: 10,
+                                                                                                ),
+                                                                                                Text(
+                                                                                                  e,
+                                                                                                  style: AppTextStyles.body,
+                                                                                                ),
+                                                                                              ],
+                                                                                            ),
                                                                                           ),
                                                                                           onTap: () {
                                                                                             deletePost(
@@ -485,12 +498,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               },
                                                               child: Icon(
                                                                 Icons
-                                                                    .handshake_rounded,
+                                                                    .campaign_rounded,
                                                                 color: snap['likes']
                                                                         .contains(user!
                                                                             .uid)
-                                                                    ? Colors
-                                                                        .green
+                                                                    ? Colors.red
                                                                     : Colors
                                                                         .grey,
                                                                 size: 20,
@@ -501,7 +513,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                             width: 5,
                                                           ),
                                                           Text(
-                                                            '${snap['likes'].length} upvotes',
+                                                            '${snap['likes'].length} casts',
                                                             style: AppTextStyles
                                                                 .body2,
                                                           ),
@@ -510,7 +522,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       RichText(
                                                         text: TextSpan(
                                                           style: AppTextStyles
-                                                              .body2,
+                                                              .body2
+                                                              .copyWith(
+                                                            color:
+                                                                AppColors.grey,
+                                                          ),
                                                           children: [
                                                             TextSpan(
                                                               text: DateFormat
@@ -518,19 +534,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                   .format(snap[
                                                                           'datePublished']
                                                                       .toDate()),
-                                                              style:
-                                                                  const TextStyle(
-                                                                color: AppColors
-                                                                    .grey,
-                                                              ),
                                                             ),
                                                             TextSpan(
                                                               text: ' • ',
-                                                              style:
-                                                                  const TextStyle(
-                                                                color: AppColors
-                                                                    .grey,
-                                                              ),
                                                             ),
                                                             TextSpan(
                                                               text: DateFormat
@@ -538,11 +544,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                   .format(
                                                                 snap['datePublished']
                                                                     .toDate(),
-                                                              ),
-                                                              style:
-                                                                  const TextStyle(
-                                                                color: AppColors
-                                                                    .grey,
                                                               ),
                                                             ),
                                                           ],

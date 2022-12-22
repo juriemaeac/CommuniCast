@@ -87,7 +87,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
           ),
           children: <Widget>[
             SimpleDialogOption(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                 child: const Text('Take a photo', style: AppTextStyles.body),
                 onPressed: () async {
                   Navigator.pop(context);
@@ -97,7 +97,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   });
                 }),
             SimpleDialogOption(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                 child: const Text('Choose from Gallery',
                     style: AppTextStyles.body),
                 onPressed: () async {
@@ -111,7 +111,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 SimpleDialogOption(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                   child: Text("Cancel",
                       style:
                           AppTextStyles.body.copyWith(color: AppColors.grey)),
@@ -483,7 +483,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                             width: MediaQuery.of(context).size.width,
                             height: 50,
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.3),
+                              color: Colors.white, //.withOpacity(0.3),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Row(

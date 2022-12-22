@@ -412,6 +412,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Text("I agree to the ", style: AppTextStyles.subHeadings),
                       GestureDetector(
                         onTap: () {
+                          displayTermsAndConditionDialog();
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(
@@ -525,6 +526,57 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  displayTermsAndConditionDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: AppColors.white,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          contentPadding: EdgeInsets.all(30.0),
+          //title:
+          content: Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  Text(
+                    'Terms and Conditions',
+                    style: AppTextStyles.title,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        child: Text(
+                          'I Agree',
+                          style: AppTextStyles.subHeadings,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pop(false); //Will not exit the App
+                          setState(() {
+                            checkedValue = true;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          //actions: <Widget>[],
+        );
+      },
     );
   }
 }

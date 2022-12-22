@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wesafe/codes.dart';
 import 'package:wesafe/constants.dart';
 
 class IndicatorWidget extends StatelessWidget {
@@ -24,7 +25,7 @@ class IndicatorWidget extends StatelessWidget {
               contentPadding: EdgeInsets.all(30.0),
               //title:
               content: Container(
-                height: 230,
+                height: 300,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -39,15 +40,10 @@ class IndicatorWidget extends StatelessWidget {
                         SizedBox(
                           height: 15,
                         ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: SizedBox(
-                            child: Text(
-                              text!,
-                              style: AppTextStyles.body,
-                              textAlign: TextAlign.justify,
-                            ),
-                          ),
+                        Text(
+                          text!,
+                          style: AppTextStyles.body,
+                          textAlign: TextAlign.justify,
                         ),
                         SizedBox(
                           height: 15,
@@ -122,57 +118,32 @@ class _IndicatorState extends State<Indicator> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IndicatorWidget(
-            colorCode: 'Code RED',
-            text: 'This is a code red alert. This means that there is a '
-                'dangerous situation in your area. Please stay indoors and '
-                'avoid going out. If you are outside, please return home '
-                'immediately. If you are in a car, please drive to the nearest '
-                'safe location. If you are in a building, please stay indoors '
-                'and avoid going out. ',
+            colorCode: codeRed,
+            text: codeRedDesc,
             color: Colors.red,
             icon: Icons.info_outline,
           ),
           IndicatorWidget(
-            colorCode: 'Code YELLOW',
-            text: 'This is a code yellow alert. This means that there is a '
-                'dangerous situation in your area. Please stay indoors and '
-                'avoid going out. If you are outside, please return home '
-                'immediately. If you are in a car, please drive to the nearest '
-                'safe location. If you are in a building, please stay indoors '
-                'and avoid going out. ',
+            colorCode: codeYellow,
+            text: codeYellowDesc,
             color: Colors.amber,
             icon: Icons.warning_amber_rounded,
           ),
           IndicatorWidget(
-            colorCode: 'Code BLUE',
-            text: 'This is a code blue alert. This means that there is a '
-                'dangerous situation in your area. Please stay indoors and '
-                'avoid going out. If you are outside, please return home '
-                'immediately. If you are in a car, please drive to the nearest '
-                'safe location. If you are in a building, please stay indoors '
-                'and avoid going out. ',
+            colorCode: codeBlue,
+            text: codeBlueDesc,
             color: Colors.blue,
             icon: Icons.wifi_tethering_error_rounded_rounded,
           ),
           IndicatorWidget(
-            colorCode: 'Code GREEN',
-            text: 'This is a code green alert. This means that there is a '
-                'dangerous situation in your area. Please stay indoors and '
-                'avoid going out. If you are outside, please return home '
-                'immediately. If you are in a car, please drive to the nearest '
-                'safe location. If you are in a building, please stay indoors '
-                'and avoid going out. ',
+            colorCode: codeGreen,
+            text: codeGreenDesc,
             color: Colors.green,
             icon: Icons.remove_red_eye_outlined,
           ),
           IndicatorWidget(
-            colorCode: 'Code BLACK',
-            text: 'This is a code black alert. This means that there is a '
-                'dangerous situation in your area. Please stay indoors and '
-                'avoid going out. If you are outside, please return home '
-                'immediately. If you are in a car, please drive to the nearest '
-                'safe location. If you are in a building, please stay indoors '
-                'and avoid going out. ',
+            colorCode: codeBlack,
+            text: codeBlackDesc,
             color: Colors.black,
             icon: Icons.shield_outlined,
           )

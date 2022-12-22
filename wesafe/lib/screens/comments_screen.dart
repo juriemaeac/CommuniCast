@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:wesafe/constants.dart';
 import 'package:wesafe/models/user.dart';
 import 'package:wesafe/providers/user_provider.dart';
 import 'package:wesafe/resources/firestore_methods.dart';
@@ -55,16 +56,14 @@ class _CommentsScreenState extends State<CommentsScreen> {
         backgroundColor: Colors.white,
         title: const Text(
           'Comments',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTextStyles.title1,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(
             Icons.arrow_back_ios,
-            color: Colors.black,
+            color: AppColors.black,
+            size: 20,
           ),
         ),
         centerTitle: false,
@@ -100,9 +99,17 @@ class _CommentsScreenState extends State<CommentsScreen> {
           padding: const EdgeInsets.only(left: 16, right: 8),
           child: Row(
             children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(user.photoUrl),
-                radius: 18,
+              Container(
+                height: 40,
+                width: 40,
+                color: AppColors.greyAccent,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    user.photoUrl,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
               Expanded(
                 child: Padding(
@@ -111,6 +118,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
                     controller: commentEditingController,
                     decoration: InputDecoration(
                       hintText: 'Comment as ${user.username}',
+                      hintStyle: AppTextStyles.body.copyWith(
+                        color: AppColors.grey,
+                      ),
                       border: InputBorder.none,
                     ),
                   ),
@@ -125,9 +135,12 @@ class _CommentsScreenState extends State<CommentsScreen> {
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                  child: const Text(
-                    'Post',
-                    style: TextStyle(color: Colors.blue),
+                  child: Text(
+                    'Comment',
+                    style: AppTextStyles.body.copyWith(
+                      color: AppColors.blueAccent,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               )

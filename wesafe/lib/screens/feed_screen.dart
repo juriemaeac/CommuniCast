@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:wesafe/constants.dart';
+import 'package:wesafe/responsive/mobile_screen_layout.dart';
 import 'package:wesafe/screens/search_profile_screen.dart';
 import 'package:wesafe/screens/search_screen.dart';
 import 'package:wesafe/utils/colors.dart';
@@ -20,6 +22,7 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   final TextEditingController searchController = TextEditingController();
   bool isShowUsers = false;
+  bool isTapped = false;
 
   final user = FirebaseAuth.instance.currentUser;
   Stream<QuerySnapshot<Map<String, dynamic>>> postsStream = FirebaseFirestore
@@ -74,22 +77,41 @@ class _FeedScreenState extends State<FeedScreen> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Timeline', style: TextStyle(color: Colors.black)),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.search,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          duration: const Duration(milliseconds: 500),
-                          child: const SearchScreen(),
+                  Row(
+                    children: [
+                      Image(
+                          image: AssetImage('assets/images/CommuniCast.png'),
+                          height: 20),
+                      SizedBox(width: 5),
+                      Text(
+                        'CommuniCast',
+                        style: AppTextStyles.title1.copyWith(
+                          color: AppColors.blueAccent,
                         ),
-                      );
-                    },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                duration: const Duration(milliseconds: 500),
+                                child: const SearchScreen(),
+                              ),
+                            );
+                          });
+                        },
+                        child: Icon(
+                          Icons.search,
+                          color: AppColors.grey,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:wesafe/codes.dart';
 import 'package:wesafe/constants.dart';
 import 'package:wesafe/models/user.dart' as model;
 import 'package:wesafe/providers/user_provider.dart';
@@ -15,6 +18,7 @@ import 'package:provider/provider.dart';
 
 class PostCard extends StatefulWidget {
   final snap;
+
   const PostCard({
     Key? key,
     required this.snap,
@@ -70,19 +74,29 @@ class _PostCardState extends State<PostCard> {
     String indicator = widget.snap['indicator'];
     var icon = 61242;
     Color color = Colors.white;
+    String codeTitle = '';
+    String codeDescription = '';
 
     if (indicator == 'CODE RED') {
       icon = 57912;
       color = Colors.red;
+      codeTitle = codeRed;
+      codeDescription = codeRedDesc;
     } else if (indicator == 'CODE AMBER') {
       icon = 983712;
       color = Colors.amber;
+      codeTitle = codeYellow;
+      codeDescription = codeYellowDesc;
     } else if (indicator == 'CODE BLUE') {
       icon = 983744;
       color = Colors.blue;
+      codeTitle = codeBlue;
+      codeDescription = codeBlueDesc;
     } else if (indicator == 'CODE GREEN') {
       icon = 983699;
       color = Colors.green;
+      codeTitle = codeGreen;
+      codeDescription = codeGreenDesc;
     } else if (indicator == 'CODE BLACK') {
       icon = 62784;
       color = Colors.black;
@@ -91,17 +105,17 @@ class _PostCardState extends State<PostCard> {
     return Container(
       // boundary needed for web
       decoration: BoxDecoration(
-        border: Border.symmetric(
-          horizontal: BorderSide(
-            color: width > webScreenSize
-                ? AppColors.greyAccentLine
-                : AppColors.greyAccentLine,
-          ),
-        ),
+        // border: Border.symmetric(
+        //   horizontal: BorderSide(
+        //     color: width > webScreenSize
+        //         ? AppColors.greyAccentLine
+        //         : AppColors.greyAccentLine,
+        //   ),
+        // ),
         color: Colors.white,
       ),
-      padding: const EdgeInsets.symmetric(
-        vertical: 10,
+      padding: const EdgeInsets.only(
+        bottom: 5,
       ),
       child: Column(
         children: [
@@ -113,10 +127,22 @@ class _PostCardState extends State<PostCard> {
             ).copyWith(right: 0),
             child: Row(
               children: <Widget>[
-                CircleAvatar(
-                  radius: 16,
-                  backgroundImage: NetworkImage(
-                    widget.snap['profImage'].toString(),
+                // CircleAvatar(
+                //   radius: 16,
+                //   backgroundImage: NetworkImage(
+                //     widget.snap['profImage'].toString(),
+                //   ),
+                // ),
+                Container(
+                  height: 40,
+                  width: 40,
+                  color: AppColors.greyAccent,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      widget.snap['profImage'].toString(),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Expanded(
@@ -136,16 +162,15 @@ class _PostCardState extends State<PostCard> {
                               ),
                             ),
                           ),
-                          child: Text(
-                            widget.snap['username'].toString(),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          child: Text(widget.snap['username'].toString(),
+                              style: AppTextStyles.body.copyWith(
+                                fontWeight: FontWeight.bold,
+                              )),
                         ),
                         Text('${widget.snap['location']}',
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.blueAccent)),
+                            style: AppTextStyles.body2.copyWith(
+                              color: AppColors.grey,
+                            )),
                       ],
                     ),
                   ),
@@ -170,9 +195,24 @@ class _PostCardState extends State<PostCard> {
                                               child: Container(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                        vertical: 12,
+                                                        vertical: 5,
                                                         horizontal: 16),
-                                                child: Text(e),
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(
+                                                      Icons
+                                                          .delete_outline_rounded,
+                                                      color: Colors.red,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Text(
+                                                      e,
+                                                      style: AppTextStyles.body,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                               onTap: () {
                                                 deletePost(
@@ -188,13 +228,13 @@ class _PostCardState extends State<PostCard> {
                             },
                           );
                         },
-                        icon: const Icon(Icons.more_vert),
+                        icon: const Icon(Icons.more_vert,
+                            color: AppColors.grey, size: 15),
                       )
                     : Container(),
               ],
             ),
           ),
-
           // IMAGE SECTION OF THE POST
           GestureDetector(
             onDoubleTap: () {
@@ -223,11 +263,6 @@ class _PostCardState extends State<PostCard> {
                   opacity: isLikeAnimating ? 1 : 0,
                   child: LikeAnimation(
                     isAnimating: isLikeAnimating,
-                    child: const Icon(
-                      Icons.favorite,
-                      color: Colors.white,
-                      size: 100,
-                    ),
                     duration: const Duration(
                       milliseconds: 400,
                     ),
@@ -236,55 +271,199 @@ class _PostCardState extends State<PostCard> {
                         isLikeAnimating = false;
                       });
                     },
+                    child: const Icon(
+                      Icons.campaign_rounded,
+                      color: Colors.white,
+                      size: 100,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
           // LIKE, COMMENT SECTION OF THE POST
-          Row(
-            children: <Widget>[
-              LikeAnimation(
-                isAnimating: widget.snap['likes'].contains(user.uid),
-                smallLike: true,
-                child: IconButton(
-                  icon: widget.snap['likes'].contains(user.uid)
-                      ? const Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                        )
-                      : const Icon(
-                          Icons.favorite_border,
-                        ),
-                  onPressed: () => FireStoreMethods().likePost(
-                    widget.snap['postId'].toString(),
-                    user.uid,
-                    widget.snap['likes'],
-                  ),
-                ),
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.comment_outlined,
-                ),
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CommentsScreen(
-                      postId: widget.snap['postId'].toString(),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
+            child: Row(
+              children: <Widget>[
+                LikeAnimation(
+                  isAnimating: widget.snap['likes'].contains(user.uid),
+                  smallLike: true,
+                  child: GestureDetector(
+                    onTap: () {
+                      FireStoreMethods().likePost(
+                        widget.snap['postId'].toString(),
+                        user.uid,
+                        widget.snap['likes'],
+                      );
+                    },
+                    child: Icon(
+                      Icons.campaign_rounded,
+                      color: widget.snap['likes'].contains(user.uid)
+                          ? Colors.red
+                          : Colors.grey,
+                      size: 20,
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                  child: Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Icon(IconData(icon, fontFamily: 'MaterialIcons'),
-                      size: 20.0, color: color),
+                const SizedBox(width: 5),
+                Text(
+                  '${widget.snap['likes'].length} casts',
+                  style: AppTextStyles.body2,
                 ),
-              ))
-            ],
+                const SizedBox(width: 20),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CommentsScreen(
+                          postId: widget.snap['postId'].toString(),
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Icon(
+                    Icons.comment_rounded,
+                    size: 20,
+                    color: AppColors.grey,
+                  ),
+                ),
+                const SizedBox(width: 5),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CommentsScreen(
+                          postId: widget.snap['postId'].toString(),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    '$commentLen comments',
+                    style: AppTextStyles.body2,
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        //if code red show dialog
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              backgroundColor: AppColors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0))),
+                              contentPadding: EdgeInsets.all(30.0),
+                              //title:
+                              content: Container(
+                                height: 300,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text(
+                                          codeTitle,
+                                          style: AppTextStyles.title.copyWith(
+                                            color: color,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Text(
+                                          codeDescription,
+                                          style: AppTextStyles.body,
+                                          textAlign: TextAlign.justify,
+                                        ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context).pop(
+                                                  false); //Will not exit the App
+                                            },
+                                            child: Text(
+                                              'OK',
+                                              style:
+                                                  AppTextStyles.body.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                  ],
+                                ),
+                              ),
+                              // actions: <Widget>[
+                              //   // ignore: deprecated_member_use
+                              //   TextButton(
+                              //     child: Text(
+                              //       'OK',
+                              //       style: TextStyle(
+                              //           fontSize: 15,
+                              //           fontWeight: FontWeight.bold,
+                              //           color: Colors.blueGrey),
+                              //     ),
+                              //     onPressed: () {
+                              //       Navigator.of(context).pop(false); //Will not exit the App
+                              //     },
+                              //   ),
+                              // ],
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 5.0),
+                        width: MediaQuery.of(context).size.width / 3.5,
+                        decoration: BoxDecoration(
+                          color: color,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                          horizontal: 4,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              IconData(icon, fontFamily: 'MaterialIcons'),
+                              color: AppColors.white,
+                              size: 15,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              indicator,
+                              style: AppTextStyles.body1.copyWith(
+                                color: AppColors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
           //DESCRIPTION AND NUMBER OF COMMENTS
           Container(
@@ -293,88 +472,84 @@ class _PostCardState extends State<PostCard> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                DefaultTextStyle(
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle2!
-                        .copyWith(fontWeight: FontWeight.w800),
-                    child: Text(
-                      '${widget.snap['likes'].length} likes',
-                      style: Theme.of(context).textTheme.bodyText2,
-                    )),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.only(
-                    top: 8,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
                   ),
-                  child: RichText(
-                    text: TextSpan(
-                      style: const TextStyle(color: primaryColor),
-                      children: [
-                        TextSpan(
-                          text: widget.snap['username'].toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.black,
-                          ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.snap['title'],
+                        style: AppTextStyles.body2.copyWith(
+                          color: AppColors.black,
+                          fontWeight: FontWeight.bold,
                         ),
-                        TextSpan(
-                          text: ' ${widget.snap['description']}',
-                          style: const TextStyle(
-                            color: AppColors.black,
-                          ),
+                      ),
+                      Text(
+                        widget.snap['description'],
+                        style: AppTextStyles.body2.copyWith(
+                          color: AppColors.black,
                         ),
-                      ],
-                    ),
+                      ),
+                      // RichText(
+                      //   text: TextSpan(
+                      //     style: const TextStyle(color: primaryColor),
+                      //     children: [
+                      //       TextSpan(
+                      //         text: widget.snap['username'].toString(),
+                      //         style: AppTextStyles.body2.copyWith(
+                      //           color: AppColors.black,
+                      //           fontWeight: FontWeight.bold,
+                      //         ),
+                      //       ),
+                      //       TextSpan(
+                      //         text: ' ${widget.snap['description']}',
+                      //         style: AppTextStyles.body2.copyWith(
+                      //           color: AppColors.black,
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                    ],
                   ),
                 ),
-                InkWell(
-                  child: Container(
-                    child: Text(
-                      'View all $commentLen comments',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: secondaryColor,
-                      ),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                  ),
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => CommentsScreen(
-                        postId: widget.snap['postId'].toString(),
-                      ),
-                    ),
-                  ),
-                ),
+
+                //DATE OF POST
                 Container(
-                  child: RichText(
-                    text: TextSpan(
-                      style: const TextStyle(
-                        color: secondaryColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: DateFormat.jm()
-                              .format(widget.snap['datePublished'].toDate()),
-                          style: const TextStyle(
-                            color: secondaryColor,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          style: AppTextStyles.body2.copyWith(
+                            color: AppColors.grey,
                           ),
+                          children: [
+                            TextSpan(
+                              text: DateFormat.jm().format(
+                                  widget.snap['datePublished'].toDate()),
+                            ),
+                            const TextSpan(
+                              text: ' • ',
+                            ),
+                            TextSpan(
+                              text: DateFormat.yMMMd().format(
+                                  widget.snap['datePublished'].toDate()),
+                            ),
+                          ],
                         ),
-                        TextSpan(
-                          text: ' • ',
-                        ),
-                        TextSpan(
-                          text: DateFormat.yMMMd()
-                              .format(widget.snap['datePublished'].toDate()),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-          )
+          ),
+          SizedBox(height: 5),
+          const Divider(),
         ],
       ),
     );
