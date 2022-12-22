@@ -349,80 +349,103 @@ class _PostCardState extends State<PostCard> {
                     alignment: Alignment.bottomRight,
                     child: GestureDetector(
                       onTap: () {
-                        //if code red show dialog
                         showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
                               backgroundColor: AppColors.white,
-                              shape: RoundedRectangleBorder(
+                              shape: const RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20.0))),
-                              contentPadding: EdgeInsets.all(30.0),
+                              contentPadding: const EdgeInsets.only(
+                                  top: 30.0, right: 30, left: 30),
                               //title:
                               content: Container(
-                                height: 300,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Text(
-                                          codeTitle,
-                                          style: AppTextStyles.title.copyWith(
-                                            color: color,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                          codeDescription,
-                                          style: AppTextStyles.body,
-                                          textAlign: TextAlign.justify,
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.35,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
                                         children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context).pop(
-                                                  false); //Will not exit the App
-                                            },
-                                            child: Text(
-                                              'OK',
-                                              style:
-                                                  AppTextStyles.body.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                          Text(
+                                            codeTitle,
+                                            style: AppTextStyles.title.copyWith(
+                                              color: color,
                                             ),
                                           ),
-                                        ]),
-                                  ],
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text(
+                                            codeDescription,
+                                            style: AppTextStyles.body,
+                                            textAlign: TextAlign.justify,
+                                          ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                        ],
+                                      ),
+                                      // Row(
+                                      //     mainAxisAlignment:
+                                      //         MainAxisAlignment.end,
+                                      //     children: [
+                                      //       GestureDetector(
+                                      //         onTap: () {
+                                      //           Navigator.of(context).pop(
+                                      //               false); //Will not exit the App
+                                      //         },
+                                      //         child: Text(
+                                      //           'OK',
+                                      //           style:
+                                      //               AppTextStyles.body.copyWith(
+                                      //             fontWeight: FontWeight.bold,
+                                      //           ),
+                                      //         ),
+                                      //       ),
+                                      //     ]),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              // actions: <Widget>[
-                              //   // ignore: deprecated_member_use
-                              //   TextButton(
-                              //     child: Text(
-                              //       'OK',
-                              //       style: TextStyle(
-                              //           fontSize: 15,
-                              //           fontWeight: FontWeight.bold,
-                              //           color: Colors.blueGrey),
-                              //     ),
-                              //     onPressed: () {
-                              //       Navigator.of(context).pop(false); //Will not exit the App
-                              //     },
-                              //   ),
-                              // ],
+                              actions: <Widget>[
+                                // ignore: deprecated_member_use
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .pop(false); //Will not exit the App
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      right: 30.0,
+                                      bottom: 20,
+                                    ),
+                                    child: Text(
+                                      'OK',
+                                      style: AppTextStyles.body.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // TextButton(
+                                //   child: Text(
+                                //     'OK',
+                                //     style: TextStyle(
+                                //         fontSize: 15,
+                                //         fontWeight: FontWeight.bold,
+                                //         color: Colors.blueGrey),
+                                //   ),
+                                //   onPressed: () {
+                                //     Navigator.of(context)
+                                //         .pop(false); //Will not exit the App
+                                //   },
+                                // ),
+                              ],
                             );
                           },
                         );
