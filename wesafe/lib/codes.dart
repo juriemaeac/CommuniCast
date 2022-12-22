@@ -1,40 +1,19 @@
 String codeRed = 'Code RED';
-String codeRedDesc = 'This is a code red alert. This means that there is a '
-    'dangerous situation in your area. Please stay indoors and '
-    'avoid going out. If you are outside, please return home '
-    'immediately. If you are in a car, please drive to the nearest '
-    'safe location. If you are in a building, please stay indoors '
-    'and avoid going out. ';
+String codeRedDesc =
+    'Fire / Smoke Alarm, or Actual Fire Condition\n\nThis is a code red alert. Prepare to evacuate immediate area as needed. Office staff to exit work area, close all doors, remain in hallway and await further instruction or all clear. Do not use elevators\n\nRACE: Rescue those in danger. Alarm, Pull fire alarm & notify Switchboard. Confine, close all doors. Extinguish, use extinguisher on small fires. ';
 
 String codeYellow = 'Code YELLOW';
 String codeYellowDesc =
-    'This is a code yellow alert. This means that there is a '
-    'dangerous situation in your area. Please stay indoors and '
-    'avoid going out. If you are outside, please return home '
-    'immediately. If you are in a car, please drive to the nearest '
-    'safe location. If you are in a building, please stay indoors '
-    'and avoid going out. ';
+    'Child or Infant Missing, or Abducted\n\nStaff working near an exit should monitor exit for any infant/child departing. Include suspect items that a infant/child could be concealed in Ie: (duffle bag, box, suitcase etc). Report all concerns to Operator @ 4911. \nAll available staff to report to Switchboard. Security will issue radios and instruction for staff to watch specific exits & will provide description of missing infant/child. \nSecurity will notify police & coordinate facility search using available personnel. ';
 
 String codeBlue = 'Code BLUE';
-String codeBlueDesc = 'This is a code blue alert. This means that there is a '
-    'dangerous situation in your area. Please stay indoors and '
-    'avoid going out. If you are outside, please return home '
-    'immediately. If you are in a car, please drive to the nearest '
-    'safe location. If you are in a building, please stay indoors '
-    'and avoid going out. ';
+String codeBlueDesc =
+    'Medical Emergency\n\nPatient Condition Deteriorating: \nRapid Response Team to respond to location. Clinical Unit to move crash cart to area in need. Security to relocate visitors & family from immediate area.\n\nCardiac or Respiratory Emergency: \nCode Blue Team to respond to location. Clinical Unit to move crash cart to area in need. Security to relocate visitors & family from immediate area.\n\nStroke Emergency:\nCode Stroke Team to respond to location. Clinical Unit to move crash cart to area in need. Security to relocate visitors & family from immediate area.\n\nPediatric Medical Emergency: \nCode White Team to respond to location. Clinical Unit to move crash cart to area in need. Security to relocate visitors & family from immediate area.\n\nPsychiatric Emergency:\nPsychiatric Response Team responds to incident; All available Mental Health staff; Psychiatric provider, Mental Health Management, Social workers, Activities Therapist, Psychologist and Security. After Hours to include the Nursing Supervisor and Hospitalist. ';
 
 String codeGreen = 'Code GREEN';
-String codeGreenDesc = 'This is a code green alert. This means that there is a '
-    'dangerous situation in your area. Please stay indoors and '
-    'avoid going out. If you are outside, please return home '
-    'immediately. If you are in a car, please drive to the nearest '
-    'safe location. If you are in a building, please stay indoors '
-    'and avoid going out. ';
+String codeGreenDesc =
+    'Hazardous Materials Incident and Evacuate Announced Location\n\nImmediately evacuate the announced area. Patients should be moved laterally to another Unit on same floor. Or evacuated to announced location or staging area. Office occupants to evacuate as instructed.\n\nHazmat Incident or Multi Patient Decontamination Needed.\n\nPotentially dangerous chemical, biological, radioactive or nuclear spill or release within the community or within the building.\nIf inside the building, staff to stay away from the location. \nIf outside the building, (transportation or train derailment) staff to close all windows & doors. Engineering to shut off HVAC systems & seal intake vents if safe to do so. Do not go outside. \nIf Multi-Patient Decontamination Incident. Emergency Coordinator, Nursing Supervisor or Security to establish code HICS as needed. All available manpower should respond to announced rally location to assist. ';
 
 String codeBlack = 'Code BLACK';
-String codeBlackDesc = 'This is a code black alert. This means that there is a '
-    'dangerous situation in your area. Please stay indoors and '
-    'avoid going out. If you are outside, please return home '
-    'immediately. If you are in a car, please drive to the nearest '
-    'safe location. If you are in a building, please stay indoors '
-    'and avoid going out. ';
+String codeBlackDesc =
+    'Weather Warning\n\nHigh Wind or Tornado Warning: \nWinds in excess of 75 mph expected on site within 10 minutes or less. \n\nLimit persons from exiting the facility, Stay away from large glass windows Ie: (cafeteria & lobbies) \n\nClose room blinds & curtains to minimize glass shrapnel. Close all doors until all clear is announced. ';
