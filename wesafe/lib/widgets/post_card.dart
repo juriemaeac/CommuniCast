@@ -453,7 +453,7 @@ class _PostCardState extends State<PostCard> {
                       },
                       child: Container(
                         // margin: const EdgeInsets.only(top: 5.0),
-                        width: MediaQuery.of(context).size.width / 3.8,
+                        width: MediaQuery.of(context).size.width / 3.7,
                         decoration: BoxDecoration(
                           color: color,
                           borderRadius: BorderRadius.circular(10),

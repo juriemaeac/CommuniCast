@@ -44,22 +44,26 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
                     style: AppTextStyles.body.copyWith(),
                     children: <TextSpan>[
                       TextSpan(
-                        text: ' Terms and Conditions ',
+                        text: ' Terms and Conditions',
                         style: AppTextStyles.body.copyWith(
                           decoration: TextDecoration.underline,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const TextSpan(
-                        text: 'and ',
+                        text: ' and ',
                         style: AppTextStyles.body,
                       ),
                       TextSpan(
-                        text: ' Privacy Policy.',
+                        text: ' Privacy Policy',
                         style: AppTextStyles.body.copyWith(
                           decoration: TextDecoration.underline,
                           fontWeight: FontWeight.bold,
                         ),
+                      ),
+                      const TextSpan(
+                        text: '.',
+                        style: AppTextStyles.body,
                       ),
                     ],
                   ),

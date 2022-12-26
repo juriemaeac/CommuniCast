@@ -11,6 +11,7 @@ import 'package:wesafe/screens/forgotPass.dart';
 import 'package:wesafe/screens/privacy_screen.dart';
 import 'package:wesafe/screens/profile_screen.dart';
 import 'package:wesafe/screens/tc_screen.dart';
+import 'package:wesafe/widgets/settings_buttons.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -20,20 +21,20 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  var nameArray = [
-    'Change Password',
-    'Terms and Conditions',
-    'Privacy Policy',
-    'Contact Us',
-    'About CommuniCast',
-  ];
-  List<Route> historicalfigures = [
-    MaterialPageRoute(builder: (_) => const ForgotPassword()),
-    MaterialPageRoute(builder: (_) => const TermsAndCondition()),
-    MaterialPageRoute(builder: (_) => const PrivacyPolicyScreen()),
-    MaterialPageRoute(builder: (_) => const ContactUsScreen()),
-    MaterialPageRoute(builder: (_) => const AboutScreen()),
-  ];
+  // var nameArray = [
+  //   'Change Password',
+  //   'Terms and Conditions',
+  //   'Privacy Policy',
+  //   'Contact Us',
+  //   'About CommuniCast',
+  // ];
+  // List<Route> historicalfigures = [
+  //   MaterialPageRoute(builder: (_) => const ForgotPassword()),
+  //   MaterialPageRoute(builder: (_) => const TermsAndCondition()),
+  //   MaterialPageRoute(builder: (_) => const PrivacyPolicyScreen()),
+  //   MaterialPageRoute(builder: (_) => const ContactUsScreen()),
+  //   MaterialPageRoute(builder: (_) => const AboutScreen()),
+  // ];
   @override
   Widget build(BuildContext context) {
     List<Route> myRoute = [];
@@ -55,40 +56,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           },
         ),
       ),
-      body: SafeArea(
+      body: const SafeArea(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: ListView.builder(
-                  itemCount: nameArray.length,
-                  itemBuilder: (BuildContext context, index) {
-                    return GestureDetector(
-                      child: ListTile(
-                        title: Text(
-                          nameArray[index],
-                          style: AppTextStyles.body,
-                        ),
-                        trailing: const Icon(Icons.arrow_forward_ios_rounded),
-                        onTap: () {
-                          Future.delayed(Duration(milliseconds: 300), () {
-                            Navigator.push(context, historicalfigures[index]);
-                          });
-                          // WidgetsBinding.instance.addPostFrameCallback((_) {
-                          //   Navigator.push(context, historicalfigures[index]);
-                          // });
-                          //Navigator.of(context).push(historicalfigures[index]);
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
+          child: SettingsButtons(),
         ),
       ),
     );

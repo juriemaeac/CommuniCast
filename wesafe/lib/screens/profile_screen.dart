@@ -359,7 +359,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Container(
-                                                height: 110,
+                                                height: 115,
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                   horizontal: 10,
@@ -387,7 +387,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 width: 10,
                                               ),
                                               SizedBox(
-                                                height: 110,
+                                                height: 115,
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
