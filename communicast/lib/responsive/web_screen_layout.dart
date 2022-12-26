@@ -1,3 +1,4 @@
+import 'package:communicast/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:communicast/utils/colors.dart';
@@ -46,10 +47,18 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         centerTitle: false,
-        title: SvgPicture.asset(
-          'assets/ic_instagram.svg',
-          color: primaryColor,
-          height: 32,
+        title: Row(
+          children: [
+            Image(
+                image: AssetImage('assets/images/CommuniCast.png'), height: 20),
+            SizedBox(width: 5),
+            Text(
+              'CommuniCast',
+              style: AppTextStyles.title1.copyWith(
+                color: AppColors.blueAccent,
+              ),
+            ),
+          ],
         ),
         actions: [
           IconButton(
