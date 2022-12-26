@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wesafe/constants.dart';
 import 'package:wesafe/models/user.dart';
 import 'package:wesafe/providers/user_provider.dart';
 import 'package:wesafe/resources/firestore_methods.dart';
+import 'package:wesafe/responsive/mobile_screen_layout.dart';
+import 'package:wesafe/responsive/responsive_layout.dart';
+import 'package:wesafe/responsive/web_screen_layout.dart';
 import 'package:wesafe/utils/colors.dart';
 import 'package:wesafe/utils/utils.dart';
 import 'package:wesafe/widgets/comment_card.dart';
@@ -18,6 +22,8 @@ class CommentsScreen extends StatefulWidget {
 }
 
 class _CommentsScreenState extends State<CommentsScreen> {
+  bool isLatest = false;
+  bool isOldest = true;
   final TextEditingController commentEditingController =
       TextEditingController();
 
@@ -54,12 +60,96 @@ class _CommentsScreenState extends State<CommentsScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        title: const Text(
-          'Comments',
-          style: AppTextStyles.title1,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Comments',
+              style: AppTextStyles.title1,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                  // /width: MediaQuery.of(context).size.width / 2.5,
+                  decoration: BoxDecoration(
+                    color: AppColors.greyAccent,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isLatest = true;
+                            isOldest = false;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: isLatest
+                                ? AppColors.blueAccent
+                                : AppColors.greyAccent,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Text('Latest',
+                              style: AppTextStyles.body1.copyWith(
+                                  color: isLatest
+                                      ? AppColors.greyAccent
+                                      : AppColors.blueAccent,
+                                  fontWeight:
+                                      isLatest ? FontWeight.bold : null)),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isLatest = false;
+                            isOldest = true;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: isOldest
+                                ? AppColors.blueAccent
+                                : AppColors.greyAccent,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Text('Oldest',
+                              style: AppTextStyles.body1.copyWith(
+                                  color: isOldest
+                                      ? AppColors.greyAccent
+                                      : AppColors.blueAccent,
+                                  fontWeight:
+                                      isOldest ? FontWeight.bold : null)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.topToBottom,
+                  duration: const Duration(milliseconds: 200),
+                  child: ResponsiveLayout(
+                    mobileScreenLayout: MobileScreenLayout(),
+                    webScreenLayout: WebScreenLayout(),
+                  ),
+                ));
+          },
           icon: const Icon(
             Icons.arrow_back_ios,
             color: AppColors.black,
@@ -69,11 +159,19 @@ class _CommentsScreenState extends State<CommentsScreen> {
         centerTitle: true,
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('posts')
-            .doc(widget.postId)
-            .collection('comments')
-            .snapshots(),
+        stream: isLatest
+            ? FirebaseFirestore.instance
+                .collection('posts')
+                .doc(widget.postId)
+                .collection('comments')
+                .orderBy("datePublished", descending: true)
+                .snapshots()
+            : FirebaseFirestore.instance
+                .collection('posts')
+                .doc(widget.postId)
+                .collection('comments')
+                .orderBy("datePublished", descending: false)
+                .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

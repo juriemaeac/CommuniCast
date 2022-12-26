@@ -8,10 +8,14 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:super_tooltip/super_tooltip.dart';
 import 'package:wesafe/constants.dart';
 import 'package:wesafe/providers/user_provider.dart';
 import 'package:wesafe/resources/firestore_methods.dart';
+import 'package:wesafe/responsive/mobile_screen_layout.dart';
+import 'package:wesafe/responsive/responsive_layout.dart';
+import 'package:wesafe/responsive/web_screen_layout.dart';
 import 'package:wesafe/utils/colors.dart';
 import 'package:wesafe/utils/utils.dart';
 import 'package:wesafe/widgets/indicators.dart';
@@ -87,7 +91,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
           ),
           children: <Widget>[
             SimpleDialogOption(
-                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                padding: const EdgeInsets.all(20),
                 child: const Text('Take a photo', style: AppTextStyles.body),
                 onPressed: () async {
                   Navigator.pop(context);
@@ -97,7 +101,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   });
                 }),
             SimpleDialogOption(
-                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                padding: const EdgeInsets.all(20),
                 child: const Text('Choose from Gallery',
                     style: AppTextStyles.body),
                 onPressed: () async {
@@ -158,6 +162,16 @@ class _AddPostScreenState extends State<AddPostScreen> {
           setState(() {
             isLoading = false;
           });
+          Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.fade,
+                duration: const Duration(milliseconds: 500),
+                child: ResponsiveLayout(
+                  mobileScreenLayout: MobileScreenLayout(),
+                  webScreenLayout: WebScreenLayout(),
+                ),
+              ));
           showSnackBar(
             context,
             'Posted!',
@@ -248,6 +262,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     print("FETCHING DATA!!!!!!!!!!");
     await FirebaseFirestore.instance
         .collection('posts')
+        .orderBy('datePublished', descending: true)
         .get()
         .then((querySnapshot) {
       querySnapshot.docs.forEach((result) {
@@ -324,7 +339,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
             content: Material(
               child: Container(
                 width: 200,
-                height: 30,
+                height: 40,
                 decoration: BoxDecoration(
                   color: color,
                 ),

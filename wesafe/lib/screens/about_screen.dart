@@ -93,7 +93,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   textAlign: TextAlign.justify,
                 ),
                 Text(
-                  'Code YELLOW:',
+                  'Code AMBER:',
                   style: AppTextStyles.body.copyWith(
                     fontWeight: FontWeight.bold,
                   ),

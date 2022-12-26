@@ -2,9 +2,9 @@ String codeRed = 'Code RED';
 String codeRedDesc =
     'Fire / Smoke Alarm, or Actual Fire Condition\n\nThis is a code red alert. Prepare to evacuate immediate area as needed. Office staff to exit work area, close all doors, remain in hallway and await further instruction or all clear. Do not use elevators\n\nRACE: Rescue those in danger. Alarm, Pull fire alarm & notify Switchboard. Confine, close all doors. Extinguish, use extinguisher on small fires. ';
 
-String codeYellow = 'Code YELLOW';
-String codeYellowDesc =
-    'Child or Infant Missing, or Abducted\n\nStaff working near an exit should monitor exit for any infant/child departing. Include suspect items that a infant/child could be concealed in Ie: (duffle bag, box, suitcase etc). Report all concerns to Operator @ 4911. \nAll available staff to report to Switchboard. Security will issue radios and instruction for staff to watch specific exits & will provide description of missing infant/child. \nSecurity will notify police & coordinate facility search using available personnel. ';
+String codeAmber = 'Code AMBER';
+String codeAmberDesc =
+    'Child or Infant Missing, or Abducted\n\nStaff working near an exit should monitor exit for any infant/child departing. Include suspect items that a infant/child could be concealed in Ie: (duffle bag, box, suitcase etc). \nAll available staff to report to Switchboard. Security will issue radios and instruction for staff to watch specific exits & will provide description of missing infant/child. \nSecurity will notify police & coordinate facility search using available personnel. ';
 
 String codeBlue = 'Code BLUE';
 String codeBlueDesc =

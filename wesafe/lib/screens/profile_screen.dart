@@ -107,6 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )
         : Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               backgroundColor: Colors.white,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -178,10 +179,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             user!.uid
                                         ? FollowButton(
                                             text: 'Sign Out',
-                                            backgroundColor:
-                                                AppColors.greyAccent,
-                                            textColor: AppColors.grey,
-                                            borderColor: Colors.transparent,
+                                            backgroundColor: AppColors.white,
+                                            textColor: AppColors.black,
+                                            borderColor: AppColors.grey,
                                             function: () async {
                                               await AuthMethods().signOut();
                                               Navigator.of(context)
@@ -198,7 +198,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 text: 'Unfollow',
                                                 backgroundColor: Colors.white,
                                                 textColor: AppColors.black,
-                                                borderColor: AppColors.grey,
+                                                borderColor:
+                                                    AppColors.greyAccentLine,
                                                 function: () async {
                                                   await FireStoreMethods()
                                                       .followUser(
@@ -305,309 +306,325 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           if (snapshot.data != null) {
-                            return SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: SizedBox(
+                            if ((snapshot.data! as dynamic).docs.length == 0) {
+                              return SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height - 340,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount:
-                                      (snapshot.data! as dynamic).docs.length,
-                                  itemBuilder: (context, index) {
-                                    DocumentSnapshot snap =
-                                        (snapshot.data! as dynamic).docs[index];
+                                child: Center(
+                                  child: Text(
+                                    'No posts yet',
+                                    style: AppTextStyles.body,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child: SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height - 340,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount:
+                                        (snapshot.data! as dynamic).docs.length,
+                                    itemBuilder: (context, index) {
+                                      DocumentSnapshot snap =
+                                          (snapshot.data! as dynamic)
+                                              .docs[index];
 
-                                    String indicator = snap['indicator'];
-                                    var icon = 61242;
-                                    Color color = Colors.white;
+                                      String indicator = snap['indicator'];
+                                      var icon = 61242;
+                                      Color color = Colors.white;
 
-                                    if (indicator == 'CODE RED') {
-                                      icon = 57912;
-                                      color = Colors.red;
-                                    } else if (indicator == 'CODE AMBER') {
-                                      icon = 983712;
-                                      color = Colors.amber;
-                                    } else if (indicator == 'CODE BLUE') {
-                                      icon = 983744;
-                                      color = Colors.blue;
-                                    } else if (indicator == 'CODE GREEN') {
-                                      icon = 983699;
-                                      color = Colors.green;
-                                    } else if (indicator == 'CODE BLACK') {
-                                      icon = 62784;
-                                      color = Colors.black;
-                                    }
+                                      if (indicator == 'CODE RED') {
+                                        icon = 57912;
+                                        color = Colors.red;
+                                      } else if (indicator == 'CODE AMBER') {
+                                        icon = 983712;
+                                        color = Colors.amber;
+                                      } else if (indicator == 'CODE BLUE') {
+                                        icon = 983744;
+                                        color = Colors.blue;
+                                      } else if (indicator == 'CODE GREEN') {
+                                        icon = 983699;
+                                        color = Colors.green;
+                                      } else if (indicator == 'CODE BLACK') {
+                                        icon = 62784;
+                                        color = Colors.black;
+                                      }
 
-                                    return Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                height: 115,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 10,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(10),
-                                                    bottomLeft:
-                                                        Radius.circular(10),
+                                      return Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  height: 115,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 10,
                                                   ),
-                                                  color: color,
-                                                ),
-                                                child: Icon(
-                                                  IconData(
-                                                    icon,
-                                                    fontFamily: 'MaterialIcons',
-                                                  ),
-                                                  color: AppColors.white,
-                                                  size: 25,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              SizedBox(
-                                                height: 115,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: width - 85,
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Text(
-                                                                  snap['title'],
-                                                                  style: AppTextStyles
-                                                                      .body
-                                                                      .copyWith(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    //color: color,
-                                                                  )),
-                                                              snap['uid'].toString() ==
-                                                                      user!.uid
-                                                                  ? GestureDetector(
-                                                                      onTap:
-                                                                          () {
-                                                                        showDialog(
-                                                                            useRootNavigator:
-                                                                                false,
-                                                                            context:
-                                                                                context,
-                                                                            builder:
-                                                                                (context) {
-                                                                              return Dialog(
-                                                                                child: ListView(
-                                                                                    padding: const EdgeInsets.symmetric(vertical: 16),
-                                                                                    shrinkWrap: true,
-                                                                                    children: [
-                                                                                      'Delete',
-                                                                                    ]
-                                                                                        .map(
-                                                                                          (e) => InkWell(
-                                                                                              child: Container(
-                                                                                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                                                                                                child: Text(e),
-                                                                                              ),
-                                                                                              onTap: () {
-                                                                                                deletePost(
-                                                                                                  snap['postId'].toString(),
-                                                                                                );
-                                                                                                // remove the dialog box
-                                                                                                Navigator.of(context).pop();
-                                                                                              }),
-                                                                                        )
-                                                                                        .toList()),
-                                                                              );
-                                                                            });
-                                                                      },
-                                                                      child:
-                                                                          Icon(
-                                                                        Icons
-                                                                            .more_vert,
-                                                                        color: Colors
-                                                                            .grey,
-                                                                        size:
-                                                                            15,
-                                                                      ),
-                                                                    )
-                                                                  : Container(),
-                                                            ],
-                                                          ),
-                                                          Text(
-                                                            snap['description'],
-                                                            maxLines: 2,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: AppTextStyles
-                                                                .body2,
-                                                          ),
-                                                        ],
-                                                      ),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(10),
+                                                      bottomLeft:
+                                                          Radius.circular(10),
                                                     ),
-                                                    SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width -
-                                                              85,
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              LikeAnimation(
-                                                                isAnimating: snap[
-                                                                        'likes']
-                                                                    .contains(
+                                                    color: color,
+                                                  ),
+                                                  child: Icon(
+                                                    IconData(
+                                                      icon,
+                                                      fontFamily:
+                                                          'MaterialIcons',
+                                                    ),
+                                                    color: AppColors.white,
+                                                    size: 25,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                SizedBox(
+                                                  height: 115,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: width - 85,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Text(
+                                                                    snap[
+                                                                        'title'],
+                                                                    style: AppTextStyles
+                                                                        .body
+                                                                        .copyWith(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      //color: color,
+                                                                    )),
+                                                                snap['uid'].toString() ==
                                                                         user!
-                                                                            .uid),
-                                                                smallLike: true,
-                                                                child:
-                                                                    GestureDetector(
-                                                                  onTap: () {
-                                                                    FireStoreMethods()
-                                                                        .likePost(
-                                                                      snap['postId']
-                                                                          .toString(),
-                                                                      user!.uid,
-                                                                      snap[
-                                                                          'likes'],
-                                                                    );
-                                                                  },
-                                                                  child: Icon(
-                                                                    Icons
-                                                                        .handshake_rounded,
-                                                                    color: snap['likes'].contains(user!
-                                                                            .uid)
-                                                                        ? Colors
-                                                                            .green
-                                                                        : Colors
-                                                                            .grey,
-                                                                    size: 20,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 5,
-                                                              ),
-                                                              Text(
-                                                                '${snap['likes'].length} casts',
-                                                                style:
-                                                                    AppTextStyles
-                                                                        .body2,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          RichText(
-                                                            text: TextSpan(
+                                                                            .uid
+                                                                    ? GestureDetector(
+                                                                        onTap:
+                                                                            () {
+                                                                          showDialog(
+                                                                              useRootNavigator: false,
+                                                                              context: context,
+                                                                              builder: (context) {
+                                                                                return Dialog(
+                                                                                  child: ListView(
+                                                                                      padding: const EdgeInsets.symmetric(vertical: 16),
+                                                                                      shrinkWrap: true,
+                                                                                      children: [
+                                                                                        'Delete',
+                                                                                      ]
+                                                                                          .map(
+                                                                                            (e) => InkWell(
+                                                                                                child: Container(
+                                                                                                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                                                                                                  child: Text(e),
+                                                                                                ),
+                                                                                                onTap: () {
+                                                                                                  deletePost(
+                                                                                                    snap['postId'].toString(),
+                                                                                                  );
+                                                                                                  // remove the dialog box
+                                                                                                  Navigator.of(context).pop();
+                                                                                                }),
+                                                                                          )
+                                                                                          .toList()),
+                                                                                );
+                                                                              });
+                                                                        },
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .more_vert,
+                                                                          color:
+                                                                              Colors.grey,
+                                                                          size:
+                                                                              15,
+                                                                        ),
+                                                                      )
+                                                                    : Container(),
+                                                              ],
+                                                            ),
+                                                            Text(
+                                                              snap[
+                                                                  'description'],
+                                                              maxLines: 2,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
                                                               style:
                                                                   AppTextStyles
                                                                       .body2,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width -
+                                                            85,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Row(
                                                               children: [
-                                                                TextSpan(
-                                                                  text: DateFormat
-                                                                          .jm()
-                                                                      .format(snap[
-                                                                              'datePublished']
-                                                                          .toDate()),
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    color:
-                                                                        AppColors
-                                                                            .grey,
+                                                                LikeAnimation(
+                                                                  isAnimating: snap[
+                                                                          'likes']
+                                                                      .contains(
+                                                                          user!
+                                                                              .uid),
+                                                                  smallLike:
+                                                                      true,
+                                                                  child:
+                                                                      GestureDetector(
+                                                                    onTap: () {
+                                                                      FireStoreMethods()
+                                                                          .likePost(
+                                                                        snap['postId']
+                                                                            .toString(),
+                                                                        user!
+                                                                            .uid,
+                                                                        snap[
+                                                                            'likes'],
+                                                                      );
+                                                                    },
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .campaign_rounded,
+                                                                      color: snap['likes'].contains(user!
+                                                                              .uid)
+                                                                          ? Colors
+                                                                              .red
+                                                                          : Colors
+                                                                              .grey,
+                                                                      size: 20,
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                                TextSpan(
-                                                                  text: ' • ',
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    color:
-                                                                        AppColors
-                                                                            .grey,
-                                                                  ),
+                                                                const SizedBox(
+                                                                  width: 5,
                                                                 ),
-                                                                TextSpan(
-                                                                  text: DateFormat
-                                                                          .yMMMd()
-                                                                      .format(
-                                                                    snap['datePublished']
-                                                                        .toDate(),
-                                                                  ),
+                                                                Text(
+                                                                  '${snap['likes'].length} casts',
                                                                   style:
-                                                                      const TextStyle(
-                                                                    color:
-                                                                        AppColors
-                                                                            .grey,
-                                                                  ),
+                                                                      AppTextStyles
+                                                                          .body2,
                                                                 ),
                                                               ],
                                                             ),
-                                                          ),
-                                                          Text(
-                                                            snap['location'],
-                                                            style: AppTextStyles
-                                                                .body2
-                                                                .copyWith(
-                                                              color: AppColors
-                                                                  .grey,
+                                                            RichText(
+                                                              text: TextSpan(
+                                                                style:
+                                                                    AppTextStyles
+                                                                        .body2,
+                                                                children: [
+                                                                  TextSpan(
+                                                                    text: DateFormat
+                                                                            .jm()
+                                                                        .format(
+                                                                            snap['datePublished'].toDate()),
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      color: AppColors
+                                                                          .grey,
+                                                                    ),
+                                                                  ),
+                                                                  TextSpan(
+                                                                    text: ' • ',
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      color: AppColors
+                                                                          .grey,
+                                                                    ),
+                                                                  ),
+                                                                  TextSpan(
+                                                                    text: DateFormat
+                                                                            .yMMMd()
+                                                                        .format(
+                                                                      snap['datePublished']
+                                                                          .toDate(),
+                                                                    ),
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      color: AppColors
+                                                                          .grey,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ],
+                                                            Text(
+                                                              snap['location'],
+                                                              style:
+                                                                  AppTextStyles
+                                                                      .body2
+                                                                      .copyWith(
+                                                                color: AppColors
+                                                                    .grey,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          const Divider(),
-                                        ],
-                                      ),
-                                    );
-                                  },
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            const Divider(),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
+                            }
                           }
                         }
                         return const Center(

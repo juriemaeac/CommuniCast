@@ -21,7 +21,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //ErrorWidget.builder = (FlutterErrorDetails details) => Container();
+  ErrorWidget.builder = (FlutterErrorDetails details) => Container();
 
   // initialise app based on platform- web or mobile
   if (kIsWeb) {
@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
           ),
           splashTransition: SplashTransition.fadeTransition,
           backgroundColor: Colors.white,
-          duration: 1000,
+          duration: 800,
         ),
         onGenerateRoute: (appRoute) {
           switch (appRoute.name) {

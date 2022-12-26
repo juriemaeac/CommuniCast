@@ -133,8 +133,8 @@ class _IndicatorState extends State<Indicator> {
             icon: Icons.info_outline,
           ),
           IndicatorWidget(
-            colorCode: codeYellow,
-            text: codeYellowDesc,
+            colorCode: codeAmber,
+            text: codeAmberDesc,
             color: Colors.amber,
             icon: Icons.warning_amber_rounded,
           ),

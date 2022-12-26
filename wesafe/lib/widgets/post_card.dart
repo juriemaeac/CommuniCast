@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wesafe/codes.dart';
 import 'package:wesafe/constants.dart';
 import 'package:wesafe/models/user.dart' as model;
@@ -40,12 +41,22 @@ class _PostCardState extends State<PostCard> {
 
   fetchCommentLen() async {
     try {
-      QuerySnapshot snap = await FirebaseFirestore.instance
+      //fetch comment length in real time
+      FirebaseFirestore.instance
           .collection('posts')
           .doc(widget.snap['postId'])
           .collection('comments')
-          .get();
-      commentLen = snap.docs.length;
+          .snapshots()
+          .listen((event) {
+        commentLen = event.docs.length;
+        setState(() {});
+      });
+      // QuerySnapshot snap = await FirebaseFirestore.instance
+      //     .collection('posts')
+      //     .doc(widget.snap['postId'])
+      //     .collection('comments')
+      //     .get();
+      // commentLen = snap.docs.length;
     } catch (err) {
       showSnackBar(
         context,
@@ -85,8 +96,8 @@ class _PostCardState extends State<PostCard> {
     } else if (indicator == 'CODE AMBER') {
       icon = 983712;
       color = Colors.amber;
-      codeTitle = codeYellow;
-      codeDescription = codeYellowDesc;
+      codeTitle = codeAmber;
+      codeDescription = codeAmberDesc;
     } else if (indicator == 'CODE BLUE') {
       icon = 983744;
       color = Colors.blue;
@@ -135,15 +146,24 @@ class _PostCardState extends State<PostCard> {
                 //     widget.snap['profImage'].toString(),
                 //   ),
                 // ),
-                Container(
-                  height: 40,
-                  width: 40,
-                  color: AppColors.greyAccent,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      widget.snap['profImage'].toString(),
-                      fit: BoxFit.cover,
+                GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => SearchProfileScreen(
+                        uid: widget.snap['uid'],
+                      ),
+                    ),
+                  ),
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    color: AppColors.greyAccent,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        widget.snap['profImage'].toString(),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -317,13 +337,22 @@ class _PostCardState extends State<PostCard> {
                 const SizedBox(width: 20),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CommentsScreen(
-                          postId: widget.snap['postId'].toString(),
-                        ),
-                      ),
-                    );
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.bottomToTop,
+                          duration: const Duration(milliseconds: 300),
+                          child: CommentsScreen(
+                            postId: widget.snap['postId'].toString(),
+                          ),
+                        ));
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: (context) => CommentsScreen(
+                    //       postId: widget.snap['postId'].toString(),
+                    //     ),
+                    //   ),
+                    // );
                   },
                   child: const Icon(
                     Icons.comment_rounded,
@@ -334,13 +363,15 @@ class _PostCardState extends State<PostCard> {
                 const SizedBox(width: 5),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CommentsScreen(
-                          postId: widget.snap['postId'].toString(),
-                        ),
-                      ),
-                    );
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.bottomToTop,
+                          duration: const Duration(milliseconds: 300),
+                          child: CommentsScreen(
+                            postId: widget.snap['postId'].toString(),
+                          ),
+                        ));
                   },
                   child: Text(
                     '$commentLen comments',
