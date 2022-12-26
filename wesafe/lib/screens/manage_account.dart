@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:wesafe/constants.dart';
+import 'package:wesafe/widgets/manage_buttons.dart';
 import 'package:wesafe/widgets/settings_buttons.dart';
 
-class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+class ManageAccountScreen extends StatefulWidget {
+  const ManageAccountScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  State<ManageAccountScreen> createState() => _ManageAccountScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _ManageAccountScreenState extends State<ManageAccountScreen> {
   @override
   Widget build(BuildContext context) {
     List<Route> myRoute = [];
@@ -18,7 +19,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        title: const Text('Settings', style: AppTextStyles.title1),
+        title: const Text('Manage My Account', style: AppTextStyles.title1),
         backgroundColor: AppColors.white,
         leading: IconButton(
           icon: const Icon(
@@ -34,7 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: const SafeArea(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: SettingsButtons(),
+          child: ManageButtons(),
         ),
       ),
     );

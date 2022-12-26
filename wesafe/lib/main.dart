@@ -8,10 +8,13 @@ import 'package:wesafe/responsive/mobile_screen_layout.dart';
 import 'package:wesafe/responsive/responsive_layout.dart';
 import 'package:wesafe/responsive/web_screen_layout.dart';
 import 'package:wesafe/screens/about_screen.dart';
+import 'package:wesafe/screens/change_bio.dart';
+import 'package:wesafe/screens/change_name.dart';
 import 'package:wesafe/screens/contact_screen.dart';
 import 'package:wesafe/screens/edit_profile_screen.dart';
 import 'package:wesafe/screens/forgotPass.dart';
 import 'package:wesafe/screens/login_screen.dart';
+import 'package:wesafe/screens/manage_account.dart';
 import 'package:wesafe/screens/privacy_screen.dart';
 import 'package:wesafe/screens/tc_screen.dart';
 import 'package:wesafe/utils/colors.dart';
@@ -22,6 +25,14 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ErrorWidget.builder = (FlutterErrorDetails details) => Container();
+  // Container(
+  //         child: Center(
+  //       child: Text(
+  //         'Something went wrong',
+  //         style: TextStyle(color: Colors.white),
+  //         textDirection: TextDirection.ltr,
+  //       ),
+  //     ));
 
   // initialise app based on platform- web or mobile
   if (kIsWeb) {
@@ -97,6 +108,21 @@ class MyApp extends StatelessWidget {
             case '/editProfile':
               return PageTransition(
                   child: const EditProfileScreen(),
+                  type: PageTransitionType.fade,
+                  duration: const Duration(milliseconds: 500));
+            case '/manageAccount':
+              return PageTransition(
+                  child: const ManageAccountScreen(),
+                  type: PageTransitionType.fade,
+                  duration: const Duration(milliseconds: 500));
+            case '/changeName':
+              return PageTransition(
+                  child: const NameScreen(),
+                  type: PageTransitionType.fade,
+                  duration: const Duration(milliseconds: 500));
+            case '/changeBio':
+              return PageTransition(
+                  child: const BioScreen(),
                   type: PageTransitionType.fade,
                   duration: const Duration(milliseconds: 500));
             case '/forgotPassword':

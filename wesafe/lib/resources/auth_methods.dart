@@ -40,38 +40,47 @@ class AuthMethods {
           username.isNotEmpty ||
           bio.isNotEmpty ||
           file != null) {
-        // registering user in auth with email and password
-        UserCredential cred = await _auth.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-        await sendEmailVerification(context);
-
-        String photoUrl = await StorageMethods()
-            .uploadImageToStorage('profilePics', file, false);
-
-        model.User _user = model.User(
-          username: username,
-          firstName: firstName,
-          lastName: lastName,
-          birthDate: birthDate,
-          uid: cred.user!.uid,
-          photoUrl: photoUrl,
-          email: email,
-          bio: bio,
-          followers: [],
-          following: [],
-        );
-
-        // adding user in our database
-        await _firestore
+        //check if username exists
+        QuerySnapshot querySnapshot = await _firestore
             .collection("users")
-            .doc(cred.user!.uid)
-            .set(_user.toJson());
+            .where("username", isEqualTo: username)
+            .get();
+        if (querySnapshot.docs.length > 0) {
+          return "Username already exists";
+        } else {
+          // registering user in auth with email and password
+          UserCredential cred = await _auth.createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
+          await sendEmailVerification(context);
 
-        res = "success";
-        showSnackBar(
-            context, 'Email Verification Sent. Please verify your email');
+          String photoUrl = await StorageMethods()
+              .uploadImageToStorage('profilePics', file, false);
+
+          model.User _user = model.User(
+            username: username,
+            firstName: firstName,
+            lastName: lastName,
+            birthDate: birthDate,
+            uid: cred.user!.uid,
+            photoUrl: photoUrl,
+            email: email,
+            bio: bio,
+            followers: [],
+            following: [],
+          );
+
+          // adding user in our database
+          await _firestore
+              .collection("users")
+              .doc(cred.user!.uid)
+              .set(_user.toJson());
+
+          res = "success";
+          showSnackBar(
+              context, 'Email Verification Sent. Please verify your email');
+        }
       } else {
         res = "Please enter all the fields";
         return "Please enter all the fields";

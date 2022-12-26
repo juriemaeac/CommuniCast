@@ -55,13 +55,9 @@ class _SettingsButtonsState extends State<SettingsButtons> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // SettingsCard(
-        //   label: 'Edit Profile',
-        //   navigator: 'editProfile',
-        // ),
         SettingsCard(
-          label: 'Change Password',
-          navigator: 'forgotPassword',
+          label: 'Manage My Account',
+          navigator: 'manageAccount',
         ),
         Container(height: 10.0, color: AppColors.greyAccent),
         SettingsCard(

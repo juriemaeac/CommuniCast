@@ -139,8 +139,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
         ),
         leading: IconButton(
           onPressed: () {
-            Navigator.push(
-                context,
+            Navigator.of(context).pushAndRemoveUntil(
                 PageTransition(
                   type: PageTransitionType.topToBottom,
                   duration: const Duration(milliseconds: 200),
@@ -148,7 +147,8 @@ class _CommentsScreenState extends State<CommentsScreen> {
                     mobileScreenLayout: MobileScreenLayout(),
                     webScreenLayout: WebScreenLayout(),
                   ),
-                ));
+                ),
+                (route) => false);
           },
           icon: const Icon(
             Icons.arrow_back_ios,

@@ -49,8 +49,10 @@ class _LoginScreenState extends State<LoginScreen> {
           context: context);
       if (res == 'success') {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => const ResponsiveLayout(
+            PageTransition(
+              type: PageTransitionType.fade,
+              duration: const Duration(milliseconds: 200),
+              child: ResponsiveLayout(
                 mobileScreenLayout: MobileScreenLayout(),
                 webScreenLayout: WebScreenLayout(),
               ),

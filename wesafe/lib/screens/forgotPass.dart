@@ -112,7 +112,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
             ),
             //end textfield
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
@@ -129,9 +129,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     passwordReset();
                   }
                 },
-                //di ko pa lam pano alamin kugn existing HAHAHA
                 style: ButtonStyle(
-                  padding: MaterialStateProperty.all(const EdgeInsets.all(10)),
+                  padding: MaterialStateProperty.all(const EdgeInsets.all(15)),
                   // backgroundColor:
                   //     MaterialStateProperty.all<Color>(Colors.blueAccent),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(

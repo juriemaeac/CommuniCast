@@ -162,16 +162,16 @@ class _AddPostScreenState extends State<AddPostScreen> {
           setState(() {
             isLoading = false;
           });
-          Navigator.push(
-              context,
+          Navigator.of(context).pushAndRemoveUntil(
               PageTransition(
                 type: PageTransitionType.fade,
-                duration: const Duration(milliseconds: 500),
-                child: ResponsiveLayout(
+                duration: const Duration(milliseconds: 200),
+                child: const ResponsiveLayout(
                   mobileScreenLayout: MobileScreenLayout(),
                   webScreenLayout: WebScreenLayout(),
                 ),
-              ));
+              ),
+              (route) => false);
           showSnackBar(
             context,
             'Posted!',
@@ -349,18 +349,18 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   children: [
                     Icon(IconData(icon, fontFamily: 'MaterialIcons'),
                         size: 30.0, color: Colors.white),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('$title',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold)),
                         Text('Type: $indicator',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 12,
                             )),
@@ -694,7 +694,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                               ),
                             ),
                             const Divider(),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
@@ -742,7 +742,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                               ),
                             ),
                             const Divider(),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
@@ -797,7 +797,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                                     buttonHeight: 40,
                                     buttonWidth: 340,
                                     itemHeight: 40,
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.arrow_drop_down,
                                       color: AppColors.grey,
                                     ),
@@ -806,7 +806,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                               ),
                             ),
                             const Divider(),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
