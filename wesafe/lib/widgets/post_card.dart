@@ -100,6 +100,8 @@ class _PostCardState extends State<PostCard> {
     } else if (indicator == 'CODE BLACK') {
       icon = 62784;
       color = Colors.black;
+      codeTitle = codeBlack;
+      codeDescription = codeBlackDesc;
     }
 
     return Container(

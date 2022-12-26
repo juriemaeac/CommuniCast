@@ -528,7 +528,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                 width: 5,
                                                               ),
                                                               Text(
-                                                                '${snap['likes'].length} upvotes',
+                                                                '${snap['likes'].length} casts',
                                                                 style:
                                                                     AppTextStyles
                                                                         .body2,

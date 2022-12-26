@@ -17,6 +17,8 @@ import 'package:wesafe/screens/tc_screen.dart';
 import 'package:wesafe/utils/colors.dart';
 import 'package:provider/provider.dart';
 
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //ErrorWidget.builder = (FlutterErrorDetails details) => Container();
@@ -54,33 +56,41 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.light().copyWith(
           scaffoldBackgroundColor: mobileBackgroundColor,
         ),
-        home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              // Checking if the snapshot has any data or not
-              if (snapshot.hasData) {
-                // if snapshot has data which means user is logged in then we check the width of screen and accordingly display the screen layout
-                return const ResponsiveLayout(
-                  mobileScreenLayout: MobileScreenLayout(),
-                  webScreenLayout: WebScreenLayout(),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('${snapshot.error}'),
+        home: AnimatedSplashScreen(
+          splash: Image.asset(
+            'assets/images/CommuniCast_Logo.png',
+          ),
+          nextScreen: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.active) {
+                // Checking if the snapshot has any data or not
+                if (snapshot.hasData) {
+                  // if snapshot has data which means user is logged in then we check the width of screen and accordingly display the screen layout
+                  return const ResponsiveLayout(
+                    mobileScreenLayout: MobileScreenLayout(),
+                    webScreenLayout: WebScreenLayout(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('${snapshot.error}'),
+                  );
+                }
+              }
+
+              // means connection to future hasnt been made yet
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
                 );
               }
-            }
 
-            // means connection to future hasnt been made yet
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            return const LoginScreen();
-          },
+              return const LoginScreen();
+            },
+          ),
+          splashTransition: SplashTransition.fadeTransition,
+          backgroundColor: Colors.white,
+          duration: 1000,
         ),
         onGenerateRoute: (appRoute) {
           switch (appRoute.name) {

@@ -73,85 +73,87 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(30),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Enter Your Email",
-                textAlign: TextAlign.center,
-                style: AppTextStyles.title,
-              ),
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Enter Your Email",
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.body,
+                ),
+              ],
+            ),
 
-              SizedBox(height: 10),
-              // textfeild
-              TextField(
-                autofocus: true,
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  fillColor: AppColors.greyAccent,
-                  hintText: "Enter Email",
-                  hintStyle: AppTextStyles.subHeadings,
-                  border: InputBorder.none,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    borderSide: BorderSide(color: Colors.transparent, width: 2),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.0),
-                    ),
-                  ),
-                  filled: true,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+            SizedBox(height: 10),
+            // textfeild
+            TextField(
+              //autofocus: true,
+              controller: _emailController,
+              decoration: const InputDecoration(
+                fillColor: AppColors.greyAccent,
+                hintText: "Enter Email",
+                hintStyle: AppTextStyles.subHeadings,
+                border: InputBorder.none,
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderSide: BorderSide(color: Colors.transparent, width: 2),
                 ),
-              ),
-              //end textfield
-              SizedBox(height: 10),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.4,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_emailController.text == "") {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              content: Text('Please enter your email!'),
-                            );
-                          });
-                    } else {
-                      passwordReset();
-                    }
-                  },
-                  //di ko pa lam pano alamin kugn existing HAHAHA
-                  style: ButtonStyle(
-                    padding:
-                        MaterialStateProperty.all(const EdgeInsets.all(10)),
-                    // backgroundColor:
-                    //     MaterialStateProperty.all<Color>(Colors.blueAccent),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    shadowColor:
-                        MaterialStateProperty.all<Color>(Colors.transparent),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        'Reset Password',
-                        style: AppTextStyles.button,
-                      )
-                    ],
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
                   ),
                 ),
+                filled: true,
+                contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
               ),
-            ],
-          ),
+            ),
+            //end textfield
+            SizedBox(height: 10),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.4,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_emailController.text == "") {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: Text('Please enter your email!'),
+                          );
+                        });
+                  } else {
+                    passwordReset();
+                  }
+                },
+                //di ko pa lam pano alamin kugn existing HAHAHA
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(const EdgeInsets.all(10)),
+                  // backgroundColor:
+                  //     MaterialStateProperty.all<Color>(Colors.blueAccent),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  shadowColor:
+                      MaterialStateProperty.all<Color>(Colors.transparent),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      'Reset Password',
+                      style: AppTextStyles.button,
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
