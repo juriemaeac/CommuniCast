@@ -8,13 +8,10 @@ import 'package:communicast/responsive/mobile_screen_layout.dart';
 import 'package:communicast/responsive/responsive_layout.dart';
 import 'package:communicast/responsive/web_screen_layout.dart';
 import 'package:communicast/screens/about_screen.dart';
-import 'package:communicast/screens/change_bio.dart';
-import 'package:communicast/screens/change_name.dart';
 import 'package:communicast/screens/contact_screen.dart';
 import 'package:communicast/screens/edit_profile_screen.dart';
 import 'package:communicast/screens/forgotPass.dart';
 import 'package:communicast/screens/login_screen.dart';
-import 'package:communicast/screens/manage_account.dart';
 import 'package:communicast/screens/privacy_screen.dart';
 import 'package:communicast/screens/tc_screen.dart';
 import 'package:communicast/utils/colors.dart';
@@ -108,21 +105,6 @@ class MyApp extends StatelessWidget {
             case '/editProfile':
               return PageTransition(
                   child: const EditProfileScreen(),
-                  type: PageTransitionType.fade,
-                  duration: const Duration(milliseconds: 500));
-            case '/manageAccount':
-              return PageTransition(
-                  child: const EditProfileScreen(),
-                  type: PageTransitionType.fade,
-                  duration: const Duration(milliseconds: 500));
-            case '/changeName':
-              return PageTransition(
-                  child: const NameScreen(),
-                  type: PageTransitionType.fade,
-                  duration: const Duration(milliseconds: 500));
-            case '/changeBio':
-              return PageTransition(
-                  child: const BioScreen(),
                   type: PageTransitionType.fade,
                   duration: const Duration(milliseconds: 500));
             case '/forgotPassword':

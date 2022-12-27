@@ -148,20 +148,13 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                                     FirebaseAuth.instance.currentUser!.uid ==
                                             widget.uid
                                         ? FollowButton(
-                                            text: 'Sign Out',
-                                            backgroundColor: Colors.white,
+                                            text: 'Edit Profile',
+                                            backgroundColor: AppColors.white,
                                             textColor: AppColors.black,
-                                            borderColor:
-                                                AppColors.greyAccentLine,
-                                            function: () async {
-                                              await AuthMethods().signOut();
-                                              Navigator.of(context)
-                                                  .pushReplacement(
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const LoginScreen(),
-                                                ),
-                                              );
+                                            borderColor: AppColors.grey,
+                                            function: () {
+                                              Navigator.pushNamed(
+                                                  context, '/editProfile');
                                             },
                                           )
                                         : isFollowing

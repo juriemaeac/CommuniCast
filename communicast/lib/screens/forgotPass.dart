@@ -130,7 +130,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   }
                 },
                 style: ButtonStyle(
-                  padding: MaterialStateProperty.all(const EdgeInsets.all(15)),
+                  padding: MaterialStateProperty.all(const EdgeInsets.all(10)),
                   // backgroundColor:
                   //     MaterialStateProperty.all<Color>(Colors.blueAccent),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
