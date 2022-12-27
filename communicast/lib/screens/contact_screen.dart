@@ -55,7 +55,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     style: AppTextStyles.body.copyWith(
                       fontWeight: FontWeight.bold,
                     )),
-                Text('communicastproject@gmail.com', style: AppTextStyles.body),
+                Text('wesafeproject@gmail.com', style: AppTextStyles.body),
               ],
             ),
           ),
