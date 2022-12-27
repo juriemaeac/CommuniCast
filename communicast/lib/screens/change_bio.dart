@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:communicast/resources/auth_methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -13,6 +14,8 @@ import 'package:communicast/responsive/web_screen_layout.dart';
 import 'package:communicast/utils/utils.dart';
 import 'package:communicast/widgets/text_field_input.dart';
 
+import '../resources/storage_methods.dart';
+
 class BioScreen extends StatefulWidget {
   const BioScreen({super.key});
 
@@ -21,16 +24,15 @@ class BioScreen extends StatefulWidget {
 }
 
 class _BioScreenState extends State<BioScreen> {
+  var userData = {};
+  Uint8List? _image;
   final TextEditingController _bioController = TextEditingController();
 
-  Future<void> update() async {
-    final user = FirebaseAuth.instance.currentUser;
-    final userRef =
-        FirebaseFirestore.instance.collection('users').doc(user!.uid);
-
-    await userRef.update({
-      'bio': _bioController.text,
-    });
+  void update() async {
+    await AuthMethods().updateUser(
+      bio: _bioController.text,
+      file: _image!,
+    );
   }
 
   //get user details
@@ -40,9 +42,21 @@ class _BioScreenState extends State<BioScreen> {
         FirebaseFirestore.instance.collection('users').doc(user!.uid);
 
     final doc = await userRef.get();
+
     if (doc.exists) {
-      _bioController.text = doc['bio'];
+      setState(() {
+        _bioController.text = doc['bio'];
+        userData = doc.data()!;
+      });
     }
+  }
+
+  selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    // set state because we need to display the image we selected on the circle avatar
+    setState(() {
+      _image = im;
+    });
   }
 
   @override
@@ -53,6 +67,7 @@ class _BioScreenState extends State<BioScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(userData);
     return Scaffold(
         appBar: AppBar(
             backgroundColor: AppColors.white,
@@ -81,6 +96,21 @@ class _BioScreenState extends State<BioScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  GestureDetector(
+                    onTap: selectImage,
+                    child: Container(
+                      height: 80,
+                      width: 80,
+                      color: AppColors.greyAccent,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          userData['photoUrl'],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
                   Text(
                     "Bio",
                     textAlign: TextAlign.center,
@@ -115,6 +145,7 @@ class _BioScreenState extends State<BioScreen> {
                 ),
               ),
               const SizedBox(height: 20),
+              //button
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: ElevatedButton(

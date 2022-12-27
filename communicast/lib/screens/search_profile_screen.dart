@@ -351,7 +351,7 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Container(
-                                                  height: 115,
+                                                  height: 125,
                                                   padding: const EdgeInsets
                                                       .symmetric(
                                                     horizontal: 10,
@@ -380,7 +380,7 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                                                   width: 10,
                                                 ),
                                                 SizedBox(
-                                                  height: 115,
+                                                  height: 125,
                                                   child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment

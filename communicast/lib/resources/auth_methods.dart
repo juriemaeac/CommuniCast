@@ -20,6 +20,55 @@ class AuthMethods {
     return model.User.fromSnap(documentSnapshot);
   }
 
+  Future<void> updateProfile({
+    required String bio,
+    required String firstName,
+    required String lastName,
+  }) async {
+    if (bio.isNotEmpty || firstName.isNotEmpty || lastName.isNotEmpty) {
+      final user = FirebaseAuth.instance.currentUser;
+      final userRef =
+          FirebaseFirestore.instance.collection('users').doc(user!.uid);
+      await userRef.update({
+        'bio': bio,
+        'firstName': firstName,
+        'lastName': lastName,
+      });
+    }
+  }
+
+  Future<void> updatePic({
+    required Uint8List file,
+  }) async {
+    if (file.isNotEmpty) {
+      final user = FirebaseAuth.instance.currentUser;
+      final userRef =
+          FirebaseFirestore.instance.collection('users').doc(user!.uid);
+      String photoUrl = await StorageMethods()
+          .uploadImageToStorage('profilePics', file, false);
+      await userRef.update({
+        'photoUrl': photoUrl,
+      });
+    }
+  }
+
+  Future<void> updateUser({
+    required String bio,
+    required Uint8List file,
+  }) async {
+    if (bio.isNotEmpty || file.isNotEmpty) {
+      final user = FirebaseAuth.instance.currentUser;
+      final userRef =
+          FirebaseFirestore.instance.collection('users').doc(user!.uid);
+      String photoUrl = await StorageMethods()
+          .uploadImageToStorage('profilePics', file, false);
+      await userRef.update({
+        'bio': bio,
+        'photoUrl': photoUrl,
+      });
+    }
+  }
+
   // Signing Up User
 
   Future<String> signUpUser({

@@ -112,7 +112,7 @@ class MyApp extends StatelessWidget {
                   duration: const Duration(milliseconds: 500));
             case '/manageAccount':
               return PageTransition(
-                  child: const ManageAccountScreen(),
+                  child: const EditProfileScreen(),
                   type: PageTransitionType.fade,
                   duration: const Duration(milliseconds: 500));
             case '/changeName':
