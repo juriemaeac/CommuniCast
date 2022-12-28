@@ -55,7 +55,9 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
       userData = userSnap.data()!;
       followers = userSnap.data()!['followers'].length;
       following = userSnap.data()!['following'].length;
-      isFollowing = userSnap.data()!['followers'].contains(widget.uid);
+      isFollowing = userSnap
+          .data()!['followers']
+          .contains(FirebaseAuth.instance.currentUser!.uid);
       setState(() {});
     } catch (e) {
       showSnackBar(
