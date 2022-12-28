@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:communicast/responsive/mobile_screen_layout.dart';
+import 'package:communicast/responsive/responsive_layout.dart';
+import 'package:communicast/responsive/web_screen_layout.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +14,7 @@ import 'package:communicast/utils/global_variable.dart';
 import 'package:communicast/utils/utils.dart';
 import 'package:communicast/widgets/follow_button.dart';
 import 'package:communicast/widgets/like_animation.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SearchProfileScreen extends StatefulWidget {
   final String uid;
@@ -105,7 +109,16 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                   size: 20,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).pushAndRemoveUntil(
+                      PageTransition(
+                        type: PageTransitionType.topToBottom,
+                        duration: const Duration(milliseconds: 200),
+                        child: ResponsiveLayout(
+                          mobileScreenLayout: MobileScreenLayout(),
+                          webScreenLayout: WebScreenLayout(),
+                        ),
+                      ),
+                      (route) => false);
                 },
               ),
             ),

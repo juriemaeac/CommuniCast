@@ -49,7 +49,7 @@ class _PostCardState extends State<PostCard> {
           .snapshots()
           .listen((event) {
         commentLen = event.docs.length;
-        setState(() {});
+        if (mounted) setState(() {});
       });
       // QuerySnapshot snap = await FirebaseFirestore.instance
       //     .collection('posts')
@@ -63,7 +63,7 @@ class _PostCardState extends State<PostCard> {
         err.toString(),
       );
     }
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   deletePost(String postId) async {
@@ -197,63 +197,63 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ),
                 ),
-                widget.snap['uid'].toString() == user.uid
-                    ? IconButton(
-                        onPressed: () {
-                          showDialog(
-                            useRootNavigator: false,
-                            context: context,
-                            builder: (context) {
-                              return Dialog(
-                                child: ListView(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16),
-                                    shrinkWrap: true,
-                                    children: [
-                                      'Delete',
-                                    ]
-                                        .map(
-                                          (e) => InkWell(
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 5,
-                                                        horizontal: 16),
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons
-                                                          .delete_outline_rounded,
-                                                      color: Colors.red,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Text(
-                                                      e,
-                                                      style: AppTextStyles.body,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              onTap: () {
-                                                deletePost(
-                                                  widget.snap['postId']
-                                                      .toString(),
-                                                );
-                                                // remove the dialog box
-                                                Navigator.of(context).pop();
-                                              }),
-                                        )
-                                        .toList()),
-                              );
-                            },
-                          );
-                        },
-                        icon: const Icon(Icons.more_vert,
-                            color: AppColors.grey, size: 15),
-                      )
-                    : Container(),
+                // widget.snap['uid'].toString() == user.uid
+                //     ? IconButton(
+                //         onPressed: () {
+                //           showDialog(
+                //             useRootNavigator: false,
+                //             context: context,
+                //             builder: (context) {
+                //               return Dialog(
+                //                 child: ListView(
+                //                     padding: const EdgeInsets.symmetric(
+                //                         vertical: 16),
+                //                     shrinkWrap: true,
+                //                     children: [
+                //                       'Delete',
+                //                     ]
+                //                         .map(
+                //                           (e) => InkWell(
+                //                               child: Container(
+                //                                 padding:
+                //                                     const EdgeInsets.symmetric(
+                //                                         vertical: 5,
+                //                                         horizontal: 16),
+                //                                 child: Row(
+                //                                   children: [
+                //                                     const Icon(
+                //                                       Icons
+                //                                           .delete_outline_rounded,
+                //                                       color: Colors.red,
+                //                                     ),
+                //                                     const SizedBox(
+                //                                       width: 10,
+                //                                     ),
+                //                                     Text(
+                //                                       e,
+                //                                       style: AppTextStyles.body,
+                //                                     ),
+                //                                   ],
+                //                                 ),
+                //                               ),
+                //                               onTap: () {
+                //                                 deletePost(
+                //                                   widget.snap['postId']
+                //                                       .toString(),
+                //                                 );
+                //                                 // remove the dialog box
+                //                                 Navigator.of(context).pop();
+                //                               }),
+                //                         )
+                //                         .toList()),
+                //               );
+                //             },
+                //           );
+                //         },
+                //         icon: const Icon(Icons.more_vert,
+                //             color: AppColors.grey, size: 15),
+                //       )
+                //     : Container(),
               ],
             ),
           ),
@@ -265,9 +265,10 @@ class _PostCardState extends State<PostCard> {
                 user.uid,
                 widget.snap['likes'],
               );
-              setState(() {
-                isLikeAnimating = true;
-              });
+              if (mounted)
+                setState(() {
+                  isLikeAnimating = true;
+                });
             },
             child: Stack(
               alignment: Alignment.center,
@@ -289,9 +290,10 @@ class _PostCardState extends State<PostCard> {
                       milliseconds: 400,
                     ),
                     onEnd: () {
-                      setState(() {
-                        isLikeAnimating = false;
-                      });
+                      if (mounted)
+                        setState(() {
+                          isLikeAnimating = false;
+                        });
                     },
                     child: const Icon(
                       Icons.campaign_rounded,

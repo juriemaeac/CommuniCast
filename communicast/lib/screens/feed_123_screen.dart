@@ -23,7 +23,6 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   final TextEditingController searchController = TextEditingController();
-  bool isLoading = false;
   bool isShowUsers = false;
   bool isTapped = false;
   bool isNearby = false;
@@ -37,8 +36,6 @@ class _FeedScreenState extends State<FeedScreen> {
   int count = 0;
   bool noNearby = true;
   int nearbyPostCounter = 0;
-  //list counter
-  List<int> listCounter = [];
 
   final user = FirebaseAuth.instance.currentUser;
   Stream<QuerySnapshot<Map<String, dynamic>>> postsStream = FirebaseFirestore
@@ -92,10 +89,19 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
+  // deviceLocation() async {
+
+  //   Position position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high);
+  //   lat = position.latitude;
+  //   posLat = position.latitude;
+  //   print("DeviceLatFunction: ${position.latitude.toString()}");
+  //   long = position.longitude;
+  //   posLon = position.longitude;
+  //   print("DeviceLongFunction: ${position.longitude.toString()}");
+  // }
+
   Future<int> isPostNearby(double postLat, double postLon) async {
-    setState(() {
-      isLoading = true;
-    });
     int isNB = 0;
     print("\n==============\n");
     print("This is isPOstNearby Function!!!!!");
@@ -120,16 +126,12 @@ class _FeedScreenState extends State<FeedScreen> {
     if (distance > 100000) {
       print("Nearby = False");
       print("\n==============\n");
-      setState(() {
-        isLoading = false;
-      });
+      isNB = 0;
     } else {
       print("Nearby = True");
+      isNB = 1;
       setState(() {
         nearbyPostCounter = (nearbyPostCounter + 1);
-        isNB = 1;
-        listCounter.add(nearbyPostCounter);
-        isLoading = false;
       });
       print("nearbyPostCounter: $nearbyPostCounter");
 
@@ -224,8 +226,6 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    print('LIST COUNTER: ${listCounter.length}');
-    int nearbyPosts = listCounter.length;
 
     return Scaffold(
       //backgroundColor: Colors.white,
@@ -302,7 +302,6 @@ class _FeedScreenState extends State<FeedScreen> {
                     onTap: () {
                       setState(() {
                         isNearby = true;
-
                         //function
                       });
                     },
@@ -345,104 +344,140 @@ class _FeedScreenState extends State<FeedScreen> {
                   ),
                 );
               } else {
-                if (!isNearby) {
-                  noNearby = false;
-                  //All posts
+                if (nearbyPostCounter <= 0 &&
+                    isNearby == true &&
+                    noNearby == true) {
+                  print("Case 1");
+                  return const Center(
+                    child: Text("No nearby post detected."),
+                  );
+                }
+                // else if (nearbyPostCounter > 0 && isNearby == true) {
+                //   print("Case 2");
+                //   return SingleChildScrollView(
+                //     child: SizedBox(
+                //       height: MediaQuery.of(context).size.height * 0.8,
+                //       child: ListView.builder(
+                //         itemCount: nearbyPostCounter - 1,
+                //         // itemBuilder: (ctx, index) => Container(
+                //         //   margin: EdgeInsets.symmetric(
+                //         //     horizontal: width > webScreenSize ? width * 0.3 : 0,
+                //         //     vertical: width > webScreenSize ? 15 : 0,
+                //         //   ),
+                //         //   child: PostCard(
+                //         //     snap: snapshot.data!.docs[index].data(),
+                //         //   ),
+                //         // ),
+                //         itemBuilder: (context, index) {
+                //           DocumentSnapshot snap =
+                //               (snapshot.data! as dynamic).docs[index];
+                //           var docLatitude = snap['latitude'];
+                //           var docLongitude = snap['longitude'];
+                //           double curLat = lat;
+                //           double curLon = long;
+                //           Future<bool> nearby = isPostNearby(
+                //               curLat, curLon, docLatitude, docLongitude);
+                //           print("NEARBY!!!!: ${nearby.toString()}");
+                //           FirebaseFirestore.instance
+                //               .collection('posts')
+                //               .orderBy('datePublished', descending: true)
+                //               .get()
+                //               .then((querySnapshot) {
+                //             querySnapshot.docs.where((doc) =>
+                //                 isPostNearby(curLat, curLon, doc['latitude'],
+                //                     doc['longitude']) ==
+                //                 true).toList()[index];
+                //               return Container(
+                //               margin: EdgeInsets.symmetric(
+                //                 horizontal:
+                //                     width > webScreenSize ? width * 0.3 : 0,
+                //                 vertical: width > webScreenSize ? 15 : 0,
+                //               ),
+                //               child: PostCard(
+                //                 snap: snap.data(),
+                //               ),
+                //             );
+                //           });
+                //         },
+                //       ),
+                //     ),
+                //   );
+                // }
+                else if (nearbyPostCounter > 0 && isNearby == true) {
+                  print("Case 2");
                   return SingleChildScrollView(
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.8,
                       child: ListView.builder(
-                        itemCount: isNearby
-                            ? nearbyPostCounter
-                            : snapshot.data!.docs.length,
-                        itemBuilder: (ctx, index) => Container(
-                          margin: EdgeInsets.symmetric(
-                            horizontal: width > webScreenSize ? width * 0.3 : 0,
-                            vertical: width > webScreenSize ? 15 : 0,
-                          ),
-                          child: PostCard(
-                            snap: snapshot.data!.docs[index].data(),
-                          ),
-                        ),
+                        itemCount: snapshot.data!.docs.length,
+                        // itemBuilder: (ctx, index) => Container(
+                        //   margin: EdgeInsets.symmetric(
+                        //     horizontal: width > webScreenSize ? width * 0.3 : 0,
+                        //     vertical: width > webScreenSize ? 15 : 0,
+                        //   ),
+                        //   child: PostCard(
+                        //     snap: snapshot.data!.docs[index].data(),
+                        //   ),
+                        // ),
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot snap =
+                              (snapshot.data! as dynamic).docs[index];
+                          var docLatitude = snap['latitude'];
+                          var docLongitude = snap['longitude'];
+                          double curLat = lat;
+                          double curLon = long;
+                          Future<int> nearby =
+                              isPostNearby(docLatitude, docLongitude);
+                          if (nearby == 1) {
+                            print("Widget should be visible!!!!!!!!!!!");
+                            return Visibility(
+                              visible: true,
+                              child: Container(
+                                margin: EdgeInsets.symmetric(
+                                  horizontal:
+                                      width > webScreenSize ? width * 0.3 : 0,
+                                  vertical: width > webScreenSize ? 15 : 0,
+                                ),
+                                child: PostCard(
+                                  snap: snap.data(),
+                                ),
+                              ),
+                            );
+                          }
+                          return Visibility(
+                            visible: false,
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal:
+                                    width > webScreenSize ? width * 0.3 : 0,
+                                vertical: width > webScreenSize ? 15 : 0,
+                              ),
+                              child: PostCard(
+                                snap: snap.data(),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   );
-                } else {
-                  if (nearbyPosts != 0) {
-                    if (noNearby == false) {
-                      return isLoading
-                          ? const Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : ListView.builder(
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (ctx, index) {
-                                DocumentSnapshot snap =
-                                    (snapshot.data! as dynamic).docs[index];
-                                latitude = snap['latitude'];
-                                longitude = snap['longitude'];
-                                var distanceInMeters =
-                                    Geolocator.distanceBetween(
-                                  lat,
-                                  long,
-                                  latitude,
-                                  longitude,
-                                );
-                                if (distanceInMeters <= 100000) {
-                                  print("NEARBY");
-                                  return Container(
-                                    margin: EdgeInsets.symmetric(
-                                      horizontal: width > webScreenSize
-                                          ? width * 0.3
-                                          : 0,
-                                      vertical: width > webScreenSize ? 15 : 0,
-                                    ),
-                                    child: PostCard(
-                                      snap: snap.data(),
-                                    ),
-                                  );
-                                } else if (distanceInMeters > 100000) {
-                                  print("NOT NEARBY");
-                                  return Container();
-                                } else {
-                                  noNearby = true;
-                                  return Container();
-                                }
-                              });
-                    } else {
-                      return isLoading
-                          ? const Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Text(
-                                    'No nearby posts.',
-                                    style: AppTextStyles.body,
-                                  ),
-                                ],
-                              ),
-                            );
-                    }
-                  } else {
-                    return isLoading
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  'No nearby posts.',
-                                  style: AppTextStyles.body,
-                                ),
-                              ],
-                            ),
-                          );
-                  }
+                } else if (isNearby == false) {
+                  print("Case 3");
+                  print('================');
+                  print('All posts');
+                  print('================');
+                  return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (ctx, index) => Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: width > webScreenSize ? width * 0.3 : 0,
+                        vertical: width > webScreenSize ? 15 : 0,
+                      ),
+                      child: PostCard(
+                        snap: snapshot.data!.docs[index].data(),
+                      ),
+                    ),
+                  );
                 }
               }
             }

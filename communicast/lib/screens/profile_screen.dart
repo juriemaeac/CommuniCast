@@ -67,8 +67,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       //likes count getter
       postsLikesCount =
           likes.fold(0, (previousValue, element) => previousValue + element);
-      print(likes);
-      print(postsLikesCount);
+      // print(likes);
+      // print(postsLikesCount);
 
       postLen = postSnap.docs.length;
       userData = userSnap.data()!;
@@ -175,60 +175,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    FirebaseAuth.instance.currentUser!.uid ==
-                                            user!.uid
-                                        ? FollowButton(
-                                            text: 'Edit Profile',
-                                            backgroundColor: AppColors.white,
-                                            textColor: AppColors.black,
-                                            borderColor: AppColors.grey,
-                                            function: () {
-                                              Navigator.pushNamed(
-                                                  context, '/editProfile');
-                                            },
-                                          )
-                                        : isFollowing
-                                            ? FollowButton(
-                                                text: 'Unfollow',
-                                                backgroundColor: Colors.white,
-                                                textColor: AppColors.black,
-                                                borderColor:
-                                                    AppColors.greyAccentLine,
-                                                function: () async {
-                                                  await FireStoreMethods()
-                                                      .followUser(
-                                                    FirebaseAuth.instance
-                                                        .currentUser!.uid,
-                                                    userData['uid'],
-                                                  );
-
-                                                  setState(() {
-                                                    isFollowing = false;
-                                                    followers--;
-                                                  });
-                                                },
-                                              )
-                                            : FollowButton(
-                                                text: 'Follow',
-                                                backgroundColor:
-                                                    AppColors.blueAccent,
-                                                textColor: AppColors.white,
-                                                borderColor:
-                                                    AppColors.blueAccent,
-                                                function: () async {
-                                                  await FireStoreMethods()
-                                                      .followUser(
-                                                    FirebaseAuth.instance
-                                                        .currentUser!.uid,
-                                                    userData['uid'],
-                                                  );
-
-                                                  setState(() {
-                                                    isFollowing = true;
-                                                    followers++;
-                                                  });
-                                                },
-                                              )
+                                    FollowButton(
+                                      text: 'Edit Profile',
+                                      backgroundColor: AppColors.white,
+                                      textColor: AppColors.black,
+                                      borderColor: AppColors.grey,
+                                      function: () {
+                                        Navigator.pushNamed(
+                                            context, '/editProfile');
+                                      },
+                                    )
                                   ],
                                 ),
                               ],
@@ -449,7 +405,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                                             (e) => InkWell(
                                                                                                 child: Container(
                                                                                                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                                                                                                  child: Text(e),
+                                                                                                  child: Row(
+                                                                                                    children: [
+                                                                                                      const Icon(
+                                                                                                        Icons.delete_outline_rounded,
+                                                                                                        color: Colors.red,
+                                                                                                      ),
+                                                                                                      const SizedBox(
+                                                                                                        width: 10,
+                                                                                                      ),
+                                                                                                      Text(
+                                                                                                        e,
+                                                                                                        style: AppTextStyles.body,
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  ),
                                                                                                 ),
                                                                                                 onTap: () {
                                                                                                   deletePost(
