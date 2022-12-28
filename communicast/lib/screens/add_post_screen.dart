@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shape_of_view_null_safe/shape_of_view_null_safe.dart';
 import 'package:super_tooltip/super_tooltip.dart';
 import 'package:communicast/constants.dart';
 import 'package:communicast/providers/user_provider.dart';
@@ -16,7 +15,6 @@ import 'package:communicast/resources/firestore_methods.dart';
 import 'package:communicast/responsive/mobile_screen_layout.dart';
 import 'package:communicast/responsive/responsive_layout.dart';
 import 'package:communicast/responsive/web_screen_layout.dart';
-import 'package:communicast/utils/colors.dart';
 import 'package:communicast/utils/utils.dart';
 import 'package:communicast/widgets/indicators.dart';
 import 'package:provider/provider.dart';
@@ -242,9 +240,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark placemark = placemarks[0];
     String completeAddress =
-        '${placemark.street}, ${placemark.locality}, ${placemark.country}'; //, ${placemark.postalCode}';
+        '${placemark.street}, ${placemark.locality}, ${placemark.subAdministrativeArea}, ${placemark.country}'; //, ${placemark.postalCode}';
+    print('==========================================');
     print('LATITUDE: ${position.latitude}, LONGITUDE: ${position.longitude}');
+    print('==========================================');
     print('completeAddress: $completeAddress');
+    print('==========================================');
     _locationController.text = completeAddress;
     setState(() {
       locationAddress = completeAddress;
@@ -385,11 +386,26 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 onWillPop: _willPopCallback,
                 child: GestureDetector(
                   onTap: onTap,
-                  child: Icon(
-                    Icons.location_history_rounded,
-                    color: color,
-                    size: 40,
+                  child: ShapeOfView(
+                    shape: BubbleShape(
+                        position: BubblePosition.Bottom,
+                        arrowPositionPercent: 0.5,
+                        borderRadius: 20,
+                        arrowHeight: 10,
+                        arrowWidth: 10),
+                    child: Container(
+                      color: color,
+                      padding: const EdgeInsets.only(
+                          bottom: 15, top: 5, left: 5, right: 5),
+                      child: Icon(IconData(icon, fontFamily: 'MaterialIcons'),
+                          size: 30.0, color: Colors.white),
+                    ),
                   ),
+                  // Icon(
+                  //   Icons.location_history_rounded,
+                  //   color: color,
+                  //   size: 40,
+                  // ),
                   // Container(
                   //     width: 50.0,
                   //     height: 50.0,
