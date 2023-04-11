@@ -111,7 +111,7 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
                       PageTransition(
-                        type: PageTransitionType.topToBottom,
+                        type: PageTransitionType.rightToLeft,
                         duration: const Duration(milliseconds: 200),
                         child: ResponsiveLayout(
                           mobileScreenLayout: MobileScreenLayout(),

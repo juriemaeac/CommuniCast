@@ -70,7 +70,7 @@ class _FeedScreenState extends State<FeedScreen> {
         print('==========================================\n\n');
         if (event.docs.isEmpty ||
             postUid == user!.uid ||
-            distanceNotif > 100000) {
+            distanceNotif > 10000) {
           return;
         } else {
           if (event.docs.first.get('notificationSent') == true) {
@@ -123,7 +123,7 @@ class _FeedScreenState extends State<FeedScreen> {
     print('postLon : ${postLon.toString()}');
     print('distance : ${distance.toString()}');
     print('===============================');
-    if (distance > 100000) {
+    if (distance > 10000) {
       print("Nearby = False");
       print("\n==============\n");
       isNB = 0;

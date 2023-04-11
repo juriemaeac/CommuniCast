@@ -73,7 +73,7 @@ class _FeedScreenState extends State<FeedScreen> {
         print('==========================================\n\n');
         if (event.docs.isEmpty ||
             postUid == user!.uid ||
-            distanceNotif > 100000) {
+            distanceNotif > 10000) {
           return;
         } else {
           if (event.docs.first.get('notificationSent') == true) {
@@ -117,7 +117,7 @@ class _FeedScreenState extends State<FeedScreen> {
     print('postLon : ${postLon.toString()}');
     print('distance : ${distance.toString()}');
     print('===============================');
-    if (distance > 100000) {
+    if (distance > 10000) {
       print("Nearby = False");
       print("\n==============\n");
       setState(() {
@@ -388,7 +388,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                   latitude,
                                   longitude,
                                 );
-                                if (distanceInMeters <= 100000) {
+                                if (distanceInMeters <= 10000) {
                                   print("NEARBY");
                                   return Container(
                                     margin: EdgeInsets.symmetric(
@@ -401,7 +401,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                       snap: snap.data(),
                                     ),
                                   );
-                                } else if (distanceInMeters > 100000) {
+                                } else if (distanceInMeters > 10000) {
                                   print("NOT NEARBY");
                                   return Container();
                                 } else {
