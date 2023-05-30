@@ -617,7 +617,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                               child: Icon(
                                 Icons.image_rounded,
                                 color: Colors.grey,
-                                size: 15,
+                                size: 18,
                               ),
                             ),
                           ],
@@ -682,12 +682,15 @@ class _AddPostScreenState extends State<AddPostScreen> {
                                             .copyWith(color: Colors.red)),
                                   ]),
                                 ),
-                                const Padding(
-                                  padding: EdgeInsets.only(right: 4.0),
-                                  child: Icon(
-                                    Icons.info_rounded,
-                                    color: AppColors.grey,
-                                    size: 15,
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 4.0),
+                                  child: GestureDetector(
+                                    onTap: _incidentTitle,
+                                    child: Icon(
+                                      Icons.info_rounded,
+                                      color: AppColors.grey,
+                                      size: 18,
+                                    ),
                                   ),
                                 )
                               ],
@@ -730,12 +733,15 @@ class _AddPostScreenState extends State<AddPostScreen> {
                                             .copyWith(color: Colors.red)),
                                   ]),
                                 ),
-                                const Padding(
+                                Padding(
                                   padding: EdgeInsets.only(right: 4.0),
-                                  child: Icon(
-                                    Icons.description_rounded,
-                                    color: AppColors.grey,
-                                    size: 15,
+                                  child: GestureDetector(
+                                    onTap: _incidentExplanation,
+                                    child: Icon(
+                                      Icons.description_rounded,
+                                      color: AppColors.grey,
+                                      size: 18,
+                                    ),
                                   ),
                                 )
                               ],
@@ -778,11 +784,17 @@ class _AddPostScreenState extends State<AddPostScreen> {
                                             .copyWith(color: Colors.red)),
                                   ]),
                                 ),
-                                // Icon(
-                                //   Icons.info_rounded,
-                                //   color: AppColors.grey,
-                                //   size: 20,
-                                // )
+                                Padding(
+                                  padding: EdgeInsets.only(right: 4.0),
+                                  child: GestureDetector(
+                                    onTap: _incidentType,
+                                    child: Icon(
+                                      Icons.contact_support_rounded,
+                                      color: AppColors.grey,
+                                      size: 20,
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                             Padding(
@@ -842,12 +854,15 @@ class _AddPostScreenState extends State<AddPostScreen> {
                                             .copyWith(color: Colors.red)),
                                   ]),
                                 ),
-                                const Padding(
+                                Padding(
                                   padding: EdgeInsets.only(right: 4.0),
-                                  child: Icon(
-                                    Icons.location_on,
-                                    size: 15,
-                                    color: Colors.grey,
+                                  child: GestureDetector(
+                                    onTap: _incidentLocation,
+                                    child: Icon(
+                                      Icons.location_on,
+                                      size: 18,
+                                      color: Colors.grey,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -901,6 +916,286 @@ class _AddPostScreenState extends State<AddPostScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  //show dialog for incident explantion of what happened
+  Future<void> _incidentExplanation() async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false, //user must tap button
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: AppColors.white,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            contentPadding:
+                const EdgeInsets.only(top: 30.0, right: 30, left: 30),
+            title: Text(
+              'Incident Explanation',
+              style: AppTextStyles.title.copyWith(
+                color: AppColors.black,
+              ),
+            ),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                    'Explain what happened in the incident. Be as detailed as possible.',
+                    style: AppTextStyles.body.copyWith(
+                      color: AppColors.black,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  'OK',
+                  style: AppTextStyles.body.copyWith(
+                    color: AppColors.black,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  //shod dialog for incident location
+  Future<void> _incidentLocation() async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false, //user must tap button
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: AppColors.white,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            contentPadding:
+                const EdgeInsets.only(top: 30.0, right: 30, left: 30),
+            title: Text(
+              'Incident Location',
+              style: AppTextStyles.title.copyWith(
+                color: AppColors.black,
+              ),
+            ),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                    'Location of the incident is automatically detected based on your current location.',
+                    style: AppTextStyles.body.copyWith(
+                      color: AppColors.black,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  'OK',
+                  style: AppTextStyles.body.copyWith(
+                    color: AppColors.black,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  //show dialog for incident title
+  Future<void> _incidentTitle() async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false, //user must tap button
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: AppColors.white,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            contentPadding:
+                const EdgeInsets.only(top: 30.0, right: 30, left: 30),
+            title: Text(
+              'Incident Title',
+              style: AppTextStyles.title.copyWith(
+                color: AppColors.black,
+              ),
+            ),
+            content: SingleChildScrollView(
+              child: ListBody(
+                //title limited in 15 characters
+                children: <Widget>[
+                  Text(
+                    'Title limited in 15 characters.',
+                    style: AppTextStyles.body.copyWith(
+                      color: AppColors.black,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  'OK',
+                  style: AppTextStyles.body.copyWith(
+                    color: AppColors.black,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  //show dialog
+  Future<void> _incidentType() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, //user must tap button
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppColors.white,
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          contentPadding: const EdgeInsets.only(top: 30.0, right: 30, left: 30),
+          title: Text(
+            'Type of Incidents',
+            style: AppTextStyles.title.copyWith(
+              color: AppColors.black,
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'CODE RED',
+                        style: AppTextStyles.body.copyWith(
+                            color: Colors.red, fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: ' - Fire and Smoke Conditions',
+                        style: AppTextStyles.body.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'CODE AMBER',
+                        style: AppTextStyles.body.copyWith(
+                            color: Colors.amber, fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: ' - Missing Child or Infant',
+                        style: AppTextStyles.body.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'CODE BLUE',
+                        style: AppTextStyles.body.copyWith(
+                            color: Colors.blue, fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: ' - Medical Emergency',
+                        style: AppTextStyles.body.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'CODE GREEN',
+                        style: AppTextStyles.body.copyWith(
+                            color: Colors.green, fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: ' - Security Alert',
+                        style: AppTextStyles.body.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'CODE BLACK',
+                        style: AppTextStyles.body.copyWith(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: ' - Weather Warning',
+                        style: AppTextStyles.body.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'OK',
+                style: AppTextStyles.body.copyWith(
+                  color: AppColors.black,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

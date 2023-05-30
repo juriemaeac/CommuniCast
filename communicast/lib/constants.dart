@@ -57,12 +57,12 @@ class AppTextStyles {
     color: AppColors.black,
   );
   static const body2 = TextStyle(
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: 'Poppins',
     color: AppColors.black,
   );
   static const body3 = TextStyle(
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: 'Poppins',
     color: AppColors.black,
   );

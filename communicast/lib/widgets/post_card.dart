@@ -87,32 +87,38 @@ class _PostCardState extends State<PostCard> {
     Color color = Colors.white;
     String codeTitle = '';
     String codeDescription = '';
+    String hotline = '';
 
     if (indicator == 'CODE RED') {
       icon = 57912;
       color = Colors.red;
       codeTitle = codeRed;
       codeDescription = codeRedDesc;
+      hotline = hotlineRed;
     } else if (indicator == 'CODE AMBER') {
       icon = 983712;
       color = Colors.amber;
       codeTitle = codeAmber;
       codeDescription = codeAmberDesc;
+      hotline = hotlineAmber;
     } else if (indicator == 'CODE BLUE') {
       icon = 983744;
       color = Colors.blue;
       codeTitle = codeBlue;
       codeDescription = codeBlueDesc;
+      hotline = hotlineBlue;
     } else if (indicator == 'CODE GREEN') {
       icon = 983699;
       color = Colors.green;
       codeTitle = codeGreen;
       codeDescription = codeGreenDesc;
+      hotline = hotlineGreen;
     } else if (indicator == 'CODE BLACK') {
       icon = 62784;
       color = Colors.black;
       codeTitle = codeBlack;
       codeDescription = codeBlackDesc;
+      hotline = hotlineBlack;
     }
 
     return Container(
@@ -157,7 +163,10 @@ class _PostCardState extends State<PostCard> {
                   child: Container(
                     height: 40,
                     width: 40,
-                    color: AppColors.greyAccent,
+                    decoration: BoxDecoration(
+                      color: AppColors.greyAccent,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
@@ -424,6 +433,34 @@ class _PostCardState extends State<PostCard> {
                                           SizedBox(
                                             height: 15,
                                           ),
+                                          Container(
+                                            padding: EdgeInsets.all(10),
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                              color: AppColors.greyAccent,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Hotlines:',
+                                                  style: AppTextStyles.body
+                                                      .copyWith(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  hotline,
+                                                  style: AppTextStyles.body,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       // Row(
@@ -583,7 +620,7 @@ class _PostCardState extends State<PostCard> {
                     children: [
                       RichText(
                         text: TextSpan(
-                          style: AppTextStyles.body2.copyWith(
+                          style: AppTextStyles.body3.copyWith(
                             color: AppColors.grey,
                           ),
                           children: [

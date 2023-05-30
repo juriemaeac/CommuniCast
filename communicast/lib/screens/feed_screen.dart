@@ -292,7 +292,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     },
                     child: Text(
                       'All',
-                      style: AppTextStyles.body.copyWith(
+                      style: AppTextStyles.body2.copyWith(
                         color: isNearby ? AppColors.grey : AppColors.blueAccent,
                       ),
                     ),
@@ -308,7 +308,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     },
                     child: Text(
                       'Nearby',
-                      style: AppTextStyles.body.copyWith(
+                      style: AppTextStyles.body2.copyWith(
                         color: isNearby ? AppColors.blueAccent : AppColors.grey,
                       ),
                     ),

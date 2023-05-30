@@ -323,7 +323,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Container(
-                                                  height: 125,
+                                                  height: 130,
                                                   padding: const EdgeInsets
                                                       .symmetric(
                                                     horizontal: 10,
@@ -352,7 +352,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   width: 10,
                                                 ),
                                                 SizedBox(
-                                                  height: 125,
+                                                  height: 130,
                                                   child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -522,7 +522,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               text: TextSpan(
                                                                 style:
                                                                     AppTextStyles
-                                                                        .body2,
+                                                                        .body3,
                                                                 children: [
                                                                   TextSpan(
                                                                     text: DateFormat
@@ -563,7 +563,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               snap['location'],
                                                               style:
                                                                   AppTextStyles
-                                                                      .body2
+                                                                      .body3
                                                                       .copyWith(
                                                                 color: AppColors
                                                                     .grey,

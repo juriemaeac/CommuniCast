@@ -97,7 +97,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                           ),
                           padding: const EdgeInsets.all(8),
                           child: Text('Latest',
-                              style: AppTextStyles.body1.copyWith(
+                              style: AppTextStyles.body3.copyWith(
                                   color: isLatest
                                       ? AppColors.greyAccent
                                       : AppColors.blueAccent,
@@ -122,7 +122,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                           ),
                           padding: const EdgeInsets.all(8),
                           child: Text('Oldest',
-                              style: AppTextStyles.body1.copyWith(
+                              style: AppTextStyles.body3.copyWith(
                                   color: isOldest
                                       ? AppColors.greyAccent
                                       : AppColors.blueAccent,

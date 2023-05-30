@@ -26,7 +26,7 @@ class _SearchScreenState extends State<SearchScreen> {
         elevation: 0,
         title: Form(
           child: TextFormField(
-            autofocus: true,
+            autofocus: false,
             controller: searchController,
             decoration: InputDecoration(
               hintText: 'Search for a user...',

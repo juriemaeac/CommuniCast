@@ -359,7 +359,7 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Container(
-                                                  height: 125,
+                                                  height: 130,
                                                   padding: const EdgeInsets
                                                       .symmetric(
                                                     horizontal: 10,
@@ -388,7 +388,7 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                                                   width: 10,
                                                 ),
                                                 SizedBox(
-                                                  height: 125,
+                                                  height: 130,
                                                   child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -558,7 +558,7 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                                                               text: TextSpan(
                                                                 style:
                                                                     AppTextStyles
-                                                                        .body2
+                                                                        .body3
                                                                         .copyWith(
                                                                   color:
                                                                       AppColors
@@ -589,7 +589,7 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                                                               snap['location'],
                                                               style:
                                                                   AppTextStyles
-                                                                      .body2
+                                                                      .body3
                                                                       .copyWith(
                                                                 color: AppColors
                                                                     .grey,

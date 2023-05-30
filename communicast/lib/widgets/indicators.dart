@@ -7,9 +7,15 @@ class IndicatorWidget extends StatelessWidget {
   String? text;
   Color? color;
   IconData? icon;
+  String? hotline;
 
   IndicatorWidget(
-      {super.key, this.colorCode, this.text, this.color, this.icon});
+      {super.key,
+      this.colorCode,
+      this.text,
+      this.color,
+      this.icon,
+      this.hotline});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +56,29 @@ class IndicatorWidget extends StatelessWidget {
                           ),
                           SizedBox(
                             height: 15,
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: AppColors.greyAccent,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Hotlines:',
+                                  style: AppTextStyles.body.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '$hotline',
+                                  style: AppTextStyles.body,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -131,30 +160,35 @@ class _IndicatorState extends State<Indicator> {
             text: codeRedDesc,
             color: Colors.red,
             icon: Icons.info_outline,
+            hotline: hotlineRed,
           ),
           IndicatorWidget(
             colorCode: codeAmber,
             text: codeAmberDesc,
             color: Colors.amber,
             icon: Icons.warning_amber_rounded,
+            hotline: hotlineAmber,
           ),
           IndicatorWidget(
             colorCode: codeBlue,
             text: codeBlueDesc,
             color: Colors.blue,
             icon: Icons.wifi_tethering_error_rounded_rounded,
+            hotline: hotlineBlue,
           ),
           IndicatorWidget(
             colorCode: codeGreen,
             text: codeGreenDesc,
             color: Colors.green,
             icon: Icons.remove_red_eye_outlined,
+            hotline: hotlineBlue,
           ),
           IndicatorWidget(
             colorCode: codeBlack,
             text: codeBlackDesc,
             color: Colors.black,
             icon: Icons.shield_outlined,
+            hotline: hotlineBlack,
           )
         ],
       ),
