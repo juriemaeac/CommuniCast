@@ -115,6 +115,23 @@ class FireStoreMethods {
     return res;
   }
 
+  //edit posttitle, description, and indicator
+  Future<String> editPost(
+      String postId, String title, String description, String indicator) async {
+    String res = "Some error occurred";
+    try {
+      await _firestore.collection('posts').doc(postId).update({
+        'title': title,
+        'description': description,
+        'indicator': indicator,
+      });
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
   Future<void> followUser(String uid, String followId) async {
     try {
       DocumentSnapshot snap =
