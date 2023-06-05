@@ -325,12 +325,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color = Colors.black;
                                       }
 
-                                      titleController.text = snap['title'];
-                                      descriptionController.text =
-                                          snap['description'];
-                                      indicatorController.text =
-                                          snap['indicator'];
-
                                       return Container(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 15),
@@ -418,6 +412,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                     ? GestureDetector(
                                                                         onTap:
                                                                             () {
+                                                                          titleController.text =
+                                                                              snap['title'];
+                                                                          descriptionController.text =
+                                                                              snap['description'];
+                                                                          indicatorController.text =
+                                                                              snap['indicator'];
                                                                           showDialog(
                                                                               useRootNavigator: false,
                                                                               context: context,
@@ -572,6 +572,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                                                           //update post
                                                                                                           editPost(snap['postId'].toString(), titleController.text, descriptionController.text, indicatorController.text);
 
+                                                                                                          Navigator.of(context).pop();
+                                                                                                        },
+                                                                                                      ),
+                                                                                                      TextButton(
+                                                                                                        child: Text(
+                                                                                                          'Cancel',
+                                                                                                          style: AppTextStyles.body.copyWith(
+                                                                                                            color: AppColors.black,
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        onPressed: () {
                                                                                                           Navigator.of(context).pop();
                                                                                                         },
                                                                                                       ),
