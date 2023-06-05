@@ -1150,7 +1150,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                             color: Colors.green, fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                        text: ' - Security Alert',
+                        text: ' - Hazardous Conditions',
                         style: AppTextStyles.body.copyWith(
                           color: AppColors.black,
                         ),
