@@ -300,9 +300,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     itemCount:
                                         (snapshot.data! as dynamic).docs.length,
                                     itemBuilder: (context, index) {
-                                      DocumentSnapshot snap =
-                                          (snapshot.data! as dynamic)
-                                              .docs[index];
+                                      List<QueryDocumentSnapshot> sortedDocs =
+                                          (snapshot.data! as dynamic).docs;
+                                      sortedDocs.sort((a, b) =>
+                                          b["datePublished"]
+                                              .compareTo(a["datePublished"]));
+                                      DocumentSnapshot snap = sortedDocs[index];
 
                                       String indicator = snap['indicator'];
                                       var icon = 61242;
@@ -749,6 +752,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                             ),
                                                             Text(
                                                               snap['location'],
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
                                                               style:
                                                                   AppTextStyles
                                                                       .body3
