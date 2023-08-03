@@ -25,27 +25,27 @@ BLACK - Weather Warning
 ### Login Page:
 It uses Firebase Authentication with email verification to avoid fake accounts.
 
-![image](https://github.com/juriemaeac/Incident-Reporting-App/assets/59803167/75b9f7b8-a2f9-4c59-a522-7fce22f598b9)
+![image](https://github.com/juriemaeac/Incident-Reporting-App/assets/59803167/b0a996d7-df0c-4ab5-a53b-151ac1cddf90)
 
 ### Home Page:
 The Home page provides visibility to all incidents, and it includes a "nearby" section that allows users to filter incidents based on their location.
 
-![image](https://github.com/juriemaeac/Incident-Reporting-App/assets/59803167/aa25758e-89c0-4965-88f5-4a55ba2ba6af)
+![image](https://github.com/juriemaeac/Incident-Reporting-App/assets/59803167/bc2c7852-2408-4844-b288-5b630f27cb04)
 
 ### iMap Page:
 The iMap page displays all incidents using map pins, allowing users to identify incident-prone areas.
 
-![image](https://github.com/juriemaeac/Incident-Reporting-App/assets/59803167/c366348b-f8a5-4d6a-a1d8-9e0c06358e42)
+![image](https://github.com/juriemaeac/Incident-Reporting-App/assets/59803167/2523371c-4423-4459-b55c-9caa8e3fef05)
 
 ### Profile Page:
 On the profile page, users can view all the incidents they have reported. They are given the option to either edit or delete the incidents according to their preferences.
 
-![image](https://github.com/juriemaeac/Incident-Reporting-App/assets/59803167/4b9ad786-75c7-46b9-94e3-32305d3a41c8)
+![image](https://github.com/juriemaeac/Incident-Reporting-App/assets/59803167/94a3f003-80f5-4e7e-996f-c192b04a7846)
 
 ### Incident Report Page:
 The incident report page allows users to report incidents they have witnessed. It includes essential details about the incident, such as a picture taken at the scene and other relevant information.
 
-![image](https://github.com/juriemaeac/Incident-Reporting-App/assets/59803167/abbf8261-7d45-4696-a1f6-bb35ac04ae4d)
+![image](https://github.com/juriemaeac/Incident-Reporting-App/assets/59803167/6125f7bb-68c6-48be-8c4e-4e2ef199e020)
 
 ## CommuniCast – empowering communities through location-based incident reporting. Together, we can make a difference. Stay safe out there!
 # DEVELOPERS
